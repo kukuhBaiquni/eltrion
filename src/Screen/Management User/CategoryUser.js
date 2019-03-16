@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap';
-import './Style.scss';
+import '../Style.scss';
 
 export default class CategoryUser extends Component {
     render() {

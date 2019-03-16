@@ -9,3 +9,15 @@
     border-bottom: 1px solid #23282c;
     color: white;
 }
+
+.dark-footer {
+    background-color: #343b41;
+    border-top: 1px solid #23282c;
+    color: white;
+}
+
+.product-image {
+    object-fit: cover;
+    width: 100%;
+    border-radius: 3px;
+}

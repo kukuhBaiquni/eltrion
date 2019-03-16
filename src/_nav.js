@@ -19,6 +19,20 @@ export default {
             }
         ]
     },
+    {
+        name: 'Master Products',
+        icon: 'icon-basket-loaded',
+        children: [
+            {
+                name: 'List Products',
+                url: '/list-products'
+            },
+            {
+                name: 'Deleted Products',
+                url: '/deleted-products'
+            }
+        ]
+    },
     // {
       // title: true,
       // name: 'Theme',
