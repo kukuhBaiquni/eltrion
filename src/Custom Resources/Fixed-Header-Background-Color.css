@@ -1,0 +1,16 @@
+.navbar {
+    background-color: #3a4149;
+}
+
+.app-header {
+    border-bottom: 1px solid #23282c;
+}
+
+#main-title {
+    color: white;
+    font-size: 25px;
+}
+
+#main-title:hover {
+    color: #a8a8a8
+}
