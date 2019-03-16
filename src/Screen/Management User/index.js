@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
+import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 
-export default class UserCategory extends Component {
+export default class ManagementUser extends Component {
     render() {
         return(
             <div className='animated fadeIn'>

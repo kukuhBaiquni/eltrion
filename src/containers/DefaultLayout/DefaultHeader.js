@@ -31,7 +31,7 @@ class DefaultHeader extends Component {
 
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <Link to="/" className="nav-link" id="main-title">Halal Beef Indonesia</Link>
+            <Link to="/" className="nav-link" id="main-title">Halal Beef Indonesia - Admin</Link>
           </NavItem>
         </Nav>
         <Nav className="ml-auto" navbar>
