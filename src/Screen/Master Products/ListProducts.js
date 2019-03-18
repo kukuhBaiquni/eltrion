@@ -51,7 +51,14 @@ class ListProducts extends Component {
                                 this.state.showContent &&
                                 <CardBody>
                                     <img className="product-image" alt="products" src={imagePath + x.photo} />
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                                    <div class="row justify-content-md-center" style={{marginTop: 15}}>
+                                        <div col col-lg-2>
+                                            Satuan
+                                        </div>
+                                        <div col col-lg-2>
+                                            {x.unit}
+                                        </div>
+                                    </div>
                                 </CardBody>
                             }
                             <CardFooter className="dark-footer">
@@ -63,15 +70,6 @@ class ListProducts extends Component {
                 }
             </Row>
         )
-    }
-
-    toggleAccordion(tab) {
-        const prevState = this.state.accordion;
-        const state = prevState.map((x, index) => tab === index ? !x : false);
-
-        this.setState({
-            accordion: state,
-        });
     }
 
     render() {

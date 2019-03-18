@@ -37,8 +37,8 @@ const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
-const CategoryUser = React.lazy(() => import('./Screen/Management User/CategoryUser'));
 const ListProducts = React.lazy(() => import('./Screen/Master Products/ListProducts'));
+const MemberList = React.lazy(() => import('./Screen/Management User/MemberList'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -84,8 +84,8 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 
-  { path: '/category-user', exact: true, name: 'Category User', component: CategoryUser},
-  { path: '/list-products', exact: true, name: 'List Products', component: ListProducts}
+  { path: '/list-products', name: 'List Products', component: ListProducts},
+  { path: '/member', name: 'Member List', component: MemberList}
 ];
 
 export default routes;

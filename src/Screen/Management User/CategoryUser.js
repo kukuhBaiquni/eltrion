@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Route, Link, Switch } from 'react-router-dom';
 import { Row, Col, Card, CardHeader, CardBody, Button } from 'reactstrap';
+import MemberList from './MemberList';
 import '../Style.scss';
 
 export default class CategoryUser extends Component {
@@ -13,7 +15,9 @@ export default class CategoryUser extends Component {
                                 Administrator
                             </CardHeader>
                             <CardBody>
-                                <Button block color="danger">Check it out!</Button>
+                                <Button block color="danger">
+                                  <Link to="/category-user/administrator">Check it out!</Link>
+                                </Button>
                             </CardBody>
                         </Card>
                     </Col>
@@ -23,7 +27,7 @@ export default class CategoryUser extends Component {
                                 Member
                             </CardHeader>
                             <CardBody>
-                                <Button block color="success">Check it out!</Button>
+                                <Button block color="success"><Link to="/category-user/member">Check it out!</Link></Button>
                             </CardBody>
                         </Card>
                     </Col>
@@ -33,7 +37,7 @@ export default class CategoryUser extends Component {
                                 Non Member
                             </CardHeader>
                             <CardBody>
-                                <Button block color="light">Check it out!</Button>
+                                <Button block color="light"><Link to="/category-user/non-member">Check it out!</Link></Button>
                             </CardBody>
                         </Card>
                     </Col>

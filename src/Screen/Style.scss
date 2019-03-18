@@ -21,3 +21,13 @@
     width: 100%;
     border-radius: 3px;
 }
+
+.table { color: white; }
+.table th { border-top: 1px solid #23282c; }
+.table td { border-top: 1px solid #23282c; }
+.table td:nth-child(2) { color: #20a8d8; }
+.table thead th { border-bottom: 1px solid #23282c; }
+.table th { color: white; }
+.table thead tr th { font-weight: bold; font-size: 20px; }
+
+.dark-body h6 { color: #20a8d8}

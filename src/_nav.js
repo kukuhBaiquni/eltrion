@@ -10,13 +10,25 @@ export default {
         icon: 'icon-user',
         children: [
             {
+                title: true,
                 name: 'Category User',
-                url: '/category-user',
+            },
+            {
+                name: 'Administrator List',
+                url: '/administrator',
+            },
+            {
+                name: 'Member List',
+                url: '/member',
+            },
+            {
+                name: 'Non Member List',
+                url: '/non-member',
             },
             {
                 name: 'User Settings',
                 url: '/user-settings',
-            }
+            },
         ]
     },
     {
