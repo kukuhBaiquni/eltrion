@@ -48,7 +48,7 @@ class Widget04 extends Component {
           <div className="h1 text-muted text-right mb-2">
             <i className={card.icon}></i>
           </div>
-          <div className="h4 mb-0">{header}</div>
+          <div className="h5 mb-0">{header}</div>
           <small className="text-muted text-uppercase font-weight-bold">{children}</small>
           <Progress className={progress.style} color={progress.color} value={progress.value} />
         </CardBody>
