@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import '../Style.scss';
 import { _fetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class MemberList extends Component {
 
@@ -20,7 +21,7 @@ class MemberList extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.member.currentPage*5))}</td>
-                    <td>{x.name}</td>
+                    <td><Link to={{pathname: '/member/details/' + x._id, params: x}}>{x.name}</Link></td>
                     <td>{x.email}</td>
                     <td>{x.status}</td>
                     <td>{x.category === null ? '-' : x.category}</td>
@@ -95,33 +96,3 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapDispatchToProps
 )(MemberList);
-
-const pStyle = {
-    fontSize: 16,
-    color: 'rgba(0,0,0,0.85)',
-    lineHeight: '24px',
-    display: 'block',
-    marginBottom: 16,
-};
-
-const DescriptionItem = ({ title, content }) => (
-    <div
-        style={{
-            fontSize: 14,
-            lineHeight: '22px',
-            marginBottom: 7,
-            color: 'rgba(0,0,0,0.65)',
-        }}
-        >
-        <p
-            style={{
-                marginRight: 8,
-                display: 'inline-block',
-                color: 'rgba(0,0,0,0.85)',
-            }}
-            >
-            {title}:
-        </p>
-        {content}
-    </div>
-);

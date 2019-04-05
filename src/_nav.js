@@ -27,7 +27,7 @@ export default {
             },
             {
                 name: 'User Settings',
-                url: '/user-settings',
+                url: '/drawer',
             },
         ]
     },
