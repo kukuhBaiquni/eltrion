@@ -29,12 +29,10 @@ class ListProducts extends Component {
         }, 500)
     };
 
-    _toggleModal(index) {
-        console.log(this.props);
-        const { products } = this.props;
+    _toggleModal(x) {
         this.setState({
             showModal: !this.state.showModal,
-            modalData: products[index]
+            modalData: x
         });
     };
 
@@ -42,12 +40,12 @@ class ListProducts extends Component {
         this.props.dispatch(_fetchProducts())
     };
 
-    _renderModal = (x) => {
+    _renderModal = () => {
         const { showModal, modalData } = this.state;
-        const formatter = (x) => { return 'Rp. ' + Number(x).toLocaleString('IT-it') }
+        const formatter = (p) => { return 'Rp. ' + Number(p).toLocaleString('IT-it') }
         return(
             <Modal isOpen={showModal} toggle={() => this._toggleModal()} className={'modal-dark dark-header ' + this.props.className}>
-                <ModalHeader style={{borderTopColor: '#23282c', borderTopWidth: 1}} toggle={() => this._toggleModal()}><h4 style={{color: 'white'}}>{modalData.productname}</h4></ModalHeader>
+                <ModalHeader style={styles.modalHeader} toggle={() => this._toggleModal()}>{modalData.productname}</ModalHeader>
                 <ModalBody style={{backgroundColor: '#3a4149'}}>
                     <Row>
                         <Col sm="6" md="4">
@@ -63,10 +61,15 @@ class ListProducts extends Component {
                     <Row>
                         <Col>{modalData.description}</Col>
                     </Row>
+                    <Row>
+                        <Col>Satuan {modalData.unit}</Col>
+                    </Row>
+                    <Row>
+                        <Col>Packing {modalData.packing === 1 ? '500gr' : '> 500gr'}</Col>
+                    </Row>
                 </ModalBody>
                 <ModalFooter style={{backgroundColor: '#3a4149', borderTopColor: '#23282c', borderTopWidth: 1}}>
-                    <Button color="primary" onClick={() => this._toggleModal()}>Do Something</Button>{' '}
-                    <Button color="secondary" onClick={() => this._toggleModal()}>Cancel</Button>
+                    <Button color="secondary" onClick={() => this._toggleModal()}>Close</Button>
                 </ModalFooter>
             </Modal>
         )
@@ -94,18 +97,10 @@ class ListProducts extends Component {
                                 this.state.showContent &&
                                 <CardBody>
                                     <img className="product-image" alt="products" src={imagePath + x.photo} />
-                                    <div class="row justify-content-md-center" style={{marginTop: 15}}>
-                                        <div col col-lg-2>
-                                            Satuan
-                                        </div>
-                                        <div col col-lg-2>
-                                            {x.unit}
-                                        </div>
-                                    </div>
                                 </CardBody>
                             }
                             <CardFooter className="dark-footer">
-                                <Button onClick={() => this._toggleModal(i)} block color="dark">Details</Button>
+                                <Button onClick={() => this._toggleModal(x)} block color="dark">Details</Button>
                             </CardFooter>
                         </Card>
                     </Col>
@@ -117,12 +112,11 @@ class ListProducts extends Component {
     }
 
     render() {
-        console.log(this.props);
         const TabPane = Tabs.TabPane;
         return(
             <div>
                 <Tabs tabBarStyle={styles.tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
-                    <TabPane  tab="All" key="1">{this._renderProducts('')}</TabPane>
+                    <TabPane tab="All" key="1">{this._renderProducts('')}</TabPane>
                     <TabPane tab="Daging Sapi" key="2">{this._renderProducts('sapi')}</TabPane>
                     <TabPane tab="Daging Ayam" key="3">{this._renderProducts('ayam')}</TabPane>
                     <TabPane tab="Ikan Konsumsi" key="4">{this._renderProducts('ikan')}</TabPane>
@@ -153,6 +147,11 @@ const styles = {
         backgroundColor: '#2f353a',
         borderBottomColor: '#23282c',
         borderBottomWidth: 1,
+    },
+    modalHeader: {
+        borderTopColor: '#23282c',
+        borderTopWidth: 1,
+        borderBottomColor: '#23282c'
     }
 };
 

@@ -1,31 +1,56 @@
 import React, { Component } from 'react';
 import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Pagination, Menu, Dropdown, Drawer, Divider } from 'antd';
+import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import '../Style.scss';
+import { _fetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
+import moment from 'moment';
 
 class MemberList extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            totalPage: null
+        }
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        this.props.dispatch(_fetchMember({index: 0, token}))
+    }
 
     _renderData = () => {
-        const arr = Array(20).fill('-')
+        const data = this.props.member.data;
         return(
-            arr.map((x, i) =>
+            data.map((x, i) =>
                 <tr key={i}>
-                    <td>
-                        Yiorgos Avraamu
-                    </td>
-                    <td>galat@gmail.com</td>
-                    <td>Member</td>
-                    <td>Rumah Tangga</td>
-                    <td>Platinum</td>
+                    <td>{x.name}</td>
+                    <td>{x.email}</td>
+                    <td>{x.status}</td>
+                    <td>{x.category === null ? '-' : x.category}</td>
+                    <td>{x.level === null ? '-' : x.level}</td>
                     <td>
                         <Badge color="success">Active</Badge>
                     </td>
-                    <td>15 June 2018</td>
+                    <td>{x.join}</td>
                 </tr>
             )
         )
+    }
+
+    _pagination = () => {
+        if (this.props.member.totalPage !== null) {
+            return(
+                <Pagination
+                    showQuickJumper
+                    defaultCurrent={1}
+                    defaultPageSize={5}
+                    total={this.props.member.totalPage*5}
+                    onChange={(page) => this._onChangePage(page)}
+                    />
+            )
+        }
     }
 
     _onChangePage(page) {
@@ -57,11 +82,7 @@ class MemberList extends Component {
                                     {this._renderData()}
                                 </tbody>
                             </Table>
-                            <Pagination
-                                showQuickJumper
-                                defaultCurrent={1}
-                                total={50} onChange={(page) => this._onChangePage(page)}
-                                />
+                            {this._pagination()}
                         </CardBody>
                     </Card>
                 </Col>
