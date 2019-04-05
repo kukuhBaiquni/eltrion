@@ -39,7 +39,6 @@ function* k_fetchMember(form) {
                 return res;
             })
         });
-        console.log(response);
         yield put(_fetchMember_V(response.body))
     }catch (error) {
         yield put(_fetchMember_X('Error when loading data!'))

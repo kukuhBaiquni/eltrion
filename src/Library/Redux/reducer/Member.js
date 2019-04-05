@@ -8,6 +8,7 @@ export default function member(state = initialState, action) {
 
         case 'FETCH_LIST_MEMBER_SUCCESS':
         return Object.assign({}, state, {
+            currentPage: action.data.currentPage,
             totalPage: action.data.totalPage,
             data: action.data.data
         });

@@ -8,12 +8,6 @@ import { _fetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
 import moment from 'moment';
 
 class MemberList extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            totalPage: null
-        }
-    }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -25,6 +19,7 @@ class MemberList extends Component {
         return(
             data.map((x, i) =>
                 <tr key={i}>
+                    <td>{((i+1) + (this.props.member.currentPage*5))}</td>
                     <td>{x.name}</td>
                     <td>{x.email}</td>
                     <td>{x.status}</td>
@@ -54,7 +49,8 @@ class MemberList extends Component {
     }
 
     _onChangePage(page) {
-        console.log(page);
+        const token = localStorage.getItem('token');
+        this.props.dispatch(_fetchMember({index: page - 1, token}))
     }
 
     render() {
@@ -69,6 +65,7 @@ class MemberList extends Component {
                             <Table responsive striped>
                                 <thead  onClick={this._showDrawer}>
                                     <tr>
+                                        <th>No</th>
                                         <th>Username</th>
                                         <th>Email</th>
                                         <th>Status</th>
