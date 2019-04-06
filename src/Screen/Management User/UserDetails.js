@@ -3,6 +3,10 @@ import { Col, Row, Card, CardHeader, CardBody, Badge } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
+import TypeOnline from './TransactionTypeOnline';
+import TypeOffline from './TransactionTypeOffline';
+import TypeSelfUsage from './TransactionTypeSelfUsage';
+import TypeShopping from './TransactionTypeShopping';
 
 class UserDetails extends Component {
     constructor(props) {
@@ -301,7 +305,6 @@ class UserDetails extends Component {
     }
 
     render() {
-        console.log(this.state.dataSource);
         return(
             <div className="animated fadeIn">
                 <Row>
@@ -316,9 +319,16 @@ class UserDetails extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="12" sm="6" md="4">
-                        
-                    </Col>
+                    <TypeOnline id={this.props.match.params.id} />
+                </Row>
+                <Row>
+                    <TypeOffline id={this.props.match.params.id} />
+                </Row>
+                <Row>
+                    <TypeSelfUsage id={this.props.match.params.id} />
+                </Row>
+                <Row>
+                    <TypeShopping id={this.props.match.params.id} />
                 </Row>
             </div>
         )

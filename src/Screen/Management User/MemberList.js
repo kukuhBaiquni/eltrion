@@ -19,7 +19,7 @@ class MemberList extends Component {
         return(
             data.map((x, i) =>
                 <tr key={i}>
-                    <td>{((i+1) + (this.props.member.currentPage*5))}</td>
+                    <td>{((i+1) + (this.props.member.currentPage*100))}</td>
                     <td><Link to={{pathname: '/member/' + x._id}}>{x.name}</Link></td>
                     <td>{x.email}</td>
                     <td>{x.status}</td>
