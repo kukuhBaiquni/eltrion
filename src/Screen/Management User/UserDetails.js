@@ -7,20 +7,34 @@ import TypeOnline from './TransactionTypeOnline';
 import TypeOffline from './TransactionTypeOffline';
 import TypeSelfUsage from './TransactionTypeSelfUsage';
 import TypeShopping from './TransactionTypeShopping';
+import TransactionDetailsDrawer from './TransactionDetailsDrawer';
 
 class UserDetails extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dataSource: null
-        }
+            dataSource: null,
+            isDrawerVisible: false,
+            drawerData: null
+        };
     }
+
+    _openDrawer = (x, r) => {
+        this.setState({
+            isDrawerVisible: true,
+            drawerData: r
+        })
+    };
+
+    _closeDrawer = () => {
+        this.setState({isDrawerVisible: false})
+    };
 
     componentDidMount() {
         const target = this.props.match.params.id;
         const index = this.props.member.data.map(x => x._id).indexOf(target);
         this.setState({dataSource: this.props.member.data[index]})
-    }
+    };
 
     _personalInformation = () => {
         const { dataSource } = this.state;
@@ -318,17 +332,18 @@ class UserDetails extends Component {
                         {this._membershipInformation()}
                     </Col>
                 </Row>
+                <TransactionDetailsDrawer data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
                 <Row>
-                    <TypeOnline id={this.props.match.params.id} />
+                    <TypeOnline id={this.props.match.params.id} openDrawer={this._openDrawer} />
                 </Row>
                 <Row>
-                    <TypeOffline id={this.props.match.params.id} />
+                    <TypeOffline id={this.props.match.params.id} openDrawer={this._openDrawer} />
                 </Row>
                 <Row>
-                    <TypeSelfUsage id={this.props.match.params.id} />
+                    <TypeSelfUsage id={this.props.match.params.id} openDrawer={this._openDrawer} />
                 </Row>
                 <Row>
-                    <TypeShopping id={this.props.match.params.id} />
+                    <TypeShopping id={this.props.match.params.id} openDrawer={this._openDrawer} />
                 </Row>
             </div>
         )

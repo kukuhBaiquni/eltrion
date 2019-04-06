@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
@@ -7,9 +7,6 @@ import { _fetchTTOn } from '../../Library/Redux/actions/_f_FetchTransactionTypeO
 import { Pagination } from 'antd';
 
 class TypeOnline extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -35,7 +32,7 @@ class TypeOnline extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.online.currentPage*10))}</td>
-                    <td>{x.trx}</td>
+                    <td onClick={this.props.openDrawer}>{x.trx}</td>
                     <td>{moment(x.start_date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='success'>{x.type}</Badge></td>
                     <td>{currency(profit[i])}</td>
@@ -52,7 +49,6 @@ class TypeOnline extends Component {
     };
 
     render() {
-        console.log(this.props);
         return(
             <Col xs="12" lg="12">
                 <Card className="dark-body">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
@@ -32,7 +32,7 @@ class TypeSelfUsage extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.selfUsage.currentPage*10))}</td>
-                    <td>{x.trx}</td>
+                    <td onClick={this.props.openDrawer}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='warning'>{x.type}</Badge></td>
                     <td>{currency(savings[i])}</td>
@@ -49,7 +49,6 @@ class TypeSelfUsage extends Component {
     };
 
     render() {
-        console.log(this.props);
         return(
             <Col xs="12" lg="12">
                 <Card className="dark-body">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
@@ -14,6 +14,10 @@ class TypeOffline extends Component {
         this.props.dispatch(_fetchTTOff({
             id, token, page: 0
         }))
+    }
+
+    _indexer(type, data) {
+        this.props.openDrawer(type, data)
     }
 
     _renderData = () => {
@@ -32,7 +36,7 @@ class TypeOffline extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.offline.currentPage*10))}</td>
-                    <td>{x.trx}</td>
+                    <td onClick={() => this._indexer('offline', x)}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='info'>{x.type}</Badge></td>
                     <td>{currency(profit[i])}</td>
@@ -49,7 +53,6 @@ class TypeOffline extends Component {
     }
 
     render() {
-        console.log(this.props);
         return(
             <Col xs="12" lg="12">
                 <Card className="dark-body">
