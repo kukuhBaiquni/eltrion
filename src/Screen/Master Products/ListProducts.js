@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { _fetchProducts } from '../../Library/Redux/actions/_f_FetchProducts';
 import { Tabs } from 'antd';
-import { Badge, Button, Card, CardBody, CardHeader, Collapse, Row, Col, CardFooter, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Badge, Button, Card, CardBody, CardHeader, Row, Col, CardFooter, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Widget04 from '../../views/Widgets/Widget04';
 import 'antd/dist/antd.css';
 import '../Style.scss';
@@ -159,23 +159,18 @@ const categoryAdaptor = (category) => {
     switch (category) {
         case 'sapi':
         return 'Sapi'
-        break;
 
         case 'ayam':
         return 'Ayam'
-        break;
 
         case 'ikan':
         return 'Ikan'
-        break;
 
         case 'olahan':
         return 'Olahan'
-        break;
 
         default:
         return 'Untitled'
-        break;
     }
 };
 
@@ -183,22 +178,17 @@ const colorAdaptor = (category) => {
     switch (category) {
         case 'sapi':
         return 'primary'
-        break;
 
         case 'ayam':
         return 'success'
-        break;
 
         case 'ikan':
         return 'danger'
-        break;
 
         case 'olahan':
         return 'warning'
-        break;
 
         default:
         return 'light'
-        break;
     }
 }

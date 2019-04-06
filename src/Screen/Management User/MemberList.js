@@ -5,7 +5,6 @@ import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import { _fetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 class MemberList extends Component {
@@ -21,7 +20,7 @@ class MemberList extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.member.currentPage*5))}</td>
-                    <td><Link to={{pathname: '/member/details/' + x._id, params: x}}>{x.name}</Link></td>
+                    <td><Link to={{pathname: '/member/' + x._id}}>{x.name}</Link></td>
                     <td>{x.email}</td>
                     <td>{x.status}</td>
                     <td>{x.category === null ? '-' : x.category}</td>
@@ -29,6 +28,7 @@ class MemberList extends Component {
                     <td>
                         <Badge color="success">Active</Badge>
                     </td>
+                    <td>{x.is_valid ? <Badge color='success'>YES</Badge> : <Badge color='danger'>NO</Badge>}</td>
                     <td>{x.join}</td>
                 </tr>
             )
@@ -73,6 +73,7 @@ class MemberList extends Component {
                                         <th>Category</th>
                                         <th>Level</th>
                                         <th>Group</th>
+                                        <th>Verified</th>
                                         <th>Join Date</th>
                                     </tr>
                                 </thead>

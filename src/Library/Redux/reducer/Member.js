@@ -1,4 +1,5 @@
 let initialState = {
+    currentPage: null,
     totalPage: null,
     data: []
 };

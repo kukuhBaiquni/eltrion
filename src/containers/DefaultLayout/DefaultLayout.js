@@ -4,9 +4,9 @@ import { Container } from 'reactstrap';
 import '../../Custom Resources/Dark-Background.css';
 
 import {
-  AppAside,
+  // AppAside,
   AppBreadcrumb,
-  AppFooter,
+  // AppFooter,
   AppHeader,
   AppSidebar,
   AppSidebarFooter,
@@ -21,8 +21,8 @@ import navigation from '../../_nav';
 import routes from '../../routes';
 import '../../Custom Resources/Dark-Theme.css';
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
-const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
+// const DefaultAside = React.lazy(() => import('./DefaultAside'));
+// const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
