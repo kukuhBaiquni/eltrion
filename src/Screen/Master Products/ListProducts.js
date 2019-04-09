@@ -7,6 +7,7 @@ import { Badge, Button, Card, CardBody, CardHeader, Row, Col, CardFooter, Modal,
 import Widget04 from '../../views/Widgets/Widget04';
 import 'antd/dist/antd.css';
 import '../Style.scss';
+import ProductForm from './ProductForm';
 
 import { SERVER_URL } from '../../Configuration';
 
@@ -18,7 +19,9 @@ class ListProducts extends Component {
         this.state = {
             showContent: true,
             showModal: false,
-            modalData: null
+            modalData: null,
+            isDrawerVisible: false,
+            drawerData: null
         }
     }
 
@@ -38,6 +41,17 @@ class ListProducts extends Component {
 
     componentDidMount() {
         this.props.dispatch(_fetchProducts())
+    };
+
+    _openDrawer = (r) => {
+        this.setState({
+            isDrawerVisible: true,
+            drawerData: r
+        })
+    };
+
+    _closeDrawer = () => {
+        this.setState({isDrawerVisible: false})
     };
 
     _renderModal = () => {
@@ -101,6 +115,8 @@ class ListProducts extends Component {
                             }
                             <CardFooter className="dark-footer">
                                 <Button onClick={() => this._toggleModal(x)} block color="dark">Details</Button>
+                                <Button onClick={() => this._openDrawer(x)} block color="info">Edit</Button>
+                                <Button block color="danger">Delete</Button>
                             </CardFooter>
                         </Card>
                     </Col>
@@ -115,6 +131,7 @@ class ListProducts extends Component {
         const TabPane = Tabs.TabPane;
         return(
             <div>
+                <ProductForm data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
                 <Tabs tabBarStyle={styles.tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
                     <TabPane tab="All" key="1">{this._renderProducts('')}</TabPane>
                     <TabPane tab="Daging Sapi" key="2">{this._renderProducts('sapi')}</TabPane>
