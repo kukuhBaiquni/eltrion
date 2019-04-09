@@ -16,6 +16,10 @@ class TypeOnline extends Component {
         }))
     }
 
+    _indexer(type, data) {
+        this.props.openDrawer(type, data)
+    }
+
     _renderData = () => {
         const data = this.props.transaction.online.data;
         let totalPrice = [];
@@ -32,7 +36,7 @@ class TypeOnline extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.online.currentPage*10))}</td>
-                    <td onClick={this.props.openDrawer}>{x.trx}</td>
+                    <td onClick={() => this._indexer('online', x)}>{x.trx}</td>
                     <td>{moment(x.start_date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='success'>{x.type}</Badge></td>
                     <td>{currency(profit[i])}</td>

@@ -16,6 +16,10 @@ class TypeSelfUsage extends Component {
         }))
     }
 
+    _indexer(type, data) {
+        this.props.openDrawer(type, data)
+    }
+
     _renderData = () => {
         const data = this.props.transaction.selfUsage.data;
         let totalPrice = [];
@@ -32,7 +36,7 @@ class TypeSelfUsage extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.selfUsage.currentPage*10))}</td>
-                    <td onClick={this.props.openDrawer}>{x.trx}</td>
+                    <td onClick={() => this._indexer('selfusage', x)}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='warning'>{x.type}</Badge></td>
                     <td>{currency(savings[i])}</td>
