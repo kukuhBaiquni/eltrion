@@ -5,6 +5,7 @@ import { o_fetchTTOn } from './_f_FetchTransactionTypeOnline';
 import { o_fetchTTOff } from './_f_FetchTransactionTypeOffline';
 import { o_fetchTTSU } from './_f_FetchTransactionTypeSelfUsage';
 import { o_fetchTTShop } from './_f_FetchTransactionTypeShopping';
+import { o_submitFormEditProduct } from './_f_SubmitFormEditProduct';
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     o_fetchTTOff(),
     o_fetchTTSU(),
     o_fetchTTShop(),
+    o_submitFormEditProduct()
   ]);
 };

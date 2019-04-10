@@ -4,6 +4,8 @@ import { Card, CardHeader, CardBody, FormGroup, Input, Label, Form, CardFooter, 
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import moment from 'moment';
+import { _submitFormEditProduct } from '../../Library/Redux/actions/_f_SubmitFormEditProduct';
+import { connect } from 'react-redux';
 
 const pStyle = {
     fontSize: 16,
@@ -13,7 +15,7 @@ const pStyle = {
     marginBottom: 16
 };
 
-export default class ProductForm extends Component {
+class ProductForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -27,7 +29,7 @@ export default class ProductForm extends Component {
             packing: '',
             description: ''
         }
-    }
+    };
 
     componentDidUpdate(prevProps, prevState) {
         const { data } = this.props;
@@ -46,7 +48,35 @@ export default class ProductForm extends Component {
                 })
             }
         }
-    }
+    };
+
+    pseudoSubmit = () => {
+        // this.setState({
+        //     idProduct: '',
+        //     productName: '',
+        //     category: '',
+        //     landingPrice: '',
+        //     memberPrice: '',
+        //     nonMemberPrice: '',
+        //     unit: '',
+        //     packing: '',
+        //     description: ''
+        // })
+
+        const token = localStorage.getItem('token');
+        const data = {
+            idProduct: this.state.idProduct,
+            productName: this.state.productName,
+            category: this.state.category,
+            landingPrice: this.state.landingPrice,
+            memberPrice: this.state.memberPrice,
+            nonMemberPrice: this.state.nonMemberPrice,
+            unit: this.state.unit,
+            packing: this.state.packing,
+            description: this.state.description
+        };
+        this.props.dispatch(_submitFormEditProduct(data, token))
+    };
 
     _baseInformation = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
@@ -97,7 +127,7 @@ export default class ProductForm extends Component {
                                 <Label htmlFor="landing-price">Landing Price</Label>
                             </Col>
                             <Col lg="9">
-                                <Input type="text" id="landing-price" name="landing-price" placeholder="Landing Price" value={this.state.landingPrice} onChange={(e) => this.setState({landingPrice: e.target.value})} />
+                                <Input type="text" value={this.state.landingPrice} onChange={(e) => this.setState({landingPrice: e.target.value})} id="landing-price" name="landing-price" placeholder="Landing Price" />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -105,7 +135,7 @@ export default class ProductForm extends Component {
                                 <Label htmlFor="member-price">Member Price</Label>
                             </Col>
                             <Col lg="9">
-                                <Input type="text" id="member-price" name="member-price" placeholder="Member Price" value={this.state.memberPrice} onChange={(e) => this.setState({memberPrice: e.target.value})} />
+                                <Input type="text" value={this.state.memberPrice} onChange={(e) => this.setState({memberPrice: e.target.value})} id="member-price" name="member-price" placeholder="Member Price" />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -113,7 +143,7 @@ export default class ProductForm extends Component {
                                 <Label htmlFor="non-member-price">Non Member Price</Label>
                             </Col>
                             <Col lg="9">
-                                <Input type="text" id="non-member-price" name="non-member-price" placeholder="Non Member Price" value={this.state.nonMemberPrice} onChange={(e) => this.setState({nonMemberPrice: e.target.value})} />
+                                <Input type="text" value={this.state.nonMemberPrice} onChange={(e) => this.setState({nonMemberPrice: e.target.value})} id="non-member-price" name="non-member-price" placeholder="Non Member Price" />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -154,7 +184,7 @@ export default class ProductForm extends Component {
                                 <Input type="textarea" name="description" id="description" rows="9" placeholder="Content..." value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} />
                             </Col>
                         </FormGroup>
-                        <Button type="button" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                        <Button onClick={this.pseudoSubmit} type="button" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
                     </Col>
                 </Row>
             )
@@ -162,7 +192,6 @@ export default class ProductForm extends Component {
     };
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <Drawer
@@ -193,3 +222,11 @@ function currency(x) {
     if (x !== undefined)
     return 'Rp. ' + x.toLocaleString('IT-it') + ',-';
 };
+
+function mapDispatchToProps(dispatch) {
+    return dispatch
+};
+
+export default connect(
+    mapDispatchToProps
+)(ProductForm);

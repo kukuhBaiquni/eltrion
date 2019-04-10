@@ -59,7 +59,7 @@ class ListProducts extends Component {
         const formatter = (p) => { return 'Rp. ' + Number(p).toLocaleString('IT-it') }
         return(
             <Modal isOpen={showModal} toggle={() => this._toggleModal()} className={'modal-dark dark-header ' + this.props.className}>
-                <ModalHeader style={styles.modalHeader} toggle={() => this._toggleModal()}>{modalData.productname}</ModalHeader>
+                <ModalHeader style={styles.modalHeader} toggle={() => this._toggleModal()}><h5 style={{color: 'white'}}>{modalData.productname}</h5></ModalHeader>
                 <ModalBody style={{backgroundColor: '#3a4149'}}>
                     <Row>
                         <Col sm="6" md="4">
@@ -114,9 +114,17 @@ class ListProducts extends Component {
                                 </CardBody>
                             }
                             <CardFooter className="dark-footer">
-                                <Button onClick={() => this._toggleModal(x)} block color="dark">Details</Button>
-                                <Button onClick={() => this._openDrawer(x)} block color="info">Edit</Button>
-                                <Button block color="danger">Delete</Button>
+                                <Row>
+                                    <Col lg="4">
+                                        <Button onClick={() => this._toggleModal(x)} block color="warning"><i className="fa fa-search"></i>&nbsp;Details</Button>
+                                    </Col>
+                                    <Col lg="4">
+                                        <Button onClick={() => this._openDrawer(x)} block color="success"><i className="fa fa-edit"></i>&nbsp;Edit</Button>
+                                    </Col>
+                                    <Col lg="4">
+                                        <Button block color="danger"><i className="fa fa-trash-o"></i>&nbsp;Delete</Button>
+                                    </Col>
+                                </Row>
                             </CardFooter>
                         </Card>
                     </Col>
