@@ -24,25 +24,41 @@ const _submitFormEditProduct_X = (message) => {
     };
 };
 
+export const _resetFormEdit = () => {
+    return {
+        type: 'RESET_FORM_EDIT_STATE'
+    };
+};
+
 export function* o_submitFormEditProduct(data, token) {
     yield takeEvery('SUBMIT_FORM_EDIT_PRODUCT', k_submitFormEditProduct);
 };
 
 function* k_submitFormEditProduct(form) {
+    let formData = new FormData();
+    formData.append('productname', form.data.productName);
+    formData.append('category', form.data.category);
+    formData.append('landingprice', form.data.landingPrice);
+    formData.append('resellerprice', form.data.memberPrice);
+    formData.append('enduserprice', form.data.nonMemberPrice);
+    formData.append('unit', form.data.unit);
+    formData.append('packing', form.data.packing);
+    formData.append('description', form.data.description);
+    if (form.data.photo) {
+        formData.append('photo', form.data.photo);
+    }
     try{
         var response = yield call(() => {
             return request
             .post(`${SERVER_URL}admin/crud-product/edit/${form.data.idProduct}`)
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
             .set('Authorization', `${form.token}`)
-            .send({data: form.data})
+            .send(formData)
             .then((res) => {
                 return res;
             })
         });
-        yield put(_submitFormEditProduct_V(response.body))
+        yield put(_submitFormEditProduct_V(response.body.data));
     }catch (error) {
-        yield put(_submitFormEditProduct_X('Error when loading data!'))
+        yield put(_submitFormEditProduct_X('Error when loading data!'));
     };
 };

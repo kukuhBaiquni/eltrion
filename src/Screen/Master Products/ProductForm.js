@@ -4,8 +4,9 @@ import { Card, CardHeader, CardBody, FormGroup, Input, Label, Form, CardFooter, 
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import moment from 'moment';
-import { _submitFormEditProduct } from '../../Library/Redux/actions/_f_SubmitFormEditProduct';
+import { _submitFormEditProduct, _resetFormEdit } from '../../Library/Redux/actions/_f_SubmitFormEditProduct';
 import { connect } from 'react-redux';
+import { Upload, Icon, Modal, message } from 'antd';
 
 const pStyle = {
     fontSize: 16,
@@ -27,42 +28,55 @@ class ProductForm extends Component {
             nonMemberPrice: '',
             unit: '',
             packing: '',
-            description: ''
+            description: '',
+
+            previewVisible: false,
+            previewImage: '',
+            fileList: [],
         }
     };
 
+    componentDidMount() {
+        message.config({
+            top: 100,
+            duration: 2
+        })
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const { data } = this.props;
-        if (prevProps.data !== this.props.data) {
-            if (data !== null) {
-                this.setState({
-                    idProduct: data.id,
-                    productName: data.productname,
-                    category: data.category,
-                    landingPrice: data.landingprice,
-                    memberPrice: data.resellerprice,
-                    nonMemberPrice: data.enduserprice,
-                    unit: data.unit,
-                    packing: data.packing,
-                    description: data.description
-                })
+        if (data !== null && this.props.isVisible !== prevProps.isVisible) {
+            this.setState({
+                idProduct: data.id,
+                productName: data.productname,
+                category: data.category,
+                landingPrice: data.landingprice,
+                memberPrice: data.resellerprice,
+                nonMemberPrice: data.enduserprice,
+                unit: data.unit,
+                packing: data.packing,
+                description: data.description,
+            })
+        }
+
+        // On Edit Success
+        if (prevProps.products.success !== this.props.products.success) {
+            if (this.props.products.success) {
+                message.success('Data updated!');
+                this.props.dispatch(_resetFormEdit())
+            }
+        }
+
+        // On Edit Failed
+        if (prevProps.products.error !== this.props.products.error) {
+            if (this.props.products.error) {
+                message.error('Error when updating data!');
+                this.props.dispatch(_resetFormEdit())
             }
         }
     };
 
     pseudoSubmit = () => {
-        // this.setState({
-        //     idProduct: '',
-        //     productName: '',
-        //     category: '',
-        //     landingPrice: '',
-        //     memberPrice: '',
-        //     nonMemberPrice: '',
-        //     unit: '',
-        //     packing: '',
-        //     description: ''
-        // })
-
         const token = localStorage.getItem('token');
         const data = {
             idProduct: this.state.idProduct,
@@ -73,12 +87,38 @@ class ProductForm extends Component {
             nonMemberPrice: this.state.nonMemberPrice,
             unit: this.state.unit,
             packing: this.state.packing,
-            description: this.state.description
+            description: this.state.description,
+            photo: this.state.fileList[0].originFileObj
         };
         this.props.dispatch(_submitFormEditProduct(data, token))
+        this.props.closeDrawer();
+        this.setState({
+            idProduct: '',
+            productName: '',
+            category: '',
+            landingPrice: '',
+            memberPrice: '',
+            nonMemberPrice: '',
+            unit: '',
+            packing: '',
+            description: '',
+            fileList: []
+        });
     };
 
+    handleCancel = () => this.setState({ previewVisible: false })
+
+    handlePreview = (file) => {
+        this.setState({
+            previewImage: file.url || file.thumbUrl,
+            previewVisible: true,
+        });
+    }
+
+    handleChange = ({ fileList }) => this.setState({ fileList })
+
     _baseInformation = () => {
+        const { previewVisible, previewImage, fileList } = this.state;
         if (this.props.data !== null && this.props.data !== undefined) {
             return(
                 <Row>
@@ -167,12 +207,12 @@ class ProductForm extends Component {
                             </Col>
                             <Col md="9">
                                 <FormGroup check className="radio">
-                                    <Input className="form-check-input" type="radio" id="half-thousand" name="packing" value="1" onChange={(e) => this.setState({packing: e.currentTarget.value})} checked={this.state.packing === 1 ? 'checked' : ''} />
-                                    <Label check className="form-check-label" htmlFor="500">500gr</Label>
+                                    <Input className="form-check-input" type="radio" id="half-thousand" name="packing" value="1" onChange={(e) => this.setState({packing: Number(e.currentTarget.value)})} checked={this.state.packing === 1 ? 'checked' : ''} />
+                                    <Label check className="form-check-label" htmlFor="half-thousand">500gr</Label>
                                 </FormGroup>
                                 <FormGroup check className="radio">
-                                    <Input className="form-check-input" type="radio" id="thousand" name="packing" value="2" onChange={(e) => this.setState({packing: e.currentTarget.value})} checked={this.state.packing === 2 ? 'checked' : ''} />
-                                    <Label check className="form-check-label" htmlFor="1000">> 500gr</Label>
+                                    <Input className="form-check-input" type="radio" id="thousand" name="packing" value="2" onChange={(e) => this.setState({packing: Number(e.currentTarget.value)})} checked={this.state.packing === 2 ? 'checked' : ''} />
+                                    <Label check className="form-check-label" htmlFor="thousand">> 500gr</Label>
                                 </FormGroup>
                             </Col>
                         </FormGroup>
@@ -181,7 +221,37 @@ class ProductForm extends Component {
                                 <Label htmlFor="textarea-input">Description</Label>
                             </Col>
                             <Col xs="12" md="9">
-                                <Input type="textarea" name="description" id="description" rows="9" placeholder="Content..." value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} />
+                                <Input type="textarea" name="description" id="description" rows="4" placeholder="Content..." value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Col lg="3">
+                                <Label htmlFor="productname">Photo</Label>
+                            </Col>
+                            <Col lg="9">
+                                <div className="clearfix">
+                                    <Upload
+                                        beforeUpload={(file) => {
+                                            this.setState(state => ({
+                                                fileList: [...state.fileList, file],
+                                            }));
+                                            return false;
+                                        }}
+                                        accept="image/*"
+                                        listType="picture-card"
+                                        fileList={fileList}
+                                        onPreview={this.handlePreview}
+                                        onChange={this.handleChange}
+                                        >
+                                        <div>
+                                            <Icon type="plus" />
+                                            <div className="ant-upload-text">Upload</div>
+                                        </div>
+                                    </Upload>
+                                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                                    </Modal>
+                                </div>
                             </Col>
                         </FormGroup>
                         <Button onClick={this.pseudoSubmit} type="button" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
