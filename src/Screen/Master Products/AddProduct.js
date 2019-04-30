@@ -21,7 +21,6 @@ class AddProduct extends Component {
             unit: '',
             packing: 0,
             description: '',
-            photo: [],
             invalid: [],
 
             previewVisible: false,
@@ -240,7 +239,7 @@ class AddProduct extends Component {
             unit: '',
             packing: 0,
             description: '',
-            photo: [],
+            fileList: [],
             invalid: []
         })
     };
@@ -276,10 +275,10 @@ class AddProduct extends Component {
             unit: this.state.unit,
             packing: this.state.packing,
             description: this.state.description,
-            photo: this.state.photo,
+            photo: this.state.fileList[0].originFileObj,
             token
         };
-        if (typeof this._validation(data) === 'boolean') {
+        if (typeof this._validation(data).every(x => x) === 'boolean') {
             this.props.dispatch(_addProduct(data))
         }else{
             this.setState({invalid: this._validation(data)})

@@ -1,5 +1,5 @@
-export const SERVER_URL = 'http://halalbeef.co.id/';
-// export const SERVER_URL = 'http://192.168.0.110/';
+// export const SERVER_URL = 'http://halalbeef.co.id/';
+export const SERVER_URL = 'http://192.168.0.110/';
 // export const SERVER_URL = 'http://192.168.43.24/';
 
 export const VC_ID = (data) => {
@@ -76,7 +76,7 @@ export const VC_PACKING = (data) => {
 };
 
 export const VC_PHOTO = (data) => {
-    if (typeof data.length > 0) {
+    if (data.name !== undefined) {
         return true
     }else{
         return {

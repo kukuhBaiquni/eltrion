@@ -6,7 +6,7 @@ import '../Style.scss';
 import moment from 'moment';
 import { _submitFormEditProduct, _resetFormEdit } from '../../Library/Redux/actions/_f_EditProduct';
 import { connect } from 'react-redux';
-import { Upload, Icon, Modal, message } from 'antd';
+import { Upload, Icon, Modal, notification } from 'antd';
 
 const pStyle = {
     fontSize: 16,
@@ -36,13 +36,6 @@ class EditProduct extends Component {
         }
     };
 
-    componentDidMount() {
-        message.config({
-            top: 100,
-            duration: 2
-        })
-    }
-
     componentDidUpdate(prevProps, prevState) {
         const { data } = this.props;
         if (data !== null && this.props.isVisible !== prevProps.isVisible) {
@@ -61,16 +54,38 @@ class EditProduct extends Component {
 
         // On Edit Success
         if (prevProps.products.success !== this.props.products.success) {
-            if (this.props.products.success) {
-                message.success('Data updated!');
-                this.props.dispatch(_resetFormEdit())
+            if (this.props.products.success && prevProps.products.data.length === this.props.products.data.length) {
+                notification.config({
+                    top: 100
+                });
+                const args = {
+                    message: 'Notification',
+                    description: 'Update Product Success.',
+                    duration: 2.5,
+                    style: {
+                        backgroundColor: '#4dbd74'
+                    }
+                };
+                notification.open(args);
             }
+            this.props.dispatch(_resetFormEdit())
         }
 
         // On Edit Failed
         if (prevProps.products.error !== this.props.products.error) {
             if (this.props.products.error) {
-                message.error('Error when updating data!');
+                notification.config({
+                    top: 100
+                });
+                const args = {
+                    message: 'Notification',
+                    description: 'Update Product failed. Please try again later.',
+                    duration: 2.5,
+                    style: {
+                        backgroundColor: '#f86c6b'
+                    }
+                };
+                notification.open(args);
                 this.props.dispatch(_resetFormEdit())
             }
         }
@@ -78,6 +93,10 @@ class EditProduct extends Component {
 
     pseudoSubmit = () => {
         const token = localStorage.getItem('token');
+        let photo = [];
+        if (this.state.fileList.length > 0) {
+            photo = this.state.fileList[0].originFileObj;
+        }
         const data = {
             idProduct: this.state.idProduct,
             productName: this.state.productName,
@@ -88,7 +107,7 @@ class EditProduct extends Component {
             unit: this.state.unit,
             packing: this.state.packing,
             description: this.state.description,
-            photo: this.state.fileList[0].originFileObj
+            photo
         };
         this.props.dispatch(_submitFormEditProduct(data, token))
         this.props.closeDrawer();

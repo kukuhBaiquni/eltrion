@@ -17,18 +17,22 @@ export default function products(state = initialState, action) {
         case 'FETCH_PRODUCTS_FAILED':
         return Object.assign({}, state, {
             success: false, error: true
-        })
+        });
 
         case 'RESET_FETCH_PRODUCT_STATE':
         return Object.assign({}, state, {
             success: false, error: false
-        })
+        });
 
         case 'EDIT_PRODUCT_SUCCESS':
         let clone = {...state};
         const index = clone.data.map(x => x.id).indexOf(action.data.id);
         clone.data[index] = action.data;
-        return clone
+        return Object.assign({}, state, {
+            success: true,
+            error: false,
+            data: clone.data
+        });
 
         case 'EDIT_PRODUCT_FAILED':
         return Object.assign({}, state, {
@@ -53,7 +57,7 @@ export default function products(state = initialState, action) {
         case 'RESET_ADD_PRODUCT_STATE':
         return Object.assign({}, state, {
             success: false, error: false
-        })
+        });
 
         default:
         return state;

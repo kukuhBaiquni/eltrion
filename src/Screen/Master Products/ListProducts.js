@@ -40,7 +40,9 @@ class ListProducts extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(_fetchProducts())
+        if (this.props.products.data.length === 0) {
+            this.props.dispatch(_fetchProducts())
+        }
     };
 
     _openDrawer = (r) => {
@@ -59,7 +61,7 @@ class ListProducts extends Component {
         const formatter = (p) => { return 'Rp. ' + Number(p).toLocaleString('IT-it') }
         return(
             <Modal isOpen={showModal} toggle={() => this._toggleModal()} className={'modal-dark dark-header ' + this.props.className}>
-                <ModalHeader style={styles.modalHeader} toggle={() => this._toggleModal()}><h5 style={{color: 'white'}}>{modalData.productname}</h5></ModalHeader>
+                <ModalHeader style={styles.modalHeader} toggle={() => this._toggleModal()}><p style={{color: 'white'}}>{modalData.productname}</p></ModalHeader>
                 <ModalBody style={{backgroundColor: '#3a4149'}}>
                     <Row>
                         <Col sm="6" md="4">

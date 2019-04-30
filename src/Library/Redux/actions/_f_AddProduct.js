@@ -34,22 +34,21 @@ export function* o_addProduct(data) {
 
 function* k_addProduct(form) {
     let formData = new FormData();
+    formData.append('id', form.data.idProduct);
     formData.append('productname', form.data.productName);
     formData.append('category', form.data.category);
     formData.append('landingprice', form.data.landingPrice);
     formData.append('resellerprice', form.data.memberPrice);
-    formData.append('enduserprice', form.data.nonMemberPrice);
+    formData.append('enduserprice', form.data.normalPrice);
     formData.append('unit', form.data.unit);
     formData.append('packing', form.data.packing);
     formData.append('description', form.data.description);
-    if (form.data.photo) {
-        formData.append('photo', form.data.photo);
-    }
+    formData.append('photo', form.data.photo);
     try{
         var response = yield call(() => {
             return request
-            .post(`${SERVER_URL}admin/crud-product/add/${form.data.idProduct}`)
-            .set('Authorization', `${form.token}`)
+            .post(`${SERVER_URL}admin/crud-product/add`)
+            .set('Authorization', `${form.data.token}`)
             .send(formData)
             .then((res) => {
                 return res;
