@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Col, Row, Card, CardHeader, CardBody, Badge } from 'reactstrap';
+import { Col, Row, Card, CardHeader, CardBody, Badge, Button, FormGroup, Label, Input } from 'reactstrap';
+import { _editUserInformation, _resetEditUserInformation } from '../../Library/Redux/actions/_f_EditUserInformation';
+import { DatePicker } from 'antd';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
@@ -15,9 +17,20 @@ class UserDetails extends Component {
         this.state = {
             dataSource: null,
             isDrawerVisible: false,
-            drawerData: null
+            drawerData: null,
+
+            editModePI: false,
+            editModeAI: false,
+            editModeMI: false,
+
+            fullName: '',
+            ktp: 0,
+            gender: '',
+            birth: 1554215694019,
+            email: '',
+            phone: 0
         };
-    }
+    };
 
     _openDrawer = (x, r) => {
         this.setState({
@@ -43,6 +56,7 @@ class UserDetails extends Component {
                 <Card className="dark-body">
                     <CardHeader className="dark-header">
                         Personal Information
+                        <Button onClick={this._showFormEditPersonalInformation} style={{float: 'right'}} size="sm" color="primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</Button>
                     </CardHeader>
                     <CardBody>
                         <Row className='personal-info-with-space'>
@@ -110,7 +124,70 @@ class UserDetails extends Component {
                 </Card>
             )
         }
-    }
+    };
+
+    _editPersonalInformation = () => {
+        return(
+            <Card className="dark-body">
+                <CardHeader className="dark-header">
+                    Personal Information
+                    <Button onClick={this._onSubmitPersonalInformation} style={{float: 'right', marginLeft: 5}} size="sm" color="primary">&nbsp;&nbsp;Save&nbsp;&nbsp;</Button>
+                    <Button onClick={() => this.setState({editModePI: !this.state.editModePI})} style={{float: 'right'}} size="sm" color="danger">&nbsp;&nbsp;Cancel&nbsp;&nbsp;</Button>
+                </CardHeader>
+                <CardBody>
+                    <Row>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Full Name</Label>
+                                <Input onChange={(x) => this.setState({fullName: x.target.value})} type="text" id="name" placeholder="Enter a name" value={this.state.fullName} required />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Identity Card Number</Label>
+                                <Input onChange={(x) => this.setState({ktp: x.target.value})} type="number" id="name" placeholder="Enter user identity card" value={this.state.ktp} required />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Gender</Label>
+                                <FormGroup check className="radio">
+                                    <Input className="form-check-input" type="radio" id="radio1" name="gender" value="male" onChange={(e) => this.setState({gender: e.currentTarget.value})} checked={this.state.gender === 'male' ? 'checked' : ''} />
+                                    <Label check className="form-check-label" htmlFor="male">Male</Label>
+                                </FormGroup>
+                                <FormGroup check className="radio">
+                                    <Input className="form-check-input" type="radio" id="radio2" name="gender" value="female" onChange={(e) => this.setState({gender: e.currentTarget.value})}  checked={this.state.gender === 'female' ? 'checked' : ''} />
+                                    <Label check className="form-check-label" htmlFor="female">Female</Label>
+                                </FormGroup>
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Birth</Label>
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <DatePicker style={{marginTop: -7}} onChange={(date, dateString) => this._onChangeBirth(date, dateString)} value={moment(this.state.birth)} />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Email</Label>
+                                <Input onChange={(x) => this.setState({email: x.target.value})} type="email" id="name" placeholder="Enter your name" value={this.state.email} disabled />
+                            </FormGroup>
+                        </Col>
+                        <Col xs="12">
+                            <FormGroup>
+                                <Label htmlFor="name">Phone Number</Label>
+                                <Input onChange={(x) => this.setState({phone: x.target.value})} type="number" id="name" placeholder="Enter user phone" value={this.state.phone} required />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                </CardBody>
+            </Card>
+        )
+    };
 
     _addressInformation = () => {
         const { dataSource } = this.state;
@@ -119,6 +196,7 @@ class UserDetails extends Component {
                 <Card className="dark-body">
                     <CardHeader className="dark-header">
                         Address Information
+                        <Button onClick={() => this.setState({editModeAI: !this.state.editModeAI})} style={{float: 'right'}} size="sm" color="primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</Button>
                     </CardHeader>
                     <CardBody>
                         <Row>
@@ -250,6 +328,7 @@ class UserDetails extends Component {
                 <Card className="dark-body">
                     <CardHeader className="dark-header">
                         Membership Information
+                        <Button onClick={() => this.setState({editModeMI: !this.state.editModeMI})} style={{float: 'right'}} size="sm" color="primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</Button>
                     </CardHeader>
                     <CardBody>
                         <Row className='personal-info-with-space'>
@@ -318,12 +397,44 @@ class UserDetails extends Component {
         }
     }
 
+    // ============================================================================================================================================
+
+    _showFormEditPersonalInformation = () => {
+        this.setState({
+            editModePI: !this.state.editModePI,
+            fullName: this.state.dataSource.name,
+            ktp: this.state.dataSource.ktp,
+            gender: this.state.dataSource.gender,
+            birth: moment(this.state.dataSource.birth),
+            email: this.state.dataSource.email,
+            phone: '0' + this.state.dataSource.phone
+        })
+    };
+
+    _onChangeBirth = (x, z) => {
+        this.setState({birth: new Date(x._d).getTime()});
+    };
+
+    _onSubmitPersonalInformation = () => {
+        const token = localStorage.getItem('token');
+        const data = {
+            name: this.state.fullName,
+            ktp: this.state.ktp,
+            gender: this.state.gender,
+            birth: this.state.birth,
+            email: this.state.email,
+            phone: this.state.phone,
+            token
+        };
+        this.props.dispatch(_editUserInformation(data));
+    };
+
     render() {
         return(
             <div className="animated fadeIn">
                 <Row>
                     <Col xs="12" sm="6" md="4">
-                        {this._personalInformation()}
+                        {this.state.editModePI ? this._editPersonalInformation() : this._personalInformation()}
                     </Col>
                     <Col xs="12" sm="6" md="4">
                         {this._addressInformation()}

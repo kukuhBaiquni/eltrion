@@ -7,6 +7,7 @@ import { o_fetchTTSU } from './_f_FetchTransactionTypeSelfUsage';
 import { o_fetchTTShop } from './_f_FetchTransactionTypeShopping';
 import { o_editProduct } from './_f_EditProduct';
 import { o_addProduct } from './_f_AddProduct';
+import { o_editUserInformation } from './_f_EditUserInformation';
 
 export default function* rootSaga() {
   yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     o_fetchTTSU(),
     o_fetchTTShop(),
     o_editProduct(),
-    o_addProduct()
+    o_addProduct(),
+    o_editUserInformation()
   ]);
 };
