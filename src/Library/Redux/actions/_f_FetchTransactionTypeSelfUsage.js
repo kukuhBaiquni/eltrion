@@ -23,7 +23,7 @@ const _fetchTTSU_X = (message) => {
     };
 };
 
-onst _resetFetchTransactionOffline = () => {
+const _resetFetchTransactionOffline = () => {
     return {
         type: 'RESET_FETCH_TRANSACTION_SELFUSAGE_STATE'
     };

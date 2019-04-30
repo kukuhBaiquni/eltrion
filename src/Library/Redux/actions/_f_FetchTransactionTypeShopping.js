@@ -23,7 +23,7 @@ const _fetchTTShop_X = (message) => {
     };
 };
 
-onst _resetFetchTransactionOffline = () => {
+const _resetFetchTransactionOffline = () => {
     return {
         type: 'RESET_FETCH_TRANSACTION_SHOPPING_STATE'
     };
