@@ -23,7 +23,7 @@ const _fetchTTOn_X = (message) => {
     };
 };
 
-onst _resetFetchTransactionOffline = () => {
+const _resetFetchTransactionOffline = () => {
     return {
         type: 'RESET_FETCH_TRANSACTION_ONLINE_STATE'
     };
