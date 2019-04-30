@@ -12,25 +12,25 @@ export const _submitFormEditProduct = (data, token) => {
 
 const _submitFormEditProduct_V = (message) => {
     return {
-        type: 'SUBMIT_FORM_EDIT_PRODUCT_SUCCESS',
+        type: 'EDIT_PRODUCT_SUCCESS',
         data: message
     };
 };
 
 const _submitFormEditProduct_X = (message) => {
     return {
-        type: 'SUBMIT_FORM_EDIT_PRODUCT_FAILED',
+        type: 'EDIT_PRODUCT_FAILED',
         data: message
     };
 };
 
 export const _resetFormEdit = () => {
     return {
-        type: 'RESET_FORM_EDIT_STATE'
+        type: 'RESET_EDIT_PRODUCT_STATE'
     };
 };
 
-export function* o_submitFormEditProduct(data, token) {
+export function* o_editProduct(data, token) {
     yield takeEvery('SUBMIT_FORM_EDIT_PRODUCT', k_submitFormEditProduct);
 };
 

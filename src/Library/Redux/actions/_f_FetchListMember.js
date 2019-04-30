@@ -23,6 +23,12 @@ const _fetchMember_V = (member) => {
     };
 };
 
+const _resetFetchMember = () => {
+    return {
+        type: 'RESET_FETCH_MEMBER_STATE'
+    }
+};
+
 export function* o_fetchMember(data) {
     yield takeEvery('FETCH_LIST_MEMBER', k_fetchMember);
 };

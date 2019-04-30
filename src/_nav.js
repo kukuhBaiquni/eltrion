@@ -40,6 +40,10 @@ export default {
                 url: '/list-products'
             },
             {
+                name: 'Add Product',
+                url: '/add-product'
+            },
+            {
                 name: 'Deleted Products',
                 url: '/deleted-products'
             }

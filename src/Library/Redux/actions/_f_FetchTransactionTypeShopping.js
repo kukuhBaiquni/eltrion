@@ -23,6 +23,12 @@ const _fetchTTShop_X = (message) => {
     };
 };
 
+onst _resetFetchTransactionOffline = () => {
+    return {
+        type: 'RESET_FETCH_TRANSACTION_SHOPPING_STATE'
+    };
+};
+
 export function* o_fetchTTShop(data) {
     yield takeEvery('TRANSACTION_SHOPPING', k_fetchTTShop);
 };

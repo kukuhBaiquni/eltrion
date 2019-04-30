@@ -23,6 +23,12 @@ const _fetchTTOff_X = (message) => {
     };
 };
 
+const _resetFetchTransactionOffline = () => {
+    return {
+        type: 'RESET_FETCH_TRANSACTION_OFFLINE_STATE'
+    };
+};
+
 export function* o_fetchTTOff(data) {
     yield takeEvery('TRANSACTION_OFFLINE', k_fetchTTOff);
 };

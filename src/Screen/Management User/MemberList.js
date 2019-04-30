@@ -56,36 +56,38 @@ class MemberList extends Component {
 
     render() {
         return(
-            <Row>
-                <Col xs="12" lg="12">
-                    <Card className="dark-body">
-                        <CardHeader className="dark-header">
-                            <h4 style={{fontSize: 'bold', color: 'white'}}>Member List</h4>
-                        </CardHeader>
-                        <CardBody>
-                            <Table responsive striped>
-                                <thead  onClick={this._showDrawer}>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Category</th>
-                                        <th>Level</th>
-                                        <th>Group</th>
-                                        <th>Verified</th>
-                                        <th>Join Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this._renderData()}
-                                </tbody>
-                            </Table>
-                            {this._pagination()}
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
+            <div className="animated fadeIn">
+                <Row>
+                    <Col xs="12" lg="12">
+                        <Card className="dark-body">
+                            <CardHeader className="dark-header">
+                                <h4 style={{fontSize: 'bold', color: 'white'}}>Member List</h4>
+                            </CardHeader>
+                            <CardBody>
+                                <Table responsive striped>
+                                    <thead  onClick={this._showDrawer}>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th>Category</th>
+                                            <th>Level</th>
+                                            <th>Group</th>
+                                            <th>Verified</th>
+                                            <th>Join Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this._renderData()}
+                                    </tbody>
+                                </Table>
+                                {this._pagination()}
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
         )
     }
 };

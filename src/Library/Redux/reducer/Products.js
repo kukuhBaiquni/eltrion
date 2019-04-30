@@ -9,24 +9,51 @@ export default function products(state = initialState, action) {
 
         case 'FETCH_PRODUCTS_SUCCESS':
         return Object.assign({}, state, {
-            data: action.data
+            data: action.data,
+            success: true,
+            error: false
         });
 
-        case 'SUBMIT_FORM_EDIT_PRODUCT_SUCCESS':
+        case 'FETCH_PRODUCTS_FAILED':
+        return Object.assign({}, state, {
+            success: false, error: true
+        })
+
+        case 'RESET_FETCH_PRODUCT_STATE':
+        return Object.assign({}, state, {
+            success: false, error: false
+        })
+
+        case 'EDIT_PRODUCT_SUCCESS':
         let clone = {...state};
         const index = clone.data.map(x => x.id).indexOf(action.data.id);
         clone.data[index] = action.data;
         return clone
 
-        case 'SUBMIT_FORM_EDIT_PRODUCT_FAILED':
+        case 'EDIT_PRODUCT_FAILED':
         return Object.assign({}, state, {
             success: false, error: true
         });
 
-        case 'RESET_FORM_EDIT_STATE':
+        case 'RESET_EDIT_PRODUCT_STATE':
         return Object.assign({}, state, {
             success: false, error: false
         });
+
+        case 'ADD_PRODUCT_FAILED':
+        return Object.assign({}, state, {
+            success: false, error: true
+        });
+
+        case 'ADD_PRODUCT_SUCCESS':
+        return Object.assign({}, state, {
+            success: true, error: false, data: [...state.data, action.data]
+        });
+
+        case 'RESET_ADD_PRODUCT_STATE':
+        return Object.assign({}, state, {
+            success: false, error: false
+        })
 
         default:
         return state;

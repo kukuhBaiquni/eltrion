@@ -23,6 +23,12 @@ const _fetchTTSU_X = (message) => {
     };
 };
 
+onst _resetFetchTransactionOffline = () => {
+    return {
+        type: 'RESET_FETCH_TRANSACTION_SELFUSAGE_STATE'
+    };
+};
+
 export function* o_fetchTTSU(data) {
     yield takeEvery('TRANSACTION_SELFUSAGE', k_fetchTTSU);
 };

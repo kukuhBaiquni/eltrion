@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, FormGroup, Input, Label, Form, CardFooter, 
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import moment from 'moment';
-import { _submitFormEditProduct, _resetFormEdit } from '../../Library/Redux/actions/_f_SubmitFormEditProduct';
+import { _submitFormEditProduct, _resetFormEdit } from '../../Library/Redux/actions/_f_EditProduct';
 import { connect } from 'react-redux';
 import { Upload, Icon, Modal, message } from 'antd';
 
@@ -16,7 +16,7 @@ const pStyle = {
     marginBottom: 16
 };
 
-class ProductForm extends Component {
+class EditProduct extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -128,7 +128,7 @@ class ProductForm extends Component {
                                 <Label htmlFor="id-product">ID Product</Label>
                             </Col>
                             <Col lg="9">
-                                <Input type="text" value={this.state.idProduct} onChange={(e) => this.setState({idProduct: e.target.value})} id="id-product" name="id-product" placeholder="ID Product" readOnly/>
+                                <Input type="text" value={this.state.idProduct} onChange={(e) => this.setState({idProduct: e.target.value})} id="id-product" name="id-product" placeholder="ID Product" disabled/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -254,7 +254,7 @@ class ProductForm extends Component {
                                 </div>
                             </Col>
                         </FormGroup>
-                        <Button onClick={this.pseudoSubmit} type="button" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
+                        <Button onClick={this.pseudoSubmit} type="button" size="md" color="primary"><i className="fa fa-dot-circle-o"></i> Submit</Button>
                     </Col>
                 </Row>
             )
@@ -263,7 +263,7 @@ class ProductForm extends Component {
 
     render() {
         return (
-            <div>
+            <div className="animated fadeIn">
                 <Drawer
                     width={640}
                     placement="right"
@@ -299,4 +299,4 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(
     mapDispatchToProps
-)(ProductForm);
+)(EditProduct);

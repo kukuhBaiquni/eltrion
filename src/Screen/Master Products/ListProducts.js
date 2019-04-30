@@ -7,7 +7,7 @@ import { Badge, Button, Card, CardBody, CardHeader, Row, Col, CardFooter, Modal,
 import Widget04 from '../../views/Widgets/Widget04';
 import 'antd/dist/antd.css';
 import '../Style.scss';
-import ProductForm from './ProductForm';
+import EditProduct from './EditProduct';
 
 import { SERVER_URL } from '../../Configuration';
 
@@ -138,8 +138,8 @@ class ListProducts extends Component {
 render() {
     const TabPane = Tabs.TabPane;
     return(
-        <div>
-            <ProductForm data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
+        <div className="animated fadeIn">
+            <EditProduct data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
             <Tabs tabBarStyle={styles.tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
                 <TabPane tab="All" key="1">{this._renderProducts('')}</TabPane>
                 <TabPane tab="Daging Sapi" key="2">{this._renderProducts('sapi')}</TabPane>

@@ -22,6 +22,12 @@ const _fetchProducts_V = (products) => {
     };
 };
 
+const _resetFetchProduct = () => {
+    return {
+        type: 'RESET_FETCH_PRODUCT_STATE'
+    };
+};
+
 export function* o_fetchProducts() {
     yield takeEvery('FETCH_PRODUCTS', k_fetchProducts);
 };
