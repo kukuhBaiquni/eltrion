@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Row, Card, CardHeader, CardBody, Badge, Button, FormGroup, Label, Input } from 'reactstrap';
-import { _editUserInformation, _resetEditUserInformation } from '../../Library/Redux/actions/_f_EditUserInformation';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { message } from 'antd';
+import 'antd/dist/antd.css';
 import '../Style.scss';
 
 import TypeOnline from './TransactionTypeOnline';
@@ -14,6 +14,14 @@ import TransactionDetailsDrawer from './TransactionDetailsDrawer';
 
 import PersonalInformation from './_PersonalInformation';
 import EditPersonalInformation from './_EditPersonalInformation';
+import AddressInformation from './_AddressInformation';
+import EditAddressInformation from './_EditAddressInformation';
+
+import { _editUserInformation, _resetEditUserInformation } from '../../Library/Redux/actions/_f_EditUserInformation';
+import { _fetchProvinces, _resetFetchProvinces } from '../../Library/Redux/actions/_f_FetchProvinces';
+import { _fetchCities, _resetFetchCities, _clearCities } from '../../Library/Redux/actions/_f_FetchCities';
+import { _fetchDistricts, _resetFetchDistricts, _clearDistricts } from '../../Library/Redux/actions/_f_FetchDistricts';
+import { _fetchVillages, _resetFetchVillages, _clearVillages } from '../../Library/Redux/actions/_f_FetchVillages';
 
 class UserDetails extends Component {
     constructor(props) {
@@ -30,9 +38,21 @@ class UserDetails extends Component {
             fullName: '',
             ktp: 0,
             gender: '',
-            birth: 1554215694019,
+            birth: 0,
             email: '',
-            phone: 0
+            phone: 0,
+
+            shopName: '',
+            province: '',
+            city: '',
+            district: '',
+            village: '',
+            street: '',
+            no: 0,
+            rt: 0,
+            rw: 0,
+            latitude: 0,
+            longitude: 0
         };
         this._onChangeValues = this._onChangeValues.bind(this);
         this._onChangeBirth = this._onChangeBirth.bind(this);
@@ -52,140 +72,9 @@ class UserDetails extends Component {
     componentDidMount() {
         const target = this.props.match.params.id;
         const index = this.props.member.data.map(x => x._id).indexOf(target);
+        message.config({ top: 70, maxCount: 4 })
         this.setState({dataSource: this.props.member.data[index]})
     };
-
-    _addressInformation = () => {
-        const { dataSource } = this.state;
-        if (dataSource !== null) {
-            return(
-                <Card className="dark-body">
-                    <CardHeader className="dark-header">
-                        Address Information
-                        <Button onClick={() => this.setState({editModeAI: !this.state.editModeAI})} style={{float: 'right'}} size="sm" color="primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</Button>
-                    </CardHeader>
-                    <CardBody>
-                        <Row>
-                            <Col>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Shop Name
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.nama_toko === undefined ? '-' : dataSource.nama_toko}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Province
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.province === '' ? '-' : dataSource.address.province}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        City
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.city === '' ? '-' : dataSource.address.city}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        District
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.district === '' ? '-' : dataSource.address.district}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Village
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.village === '' ? '-' : dataSource.address.village}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Street
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.street === '' ? '-' : dataSource.address.street}
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Number
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.no === null ? '-' : dataSource.address.no}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        RT
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.rt === null ? '-' : dataSource.address.rt}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        RW
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.rw === null ? '-' : dataSource.address.rw}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Geolocation Latitude
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.geolocation.latitude === null ? '-' : dataSource.address.geolocation.latitude}
-                                    </Col>
-                                </Row>
-                                <Row className='personal-info-with-space'>
-                                    <Col>
-                                        Geolocation Longitude
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        {dataSource.address.geolocation.longitude === null ? '-' : dataSource.address.geolocation.longitude}
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </CardBody>
-                </Card>
-            )
-        }
-    }
 
     _membershipInformation = () => {
         const { dataSource } = this.state;
@@ -277,19 +166,57 @@ class UserDetails extends Component {
         });
     };
 
+    _toggleEditModeAI = () => {
+        if (this.props.territorial.province.data.length === 0) {
+            this.props.dispatch(_fetchProvinces());
+        }
+        this.setState({
+            editModeAI: !this.state.editModeAI,
+            shopName: this.state.dataSource.address.nama_toko,
+            province: this.state.dataSource.address.province,
+            city: this.state.dataSource.address.city,
+            district: this.state.dataSource.address.district,
+            village: this.state.dataSource.address.village,
+            street: this.state.dataSource.address.street,
+            no: this.state.dataSource.address.no,
+            rt: this.state.dataSource.address.rt,
+            rw: this.state.dataSource.address.rw,
+            latitude: this.state.dataSource.address.geolocation.latitude,
+            longitude: this.state.dataSource.address.geolocation.longitude
+        })
+    };
+
     _onChangeBirth (x, z) {
         this.setState({birth: x});
     };
 
     _onChangeValues (type, value) {
-        this.setState({
-            [type]: value
-        });
+        const target = value.split('|');
+        if (type === 'province') {
+            this.props.dispatch(_clearCities());
+            this.props.dispatch(_clearDistricts());
+            this.props.dispatch(_clearVillages());
+            this.props.dispatch(_fetchCities(target[1]));
+            this.setState({[type]: target[0], city: '', district: '', village: ''});
+        }else if (type === 'city') {
+            this.props.dispatch(_clearDistricts());
+            this.props.dispatch(_clearVillages());
+            this.props.dispatch(_fetchDistricts(target[1]));
+            this.setState({[type]: target[0], district: '', village: ''});
+        }else if (type === 'district') {
+            this.props.dispatch(_clearVillages());
+            this.props.dispatch(_fetchVillages(target[1]));
+            this.setState({[type]: target[0], village: ''});
+        }else{
+            this.setState({
+                [type]: value
+            });
+        }
     };
 
     _onSubmitPersonalInformation = () => {
         const token = localStorage.getItem('token');
-        let birth = this.state.birth
+        let birth = this.state.birth;
         if (typeof birth === 'object') {
             birth = this.state.birth._d.getTime();
         }
@@ -303,10 +230,32 @@ class UserDetails extends Component {
             token
         };
         this.props.dispatch(_editUserInformation(data));
-        message.config({
-            top: 70
-        })
-        message.loading('Updating data..', 0)
+        message.loading('Updating data..', 0);
+    };
+
+    _onSubmitAddressInformation = () => {
+        const token = localStorage.getItem('token');
+        const data = {
+            token,
+            email: this.state.dataSource.email,
+            address: {
+                nama_toko: this.state.shopName,
+                province: this.state.province,
+                city: this.state.city,
+                district: this.state.district,
+                village: this.state.village,
+                street: this.state.street,
+                no: this.state.no,
+                rt: this.state.rt,
+                rw: this.state.rw,
+                geolocation: {
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude
+                }
+            }
+        };
+        this.props.dispatch(_editUserInformation(data));
+        message.loading('Updating data..', 0);
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -317,13 +266,76 @@ class UserDetails extends Component {
                 const target = this.state.dataSource.email;
                 const index = this.props.member.data.map(x => x.email).indexOf(target)
                 this.setState({
-                    editModePI: !this.state.editModePI,
+                    editModePI: false,
+                    editModeAI: false,
+                    editModeMI: false,
                     dataSource: this.props.member.data[index]
                 })
+                this.props.dispatch(_resetEditUserInformation());
             }
-            this.props.dispatch(_resetEditUserInformation());
         }
-    }
+
+        if (prevProps.territorial.province.success !== this.props.territorial.province.success) {
+            if (this.props.territorial.province.success) {
+                message.destroy()
+                message.success('Provinces successfully loaded!', 2.5);
+                this.props.dispatch(_resetFetchProvinces())
+            }
+        }
+
+        if (prevProps.territorial.city.success !== this.props.territorial.city.success) {
+            if (this.props.territorial.city.success) {
+                message.success('Cities successfully loaded!', 2.5);
+                this.props.dispatch(_resetFetchCities())
+            }
+        }
+
+        if (prevProps.territorial.district.success !== this.props.territorial.district.success) {
+            if (this.props.territorial.district.success) {
+                message.success('Districts successfully loaded!', 2.5);
+                this.props.dispatch(_resetFetchDistricts())
+            }
+        }
+
+        if (prevProps.territorial.village.success !== this.props.territorial.village.success) {
+            if (this.props.territorial.village.success) {
+                message.success('Villages successfully loaded!', 2.5);
+                this.props.dispatch(_resetFetchVillages())
+            }
+        }
+
+        // AUTOFILL TERRITORIAL
+        if (prevProps.territorial.province.data !== this.props.territorial.province.data) {
+            const targetProvince = this.state.dataSource.address.province;
+            if (targetProvince !== '') {
+                const indexProvince = this.props.territorial.province.data.map(x => x.nama_provinsi).indexOf(targetProvince);
+                if (indexProvince !== -1) {
+                    this._onChangeValues('province', this.props.territorial.province.data[indexProvince].nama_provinsi + '|' + this.props.territorial.province.data[indexProvince].kode_provinsi);
+                }
+            }
+        }
+
+        if (prevProps.territorial.city.data !== this.props.territorial.city.data) {
+            const targetCity = this.state.dataSource.address.city;
+            if (targetCity !== '') {
+                const indexCity = this.props.territorial.city.data.map(x => x.nama_kota).indexOf(targetCity);
+                if (indexCity !== -1) {
+                    this._onChangeValues('city', this.props.territorial.city.data[indexCity].nama_kota + '|' + this.props.territorial.city.data[indexCity].kode_kota);
+                }
+            }
+        }
+
+        if (prevProps.territorial.district.data !== this.props.territorial.district.data) {
+            const targetDistrict = this.state.dataSource.address.district;
+            if (targetDistrict !== '') {
+                const indexDistrict = this.props.territorial.district.data.map(x => x.nama_kecamatan).indexOf(targetDistrict);
+                if (indexDistrict !== -1) {
+                    this._onChangeValues('district', this.props.territorial.district.data[indexDistrict].nama_kecamatan + '|' + this.props.territorial.district.data[indexDistrict].kode_kecamatan);
+                    this.setState({village: this.state.dataSource.address.village})
+                }
+            }
+        }
+    };
 
     render() {
         return(
@@ -348,7 +360,27 @@ class UserDetails extends Component {
                         }
                     </Col>
                     <Col xs="12" sm="6" md="4">
-                        {this._addressInformation()}
+                        {
+                            this.state.editModeAI
+                            ? <EditAddressInformation
+                                data={this.state.dataSource}
+                                toggleEditMode={this._toggleEditModeAI}
+                                listProvinces={this.props.territorial.province.data}
+                                listCities={this.props.territorial.city.data}
+                                listDistricts={this.props.territorial.district.data}
+                                listVillages={this.props.territorial.village.data}
+                                onChange={this._onChangeValues}
+                                onSubmit={this._onSubmitAddressInformation}
+                                province={this.state.province}
+                                city={this.state.city}
+                                district={this.state.district}
+                                village={this.state.village}
+                                />
+                            : <AddressInformation
+                                data={this.state.dataSource}
+                                toggleEditMode={this._toggleEditModeAI}
+                                />
+                        }
                     </Col>
                     <Col xs="12" sm="6" md="4">
                         {this._membershipInformation()}

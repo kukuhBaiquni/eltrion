@@ -33,11 +33,15 @@ export default function member(state = initialState, action) {
         const index = state.data.map(x => x.email).indexOf(data.email);
         let clone = [...state.data];
         clone[index] = data;
-        return Object.assign({}, state, {
-            success: true,
-            error: false,
-            data: clone
-        });
+        if (index !== -1) {
+            return Object.assign({}, state, {
+                success: true,
+                error: false,
+                data: clone
+            });
+        }else{
+            return state;
+        };
 
         case 'EDIT_USER_INFORMATION_FAILED':
         return Object.assign({}, state, {
