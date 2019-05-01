@@ -168,7 +168,7 @@ class UserDetails extends Component {
                         </Col>
                         <Col xs="12">
                             <FormGroup>
-                                <DatePicker style={{marginTop: -7}} onChange={(date, dateString) => this._onChangeBirth(date, dateString)} value={moment(this.state.birth)} />
+                                <DatePicker format="DD MMM YYYY" style={{marginTop: -7}} onChange={(date, dateString) => this._onChangeBirth(date, dateString)} value={this.state.birth} />
                             </FormGroup>
                         </Col>
                         <Col xs="12">
@@ -405,26 +405,31 @@ class UserDetails extends Component {
             fullName: this.state.dataSource.name,
             ktp: this.state.dataSource.ktp,
             gender: this.state.dataSource.gender,
-            birth: moment(this.state.dataSource.birth),
+            birth: moment(this.state.dataSource.ttl),
             email: this.state.dataSource.email,
             phone: '0' + this.state.dataSource.phone
         })
     };
 
     _onChangeBirth = (x, z) => {
-        this.setState({birth: new Date(x._d).getTime()});
+        this.setState({birth: x});
     };
 
     _onSubmitPersonalInformation = () => {
         const token = localStorage.getItem('token');
+        let birth = this.state.birth
+        if (typeof birth === 'object') {
+            birth = this.state.birth._d;
+        }
         const data = {
             name: this.state.fullName,
             ktp: this.state.ktp,
             gender: this.state.gender,
-            birth: this.state.birth,
+            ttl: birth.getTime(),
             email: this.state.email,
             phone: this.state.phone,
-            token
+            token,
+            type: 0
         };
         this.props.dispatch(_editUserInformation(data));
     };

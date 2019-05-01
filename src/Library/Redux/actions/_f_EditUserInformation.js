@@ -33,7 +33,6 @@ export function* o_editUserInformation(data) {
 };
 
 function* k_editUserInformation(form) {
-    console.log(form);
     try{
         var response = yield call(() => {
             return request
@@ -44,6 +43,7 @@ function* k_editUserInformation(form) {
                 return res;
             })
         });
+        console.log(response);
         yield put(_editUserInformation_V(response.body.data));
     }catch (error) {
         yield put(_editUserInformation_X('Error when loading data!'));
