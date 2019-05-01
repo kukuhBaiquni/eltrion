@@ -43,7 +43,6 @@ function* k_editUserInformation(form) {
                 return res;
             })
         });
-        console.log(response);
         yield put(_editUserInformation_V(response.body.data));
     }catch (error) {
         yield put(_editUserInformation_X('Error when loading data!'));

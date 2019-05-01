@@ -23,7 +23,7 @@ const _fetchMember_V = (member) => {
     };
 };
 
-const _resetFetchMember = () => {
+export const _resetFetchMember = () => {
     return {
         type: 'RESET_FETCH_MEMBER_STATE'
     }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import '../Style.scss';
-import { _fetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
+import { _fetchMember, _resetFetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
 import { Link } from 'react-router-dom';
 
 class MemberList extends Component {
@@ -33,7 +33,7 @@ class MemberList extends Component {
                 </tr>
             )
         )
-    }
+    };
 
     _pagination = () => {
         if (this.props.member.totalPage !== null) {
@@ -47,11 +47,19 @@ class MemberList extends Component {
                     />
             )
         }
-    }
+    };
 
     _onChangePage(page) {
         const token = localStorage.getItem('token');
         this.props.dispatch(_fetchMember({index: page - 1, token}))
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.member.success !== this.props.member.success) {
+            if (this.props.member.success) {
+                this.props.dispatch(_resetFetchMember());                
+            }
+        }
     }
 
     render() {

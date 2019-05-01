@@ -110,7 +110,6 @@ export default class TransactionDetailsDrawer extends Component {
     };
 
     render() {
-        console.log(this.props.data);
         return (
             <div>
                 <Drawer
