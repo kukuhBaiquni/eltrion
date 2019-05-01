@@ -61,7 +61,7 @@ export default class EditPersonalInformation extends Component {
                         <Col xs="12">
                             <FormGroup>
                                 <Label htmlFor="name">Phone Number</Label>
-                                <Input onChange={(x) => this.props.onChange(index[4], x.target.value)} type="number" id="name" placeholder="Enter user phone" defaultValue={this.props.data.phone} required />
+                                <Input onChange={(x) => this.props.onChange(index[4], x.target.value)} type="number" id="name" placeholder="Enter user phone" defaultValue={'0' + this.props.data.phone} required />
                             </FormGroup>
                         </Col>
                     </Row>
