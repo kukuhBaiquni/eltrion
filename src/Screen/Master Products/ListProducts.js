@@ -130,28 +130,28 @@ class ListProducts extends Component {
                             </CardFooter>
                         </Card>
                     </Col>
-                )
-            }
-            {modalData && this._renderModal()}
-        </Row>
-    )
-}
+                    )
+                }
+                {modalData && this._renderModal()}
+            </Row>
+        )
+    }
 
-render() {
-    const TabPane = Tabs.TabPane;
-    return(
-        <div className="animated fadeIn">
-            <EditProduct data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
-            <Tabs tabBarStyle={styles.tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
-                <TabPane tab="All" key="1">{this._renderProducts('')}</TabPane>
-                <TabPane tab="Daging Sapi" key="2">{this._renderProducts('sapi')}</TabPane>
-                <TabPane tab="Daging Ayam" key="3">{this._renderProducts('ayam')}</TabPane>
-                <TabPane tab="Ikan Konsumsi" key="4">{this._renderProducts('ikan')}</TabPane>
-                <TabPane tab="Olahan dan Lainnya" key="5">{this._renderProducts('olahan')}</TabPane>
-            </Tabs>
-        </div>
-    )
-}
+    render() {
+        const TabPane = Tabs.TabPane;
+        return(
+            <div className="animated fadeIn">
+                <EditProduct data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
+                <Tabs tabBarStyle={styles.tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
+                    <TabPane tab="All" key="1">{this._renderProducts('')}</TabPane>
+                    <TabPane tab="Daging Sapi" key="2">{this._renderProducts('sapi')}</TabPane>
+                    <TabPane tab="Daging Ayam" key="3">{this._renderProducts('ayam')}</TabPane>
+                    <TabPane tab="Ikan Konsumsi" key="4">{this._renderProducts('ikan')}</TabPane>
+                    <TabPane tab="Olahan dan Lainnya" key="5">{this._renderProducts('olahan')}</TabPane>
+                </Tabs>
+            </div>
+        )
+    }
 }
 
 function mapDispatchToProps(dispatch) {

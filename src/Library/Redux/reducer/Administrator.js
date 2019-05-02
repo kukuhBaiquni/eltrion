@@ -6,10 +6,10 @@ let initialState = {
     data: []
 };
 
-export default function member(state = initialState, action) {
+export default function administrator(state = initialState, action) {
     switch (action.type) {
 
-        case 'FETCH_LIST_MEMBER_SUCCESS':
+        case 'FETCH_LIST_ADMINISTRATOR_SUCCESS':
         return Object.assign({}, state, {
             currentPage: action.data.currentPage,
             totalPage: action.data.totalPage,
@@ -18,17 +18,17 @@ export default function member(state = initialState, action) {
             error: false
         });
 
-        case 'FETCH_LIST_MEMBER_FAILED':
+        case 'FETCH_LIST_ADMINISTRATOR_FAILED':
         return Object.assign({}, state, {
             success: false, error: true
         });
 
-        case 'RESET_FETCH_MEMBER_STATE':
+        case 'RESET_FETCH_ADMINISTRATOR_STATE':
         return Object.assign({}, state, {
             success: false, error: false
         });
 
-        case 'EDIT_MEMBER_INFORMATION_SUCCESS':
+        case 'EDIT_ADMINISTRATOR_INFORMATION_SUCCESS':
         const data = action.data;
         const index = state.data.map(x => x.email).indexOf(data.email);
         let clone = [...state.data];
@@ -43,12 +43,12 @@ export default function member(state = initialState, action) {
             return state;
         };
 
-        case 'EDIT_MEMBER_INFORMATION_FAILED':
+        case 'EDIT_ADMINISTRATOR_INFORMATION_FAILED':
         return Object.assign({}, state, {
             success: false, error: true
         });
 
-        case 'RESET_EDIT_MEMBER_INFORMATION_STATE':
+        case 'RESET_EDIT_ADMINISTRATOR_INFORMATION_STATE':
         return Object.assign({}, state, {
             success: false, error: false
         });

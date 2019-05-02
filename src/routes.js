@@ -38,9 +38,13 @@ const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
 
 const ListProducts = React.lazy(() => import('./Screen/Master Products/ListProducts'));
-const MemberList = React.lazy(() => import('./Screen/Management User/MemberList'));
-const UserDetails = React.lazy(() => import('./Screen/Management User/UserDetails'));
 const AddProduct = React.lazy(() => import('./Screen/Master Products/AddProduct'));
+
+const MemberList = React.lazy(() => import('./Screen/Management User/MemberList'));
+const NonMemberList = React.lazy(() => import('./Screen/Management User/NonMemberList'));
+const AdministratorList = React.lazy(() => import('./Screen/Management User/AdministratorList'));
+
+const UserDetails = React.lazy(() => import('./Screen/Management User/UserDetails'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -88,7 +92,9 @@ const routes = [
 
   { path: '/list-products', name: 'List Products', component: ListProducts},
   { path: '/member', exact: true, name: 'Member List', component: MemberList},
-  { path: '/member/:id', exact: true, name: 'Details', component: UserDetails},
+  { path: '/non-member', exact: true, name: 'Non Member List', component: NonMemberList},
+  { path: '/administrator', exact: true, name: 'Administrator List', component: AdministratorList},
+  { path: '/user/:type/:id', exact: true, name: 'Details', component: UserDetails},
   { path: '/add-product', name: 'Add Product', component: AddProduct}
 ];
 

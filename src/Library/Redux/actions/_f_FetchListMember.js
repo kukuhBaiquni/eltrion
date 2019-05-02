@@ -37,7 +37,7 @@ function* k_fetchMember(form) {
     try{
         var response = yield call(() => {
             return request
-            .post(`${SERVER_URL}admin/get-list-member/x2/index/${form.data.index}`)
+            .post(`${SERVER_URL}admin/get-list-member/index/${form.data.index}`)
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .set('Authorization', `${form.data.token}`)

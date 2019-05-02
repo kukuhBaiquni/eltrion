@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Row, Card, CardHeader, CardBody, Badge, Button, FormGroup, Label, Input } from 'reactstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { message } from 'antd';
+import { message, Tabs } from 'antd';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 
@@ -19,7 +19,10 @@ import EditAddressInformation from './_EditAddressInformation';
 import MembershipInformation from './_MembershipInformation';
 import EditMembershipInformation from './_EditMembershipInformation';
 
-import { _editUserInformation, _resetEditUserInformation } from '../../Library/Redux/actions/_f_EditUserInformation';
+import { _editMemberInformation, _resetEditMemberInformation } from '../../Library/Redux/actions/_f_EditMemberInformation';
+import { _editNonMemberInformation, _resetEditNonMemberInformation } from '../../Library/Redux/actions/_f_EditNonMemberInformation';
+import { _editAdministratorInformation, _resetEditAdministratorInformation } from '../../Library/Redux/actions/_f_EditAdministratorInformation';
+
 import { _fetchProvinces, _resetFetchProvinces } from '../../Library/Redux/actions/_f_FetchProvinces';
 import { _fetchCities, _resetFetchCities, _clearCities } from '../../Library/Redux/actions/_f_FetchCities';
 import { _fetchDistricts, _resetFetchDistricts, _clearDistricts } from '../../Library/Redux/actions/_f_FetchDistricts';
@@ -32,6 +35,8 @@ class UserDetails extends Component {
             dataSource: null,
             isDrawerVisible: false,
             drawerData: null,
+
+            paramsType: '',
 
             editModePI: false,
             editModeAI: false,
@@ -78,11 +83,23 @@ class UserDetails extends Component {
         this.setState({isDrawerVisible: false})
     };
 
+    _onChangeTabs() {
+        this.setState({showContent: !this.state.showContent})
+        setTimeout(() => {
+            this.setState({showContent: !this.state.showContent})
+        }, 500)
+    };
+
     componentDidMount() {
         const target = this.props.match.params.id;
-        const index = this.props.member.data.map(x => x._id).indexOf(target);
+        const type = this.props.match.params.type;
         message.config({ top: 70, maxCount: 4 })
-        this.setState({dataSource: this.props.member.data[index]})
+        this.setState({
+            paramsType: type
+        })
+        const index = this.props[type].data.map(x => x._id).indexOf(target);
+        const dataSource = this.props[type].data[index];
+        this.setState({dataSource});
     };
 
     // ============================================================================================================================================
@@ -159,6 +176,26 @@ class UserDetails extends Component {
         }
     };
 
+    _editInformation = (type, data) => {
+        if (type === 'member') {
+            this.props.dispatch(_editMemberInformation(data));
+        }else if (type === 'nonMember') {
+            this.props.dispatch(_editNonMemberInformation(data));
+        }else {
+            this.props.dispatch(_editAdministratorInformation(data));
+        }
+    };
+
+    _resetState = (type) => {
+        if (type === 'member') {
+            this.props.dispatch(_resetEditMemberInformation())
+        }else if (type === 'nonMember') {
+            this.props.dispatch(_resetEditNonMemberInformation())
+        }else {
+            this.props.dispatch(_resetEditAdministratorInformation())
+        }
+    }
+
     _onSubmitPersonalInformation = () => {
         const token = localStorage.getItem('token');
         let birth = this.state.birth;
@@ -174,7 +211,7 @@ class UserDetails extends Component {
             phone: this.state.phone,
             token
         };
-        this.props.dispatch(_editUserInformation(data));
+        this._editInformation(this.state.paramsType, data);
         message.loading('Updating data..', 0);
     };
 
@@ -199,7 +236,7 @@ class UserDetails extends Component {
                 }
             }
         };
-        this.props.dispatch(_editUserInformation(data));
+        this._editInformation(this.state.paramsType, data);
         message.loading('Updating data..', 0);
     };
 
@@ -213,24 +250,39 @@ class UserDetails extends Component {
             level: this.state.level,
             user_group: this.state.group
         }
+        this._editInformation(this.state.paramsType, data);
         message.loading('Updating data..', 0);
-        this.props.dispatch(_editUserInformation(data))
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.member.success !== this.props.member.success) {
-            if (this.props.member.success) {
+        if (prevProps[this.state.paramsType].success !== this.props[this.state.paramsType].success) {
+            if (this.props[this.state.paramsType].success) {
                 message.destroy();
                 message.success('Data Updated', 2.5);
                 const target = this.state.dataSource.email;
-                const index = this.props.member.data.map(x => x.email).indexOf(target)
+                const index = this.props[this.state.paramsType].data.map(x => x.email).indexOf(target)
                 this.setState({
                     editModePI: false,
                     editModeAI: false,
                     editModeMI: false,
-                    dataSource: this.props.member.data[index]
+                    dataSource: this.props[this.state.paramsType].data[index]
                 })
-                this.props.dispatch(_resetEditUserInformation());
+                this._resetState(this.state.paramsType)
+            }
+        }
+
+        if (prevState.dataSource !== this.state.dataSource) {
+            if (prevState.dataSource !== null) {
+                const target = this.props.match.params.id;
+                if (prevState.dataSource.status !== '') {
+                    if (this.state.dataSource.status === 'Member') {
+                        this.props.history.replace(`/user/member/${target}`);
+                    }else if (this.state.dataSource.status === 'Non Member') {
+                        this.props.history.replace(`/user/nonMember/${target}`);
+                    }else {
+                        this.props.history.replace('/administrator')
+                    }
+                }
             }
         }
 
@@ -297,6 +349,7 @@ class UserDetails extends Component {
     };
 
     render() {
+        const TabPane = Tabs.TabPane;
         return(
             <div className="animated fadeIn">
                 <Row>
@@ -362,22 +415,32 @@ class UserDetails extends Component {
                     </Col>
                 </Row>
                 <TransactionDetailsDrawer data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
-                <Row>
-                    <TypeOnline id={this.props.match.params.id} openDrawer={this._openDrawer} />
-                </Row>
-                <Row>
-                    <TypeOffline id={this.props.match.params.id} openDrawer={this._openDrawer} />
-                </Row>
-                <Row>
-                    <TypeSelfUsage id={this.props.match.params.id} openDrawer={this._openDrawer} />
-                </Row>
-                <Row>
-                    <TypeShopping id={this.props.match.params.id} openDrawer={this._openDrawer} />
-                </Row>
+                <Tabs tabBarStyle={tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
+                    <TabPane tab="Online" key="1">
+                        <Row>
+                            <TypeOnline id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Oflline" key="2">
+                        <Row>
+                            <TypeOffline id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Self Usage" key="3">
+                        <Row>
+                            <TypeSelfUsage id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="Shopping" key="4">
+                        <Row>
+                            <TypeShopping id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                        </Row>
+                    </TabPane>
+                </Tabs>
             </div>
         )
     }
-}
+};
 
 function mapDispatchToProps(dispatch) {
     return dispatch
@@ -386,3 +449,10 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapDispatchToProps
 )(UserDetails);
+
+const tabBar = {
+    backgroundColor: '#3a4149',
+    borderBottomColor: '#23282c',
+    borderBottomWidth: 1,
+    color: 'white'
+};
