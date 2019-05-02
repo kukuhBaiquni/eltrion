@@ -16,6 +16,8 @@ import PersonalInformation from './_PersonalInformation';
 import EditPersonalInformation from './_EditPersonalInformation';
 import AddressInformation from './_AddressInformation';
 import EditAddressInformation from './_EditAddressInformation';
+import MembershipInformation from './_MembershipInformation';
+import EditMembershipInformation from './_EditMembershipInformation';
 
 import { _editUserInformation, _resetEditUserInformation } from '../../Library/Redux/actions/_f_EditUserInformation';
 import { _fetchProvinces, _resetFetchProvinces } from '../../Library/Redux/actions/_f_FetchProvinces';
@@ -52,7 +54,14 @@ class UserDetails extends Component {
             rt: 0,
             rw: 0,
             latitude: 0,
-            longitude: 0
+            longitude: 0,
+
+            _id: '',
+            join: '',
+            status: '',
+            category: null,
+            level: null,
+            group: null
         };
         this._onChangeValues = this._onChangeValues.bind(this);
         this._onChangeBirth = this._onChangeBirth.bind(this);
@@ -75,82 +84,6 @@ class UserDetails extends Component {
         message.config({ top: 70, maxCount: 4 })
         this.setState({dataSource: this.props.member.data[index]})
     };
-
-    _membershipInformation = () => {
-        const { dataSource } = this.state;
-        if (dataSource !== null) {
-            return(
-                <Card className="dark-body">
-                    <CardHeader className="dark-header">
-                        Membership Information
-                        <Button onClick={() => this.setState({editModeMI: !this.state.editModeMI})} style={{float: 'right'}} size="sm" color="primary">&nbsp;&nbsp;Edit&nbsp;&nbsp;</Button>
-                    </CardHeader>
-                    <CardBody>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                User ID
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {dataSource._id}
-                            </Col>
-                        </Row>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                Join Date
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {dataSource.join === undefined ? '-' : dataSource.join}
-                            </Col>
-                        </Row>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                Status
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Badge color='success'>{dataSource.status}</Badge>
-                            </Col>
-                        </Row>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                Category
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {dataSource.category === 1 ? 'Coffee Shop' : 'Rumah Tangga'}
-                            </Col>
-                        </Row>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                Level
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {dataSource.level === null ? '-' : <Badge color='warning'>{dataSource.level}</Badge>}
-                            </Col>
-                        </Row>
-                        <Row className='personal-info-with-space'>
-                            <Col>
-                                Group
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                {dataSource.user_group === null ? '-' : <Badge color='primary'>{dataSource.user_group}</Badge>}
-                            </Col>
-                        </Row>
-                    </CardBody>
-                </Card>
-            )
-        }
-    }
 
     // ============================================================================================================================================
 
@@ -183,6 +116,18 @@ class UserDetails extends Component {
             rw: this.state.dataSource.address.rw,
             latitude: this.state.dataSource.address.geolocation.latitude,
             longitude: this.state.dataSource.address.geolocation.longitude
+        })
+    };
+
+    _toggleEditModeMI = () => {
+        this.setState({
+            editModeMI: !this.state.editModeMI,
+            _id: this.state.dataSource._id,
+            join: this.state.dataSource.join,
+            status: this.state.dataSource.status,
+            category: this.state.dataSource.category,
+            level: this.state.dataSource.level,
+            group: this.state.dataSource.user_group
         })
     };
 
@@ -256,6 +201,20 @@ class UserDetails extends Component {
         };
         this.props.dispatch(_editUserInformation(data));
         message.loading('Updating data..', 0);
+    };
+
+    _onSubmitMembershipInformation = () => {
+        const token = localStorage.getItem('token');
+        const data = {
+            token,
+            email: this.state.dataSource.email,
+            status: this.state.status,
+            category: this.state.category,
+            level: this.state.level,
+            user_group: this.state.group
+        }
+        message.loading('Updating data..', 0);
+        this.props.dispatch(_editUserInformation(data))
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -383,7 +342,23 @@ class UserDetails extends Component {
                         }
                     </Col>
                     <Col xs="12" sm="6" md="4">
-                        {this._membershipInformation()}
+                        {
+                            this.state.editModeMI
+                            ? <EditMembershipInformation
+                                data={this.state.dataSource}
+                                toggleEditMode={this._toggleEditModeMI}
+                                onChange={this._onChangeValues}
+                                onSubmit={this._onSubmitMembershipInformation}
+                                status={this.state.status}
+                                category={this.state.category}
+                                level={this.state.level}
+                                group={this.state.group}
+                                />
+                            : <MembershipInformation
+                                data={this.state.dataSource}
+                                toggleEditMode={this._toggleEditModeMI}
+                                />
+                        }
                     </Col>
                 </Row>
                 <TransactionDetailsDrawer data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />

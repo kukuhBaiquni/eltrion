@@ -29,7 +29,7 @@ export default class EditAddressInformation extends Component {
                                     <Input onChange={(x) => this.props.onChange(type[5], x.target.value)} type="text" id="street" placeholder="Enter a street name" defaultValue={this.props.data.address[type[5]]} required />
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label htmlFor="province" style={{fontWeight: 'bold', color: '#1890ff'}}>Territorial</Label>
+                                    <Label htmlFor="province" className='bold-blue'>Territorial</Label>
                                     <Col>
                                         <Label htmlFor="province">Province</Label>
                                     </Col>

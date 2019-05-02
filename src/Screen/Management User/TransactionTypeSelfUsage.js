@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
 import { _fetchTTSU } from '../../Library/Redux/actions/_f_FetchTransactionTypeSelfUsage';
-import { Pagination } from 'antd';
+import { Pagination, Empty } from 'antd';
 
 class TypeSelfUsage extends Component {
 
@@ -27,7 +27,7 @@ class TypeSelfUsage extends Component {
         for (var i = 0; i < data.length; i++) {
             let r = 0;
             let s = 0;
-            data[i].items.map(x => r += (x.up * x.qty))
+            data[i].items.map(x => r += (x.mp * x.qty))
             totalPrice.push(r)
             data[i].items.map(x => s += ((x.up - x.mp) * x.qty))
             savings.push(s)
@@ -75,13 +75,17 @@ class TypeSelfUsage extends Component {
                                 {this._renderData()}
                             </tbody>
                         </Table>
-                        <Pagination
-                            showQuickJumper
-                            defaultCurrent={1}
-                            defaultPageSize={10}
-                            total={this.props.transaction.selfUsage.totalPage*10}
-                            onChange={(page) => this._onChangePage(page)}
-                            />
+                        {
+                            this.props.transaction.selfUsage.data.length > 0
+                            ? <Pagination
+                                showQuickJumper
+                                defaultCurrent={1}
+                                defaultPageSize={10}
+                                total={this.props.transaction.selfUsage.totalPage*10}
+                                onChange={(page) => this._onChangePage(page)}
+                                />
+                            : <Empty />
+                        }
                     </CardBody>
                 </Card>
             </Col>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
 import { _fetchTTShop } from '../../Library/Redux/actions/_f_FetchTransactionTypeShopping';
-import { Pagination } from 'antd';
+import { Pagination, Empty } from 'antd';
 
 class TypeShopping extends Component {
 
@@ -69,13 +69,17 @@ class TypeShopping extends Component {
                                 {this._renderData()}
                             </tbody>
                         </Table>
-                        <Pagination
-                            showQuickJumper
-                            defaultCurrent={1}
-                            defaultPageSize={10}
-                            total={this.props.transaction.shopping.totalPage*10}
-                            onChange={(page) => this._onChangePage(page)}
-                            />
+                        {
+                            this.props.transaction.shopping.data.length > 0
+                            ? <Pagination
+                                showQuickJumper
+                                defaultCurrent={1}
+                                defaultPageSize={10}
+                                total={this.props.transaction.shopping.totalPage*10}
+                                onChange={(page) => this._onChangePage(page)}
+                                />
+                            : <Empty />
+                        }
                     </CardBody>
                 </Card>
             </Col>

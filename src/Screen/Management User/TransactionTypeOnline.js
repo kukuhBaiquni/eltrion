@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import '../Style.scss';
 import { _fetchTTOn } from '../../Library/Redux/actions/_f_FetchTransactionTypeOnline';
-import { Pagination } from 'antd';
+import { Pagination, Empty } from 'antd';
 
 class TypeOnline extends Component {
 
@@ -75,13 +75,17 @@ class TypeOnline extends Component {
                                 {this._renderData()}
                             </tbody>
                         </Table>
-                        <Pagination
-                            showQuickJumper
-                            defaultCurrent={1}
-                            defaultPageSize={10}
-                            total={this.props.transaction.online.totalPage*10}
-                            onChange={(page) => this._onChangePage(page)}
-                            />
+                        {
+                            this.props.transaction.online.data.length > 0
+                            ? <Pagination
+                                showQuickJumper
+                                defaultCurrent={1}
+                                defaultPageSize={10}
+                                total={this.props.transaction.online.totalPage*10}
+                                onChange={(page) => this._onChangePage(page)}
+                                />
+                            : <Empty />
+                        }
                     </CardBody>
                 </Card>
             </Col>

@@ -19,6 +19,15 @@ export default class TransactionDetailsDrawer extends Component {
 
     _baseInformation = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
+            let total = this.props.data.total_price;
+            let _total = 0;
+            if (this.props.data.type === 'SELF USAGE') {
+                this.props.data.items.map(x => _total += (x.mp * x.qty));
+                total = _total;
+            }else if (this.props.data.type === 'OFFLINE') {
+                this.props.data.items.map(x => _total += (x.up * x.qty));
+                total = _total;
+            }
             return(
                 <Row>
                     <Row>
@@ -58,7 +67,7 @@ export default class TransactionDetailsDrawer extends Component {
                             Total Price
                         </Col>
                         <Col span={6}>
-                            {currency(this.props.data.total_price)}
+                            {currency(total)}
                         </Col>
                     </Row>
                 </Row>
@@ -68,6 +77,12 @@ export default class TransactionDetailsDrawer extends Component {
 
     _loopData = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
+            let price = '';
+            if (this.props.data.type === 'SELF USAGE' || this.props.data.type === 'SHOPPING') {
+                price = 'i';
+            }else {
+                price = 'ii';
+            }
             return(
                 this.props.data.items.map((x, i) =>
                     <Row style={{marginBottom: 15}} key={i}>
@@ -75,7 +90,7 @@ export default class TransactionDetailsDrawer extends Component {
                             <Col span={6}>
                                 Product Name
                             </Col>
-                            <Col span={6}>
+                            <Col span={12}>
                                 {x.productname === undefined ? 'Another Product' : x.productname}
                             </Col>
                         </Row>
@@ -84,7 +99,7 @@ export default class TransactionDetailsDrawer extends Component {
                                 Price
                             </Col>
                             <Col span={6}>
-                                {currency(x.up)}
+                                {price === 'i' ? currency(x.mp) : currency(x.up)}
                             </Col>
                         </Row>
                         <Row>
@@ -100,7 +115,7 @@ export default class TransactionDetailsDrawer extends Component {
                                 Subtotal
                             </Col>
                             <Col span={6}>
-                                {currency(x.up * x.qty)}
+                                {price === 'i' ? currency(x.mp * x.qty) : currency(x.up * x.qty)}
                             </Col>
                         </Row>
                     </Row>

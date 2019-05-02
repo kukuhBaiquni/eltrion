@@ -1,6 +1,6 @@
-// export const SERVER_URL = 'http://halalbeef.co.id/';
-// export const SERVER_URL = 'http://192.168.0.110/';
-export const SERVER_URL = 'http://192.168.43.24/';
+export const SERVER_URL = 'http://halalbeef.co.id/';
+// export const SERVER_URL = 'http://192.168.0.102/';
+// export const SERVER_URL = 'http://192.168.43.24/';
 
 export const VC_ID = (data) => {
     if (data < 1000000 && data > 99999 && typeof data === 'number') {

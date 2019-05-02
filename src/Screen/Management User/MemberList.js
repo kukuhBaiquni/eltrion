@@ -22,7 +22,7 @@ class MemberList extends Component {
         const level = ['Bronze', 'Silver', 'Gold', 'Platinum'];
         const colorLevel = ['warning', 'secondary', 'warning', 'danger'];
         const group = ['Passive', 'Active', 'Loyal'];
-        const colorGroup = ['secondary', 'info', 'success']
+        const colorGroup = ['secondary', 'info', 'success'];
         return(
             data.map((x, i) =>
                 <tr key={i}>
