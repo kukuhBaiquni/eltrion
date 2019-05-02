@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Label } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Pagination } from 'antd';
+import { Pagination, Form, Input, Button, Switch, Empty } from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import { _fetchNonMember, _resetFetchNonMember } from '../../Library/Redux/actions/_f_FetchListNonMember';
+import { _filterNonMember, _resetFilterNonMember } from '../../Library/Redux/actions/_f_FilterNonMember';
 import { Link } from 'react-router-dom';
 
 class MemberList extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            filterState: [
+                {label: 'Filter by Name', checked: true, key: 'name'},
+                {label: 'Filter by Shop Name', checked: false, key: 'address.nama_toko'},
+                {label: 'Filter by Email', checked: false, key: 'email'}
+            ]
+        }
+    };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
         this.props.dispatch(_fetchNonMember({index: 0, token}))
-    }
+    };
 
     _renderData = () => {
         const data = this.props.nonMember.data;
@@ -59,13 +71,61 @@ class MemberList extends Component {
         this.props.dispatch(_fetchNonMember({index: page - 1, token}))
     };
 
+    _onChangeSwitch(x, c) {
+        let clone = [...this.state.filterState];
+        for (var i = 0; i < clone.length; i++) {
+            if (c !== i) {
+                if (x) {
+                    clone[i].checked = false;
+                }
+            }else{
+                clone[i].checked = x;
+            }
+        }
+        this.setState({filterState: clone});
+    };
+
+    _onChangeFilterInput(x, c) {
+        const token = localStorage.getItem('token');
+        if (x.target.value !== '') {
+            const data = {
+                status: 'Non Member',
+                type: this.state.filterState[c].key,
+                query: x.target.value,
+                index: 0,
+                token
+            }
+            this.props.dispatch(_filterNonMember(data));
+        }else{
+            this.props.dispatch(_fetchNonMember({index: 0, token}));
+        }
+    };
+
+    _renderFilter = () => {
+        const data = this.state.filterState;
+        return(
+            data.map((x, i) =>
+            <Col xs="3" key={i}>
+                <Label htmlFor="name">{x.label}</Label>{' '}
+                <Switch checked={x.checked} onChange={(r, z) => this._onChangeSwitch(r, i)} size="small" />
+                <Form.Item
+                    hasFeedback
+                    validateStatus=""
+                    >
+                    <Input allowClear disabled={!x.checked} onChange={(r, z) => this._onChangeFilterInput(r, i)} placeholder="Type something.." id="name" />
+                </Form.Item>
+            </Col>
+            )
+        )
+    };
+
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.nonMember.success !== this.props.nonMember.success) {
             if (this.props.nonMember.success) {
                 this.props.dispatch(_resetFetchNonMember());
             }
         }
-    }
+    };
 
     render() {
         return(
@@ -77,6 +137,9 @@ class MemberList extends Component {
                                 <h4 style={{fontSize: 'bold', color: 'white'}}>Non Member List</h4>
                             </CardHeader>
                             <CardBody>
+                                <Row>
+                                    {this._renderFilter()}
+                                </Row>
                                 <Table responsive striped>
                                     <thead  onClick={this._showDrawer}>
                                         <tr>
@@ -95,7 +158,11 @@ class MemberList extends Component {
                                         {this._renderData()}
                                     </tbody>
                                 </Table>
-                                {this._pagination()}
+                                {
+                                    this.props.nonMember.data.length > 0
+                                    ? this._pagination()
+                                    : <Empty />
+                                }
                             </CardBody>
                         </Card>
                     </Col>

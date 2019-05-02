@@ -53,6 +53,25 @@ export default function nonMember(state = initialState, action) {
             success: false, error: false
         });
 
+        case 'FILTER_NON_MEMBER_SUCCESS':
+        return Object.assign({}, state, {
+            currentPage: action.data.currentPage,
+            totalPage: action.data.totalPage,
+            data: action.data.data,
+            success: true,
+            error: false
+        });
+
+        case 'FILTER_NON_MEMBER_FAILED':
+        return Object.assign({}, state, {
+            success: false, error: true
+        });
+
+        case 'RESET_FILTER_NON_MEMBER_STATE':
+        return Object.assign({}, state, {
+            success: false, error: false
+        });
+
         default:
         return state;
     }
