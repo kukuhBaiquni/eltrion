@@ -55,19 +55,19 @@ export default {
         children: [
             {
                 name: 'Online Transaction',
-                url: '/online'
+                url: '/transaction/list/online'
             },
             {
                 name: 'Offline Transaction',
-                url: '/offline'
+                url: '/transaction/list/offline'
             },
             {
                 name: 'Self Usage',
-                url: '/sef-usage'
+                url: '/transaction/list/selfUsage'
             },
             {
-                name: 'Shooping',
-                url: '/shooping'
+                name: 'Shopping',
+                url: '/transaction/list/shopping'
             }
         ]
     },

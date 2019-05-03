@@ -5,6 +5,7 @@ import moment from 'moment';
 import '../Style.scss';
 import { _fetchTTSU } from '../../Library/Redux/actions/_f_FetchTransactionTypeSelfUsage';
 import { Pagination, Empty } from 'antd';
+import { currency } from '../../Configuration';
 
 class TypeSelfUsage extends Component {
 
@@ -16,8 +17,8 @@ class TypeSelfUsage extends Component {
         }))
     }
 
-    _indexer(type, data) {
-        this.props.openDrawer(type, data)
+    _indexer(data) {
+        this.props.openDrawer(data)
     }
 
     _renderData = () => {
@@ -36,7 +37,7 @@ class TypeSelfUsage extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.selfUsage.currentPage*10))}</td>
-                    <td onClick={() => this._indexer('selfusage', x)}>{x.trx}</td>
+                    <td onClick={() => this._indexer(x)}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='warning'>{x.type}</Badge></td>
                     <td>{currency(savings[i])}</td>
@@ -92,11 +93,6 @@ class TypeSelfUsage extends Component {
         )
     }
 }
-
-function currency(x) {
-    if (x !== undefined)
-    return 'Rp. ' + x.toLocaleString('IT-it') + ',-';
-};
 
 function mapDispatchToProps(dispatch) {
     return dispatch

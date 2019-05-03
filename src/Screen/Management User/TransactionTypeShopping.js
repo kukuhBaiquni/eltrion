@@ -16,8 +16,8 @@ class TypeShopping extends Component {
         }))
     }
 
-    _indexer(type, data) {
-        this.props.openDrawer(type, data)
+    _indexer(data) {
+        this.props.openDrawer(data)
     }
 
     _renderData = () => {
@@ -32,7 +32,7 @@ class TypeShopping extends Component {
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.shopping.currentPage*10))}</td>
-                    <td onClick={() => this._indexer('shopping', x)}>{x.trx}</td>
+                    <td onClick={() => this._indexer(x)}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY - HH:mm')}</td>
                     <td><Badge color='secondary'>{x.type}</Badge></td>
                     <td>{currency(totalPrice[i])}</td>

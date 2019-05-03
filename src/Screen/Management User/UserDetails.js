@@ -10,7 +10,11 @@ import TypeOnline from './TransactionTypeOnline';
 import TypeOffline from './TransactionTypeOffline';
 import TypeSelfUsage from './TransactionTypeSelfUsage';
 import TypeShopping from './TransactionTypeShopping';
+
 import TransactionDetailsDrawer from './TransactionDetailsDrawer';
+import TransactionDetailsDrawerOffline from './TransactionDetailsDrawerOffline';
+import TransactionDetailsDrawerOnline from './TransactionDetailsDrawerOnline';
+import TransactionDetailsDrawerSelfUsage from './TransactionDetailsDrawerSelfUsage';
 
 import PersonalInformation from './_PersonalInformation';
 import EditPersonalInformation from './_EditPersonalInformation';
@@ -33,8 +37,16 @@ class UserDetails extends Component {
         super(props)
         this.state = {
             dataSource: null,
-            isDrawerVisible: false,
-            drawerData: null,
+
+            visibilityOnlineDrawer: false,
+            visibilityOfflineDrawer: false,
+            visibilitySelfUsageDrawer: false,
+            visibilityShoppingDrawer: false,
+
+            drawerDataOnline: null,
+            drawerDataOffline: null,
+            drawerDataSelfUsage: null,
+            drawerDataShopping: null,
 
             paramsType: '',
 
@@ -72,16 +84,15 @@ class UserDetails extends Component {
         this._onChangeBirth = this._onChangeBirth.bind(this);
     };
 
-    _openDrawer = (x, r) => {
-        this.setState({
-            isDrawerVisible: true,
-            drawerData: r
-        })
-    };
+    _openDrawerOnline = (data) => { this.setState({ visibilityOnlineDrawer: true, drawerDataOnline: data }) };
+    _openDrawerOffline = (data) => { this.setState({ visibilityOfflineDrawer: true, drawerDataOffline: data }) };
+    _openDrawerSelfUsage = (data) => { this.setState({ visibilitySelfUsageDrawer: true, drawerDataSelfUsage: data }) };
+    _openDrawerShopping = (data) => { this.setState({ visibilityShoppingDrawer: true, drawerDataShopping: data }) };
 
-    _closeDrawer = () => {
-        this.setState({isDrawerVisible: false})
-    };
+    _closeDrawerOnline = () => { this.setState({visibilityOnlineDrawer: false}) };
+    _closeDrawerOffline = () => { this.setState({visibilityOfflineDrawer: false}) };
+    _closeDrawerSelfUsage = () => { this.setState({visibilitySelfUsageDrawer: false}) };
+    _closeDrawerShopping = () => { this.setState({visibilityShoppingDrawer: false}) };
 
     _onChangeTabs() {
         this.setState({showContent: !this.state.showContent})
@@ -414,21 +425,23 @@ class UserDetails extends Component {
                         }
                     </Col>
                 </Row>
-                <TransactionDetailsDrawer data={this.state.drawerData} isVisible={this.state.isDrawerVisible} closeDrawer={this._closeDrawer} />
+                <TransactionDetailsDrawerOffline data={this.state.drawerDataOffline} isVisible={this.state.visibilityOfflineDrawer} closeDrawer={this._closeDrawerOffline} />
+                <TransactionDetailsDrawerOnline data={this.state.drawerDataOnline} isVisible={this.state.visibilityOnlineDrawer} closeDrawer={this._closeDrawerOnline} />
+                <TransactionDetailsDrawerSelfUsage data={this.state.drawerDataSelfUsage} isVisible={this.state.visibilitySelfUsageDrawer} closeDrawer={this._closeDrawerSelfUsage} />
                 <Tabs tabBarStyle={tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
                     <TabPane tab="Online" key="1">
                         <Row>
-                            <TypeOnline id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                            <TypeOnline id={this.props.match.params.id} openDrawer={this._openDrawerOnline} />
                         </Row>
                     </TabPane>
                     <TabPane tab="Oflline" key="2">
                         <Row>
-                            <TypeOffline id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                            <TypeOffline id={this.props.match.params.id} openDrawer={this._openDrawerOffline} />
                         </Row>
                     </TabPane>
                     <TabPane tab="Self Usage" key="3">
                         <Row>
-                            <TypeSelfUsage id={this.props.match.params.id} openDrawer={this._openDrawer} />
+                            <TypeSelfUsage id={this.props.match.params.id} openDrawer={this._openDrawerSelfUsage} />
                         </Row>
                     </TabPane>
                     <TabPane tab="Shopping" key="4">

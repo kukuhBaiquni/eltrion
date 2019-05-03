@@ -45,6 +45,10 @@ const NonMemberList = React.lazy(() => import('./Screen/Management User/NonMembe
 const AdministratorList = React.lazy(() => import('./Screen/Management User/AdministratorList'));
 
 const UserDetails = React.lazy(() => import('./Screen/Management User/UserDetails'));
+const TransactionUniversal = React.lazy(() => import('./Screen/Transaction/TransactionUniversal'));
+const TransactionOffline = React.lazy(() => import('./Screen/Transaction/TransactionOffline'));
+const TransactionOnline = React.lazy(() => import('./Screen/Transaction/TransactionOnline'));
+const TransactionSelfUsage = React.lazy(() => import('./Screen/Transaction/TransactionSelfUsage'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -95,7 +99,10 @@ const routes = [
   { path: '/non-member', exact: true, name: 'Non Member List', component: NonMemberList},
   { path: '/administrator', exact: true, name: 'Administrator List', component: AdministratorList},
   { path: '/user/:type/:id', exact: true, name: 'Details', component: UserDetails},
-  { path: '/add-product', name: 'Add Product', component: AddProduct}
+  { path: '/add-product', name: 'Add Product', component: AddProduct},
+  { path: '/transaction/list/offline', name: 'Transaction Offline', component: TransactionOffline},
+  { path: '/transaction/list/online', name: 'Transaction Online', component: TransactionOnline},
+  { path: '/transaction/list/selfUsage', name: 'Self Usage', component: TransactionSelfUsage},
 ];
 
 export default routes;
