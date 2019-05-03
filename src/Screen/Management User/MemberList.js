@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Badge, Card, CardBody, CardHeader, Col, Row, Table, Label } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Pagination } from 'antd';
+import { Pagination, Form, Input, Button, Switch, Empty } from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import { _fetchMember, _resetFetchMember } from '../../Library/Redux/actions/_f_FetchListMember';
+import { _filterMember, _resetFilterMember } from '../../Library/Redux/actions/_f_FilterMember';
 import { Link } from 'react-router-dom';
 
 class MemberList extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            filterState: [
+                {label: 'Filter by Name', checked: true, key: 'name', value: ''},
+                {label: 'Filter by Shop Name', checked: false, key: 'address.nama_toko', value: ''},
+                {label: 'Filter by Email', checked: false, key: 'email', value: ''}
+            ],
+            page: 1
+        }
+    };
 
     componentDidMount() {
         const token = localStorage.getItem('token');
         this.props.dispatch(_fetchMember({index: 0, token}))
-    }
+    };
 
     _renderData = () => {
         const data = this.props.member.data;
@@ -44,6 +57,7 @@ class MemberList extends Component {
         if (this.props.member.totalPage !== null) {
             return(
                 <Pagination
+                    current={this.state.page}
                     showQuickJumper
                     defaultCurrent={1}
                     defaultPageSize={5}
@@ -56,16 +70,84 @@ class MemberList extends Component {
 
     _onChangePage(page) {
         const token = localStorage.getItem('token');
-        this.props.dispatch(_fetchMember({index: page - 1, token}))
+        const condition = this.state.filterState.filter(x => x.checked);
+        if (condition.length > 0 && condition[0].value !== '') {
+            const data = {
+                status: 'Member',
+                type: condition[0].key,
+                query: condition[0].value,
+                index: page - 1,
+                token
+            }
+            this.props.dispatch(_filterMember(data));
+        }else{
+            this.props.dispatch(_fetchMember({index: page - 1, token}));
+        }
+        this.setState({page});
+    };
+
+    _onChangeSwitch(x, c) {
+        let clone = [...this.state.filterState];
+        for (var i = 0; i < clone.length; i++) {
+            if (c !== i) {
+                if (x) {
+                    clone[i].checked = false;
+                }
+            }else{
+                clone[i].checked = x;
+            }
+        }
+        this.setState({filterState: clone});
+    };
+
+    _onChangeFilterInput(x, c) {
+        const token = localStorage.getItem('token');
+        let clone = [...this.state.filterState];
+        clone[c].value = x.target.value;
+        this.setState({filterState: clone});
+        if (x.target.value !== '') {
+            const data = {
+                status: 'Member',
+                type: this.state.filterState[c].key,
+                query: x.target.value,
+                index: 0,
+                token
+            }
+            this.props.dispatch(_filterMember(data));
+        }else{
+            this.setState({page: 1});
+            this.props.dispatch(_fetchMember({index: 0, token}));
+        }
+    };
+
+    _renderFilter = () => {
+        const data = this.state.filterState;
+        return(
+            data.map((x, i) =>
+            <Col xs="3" key={i}>
+                <Label htmlFor="name">{x.label}</Label>{' '}
+                <Switch checked={x.checked} onChange={(r, z) => this._onChangeSwitch(r, i)} size="small" />
+                <Form.Item
+                    hasFeedback
+                    validateStatus=""
+                    >
+                    <Input allowClear disabled={!x.checked} onChange={(r, z) => this._onChangeFilterInput(r, i)} placeholder="Type something.." id="name" />
+                </Form.Item>
+            </Col>
+            )
+        )
     };
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.member.success !== this.props.member.success) {
             if (this.props.member.success) {
                 this.props.dispatch(_resetFetchMember());
+                if (prevProps.member.totalPage !== this.props.member.totalPage) {
+                    this.setState({page: 1})
+                }
             }
         }
-    }
+    };
 
     render() {
         return(
@@ -77,6 +159,9 @@ class MemberList extends Component {
                                 <h4 style={{fontSize: 'bold', color: 'white'}}>Member List</h4>
                             </CardHeader>
                             <CardBody>
+                                <Row>
+                                    {this._renderFilter()}
+                                </Row>
                                 <Table responsive striped>
                                     <thead  onClick={this._showDrawer}>
                                         <tr>
@@ -95,7 +180,11 @@ class MemberList extends Component {
                                         {this._renderData()}
                                     </tbody>
                                 </Table>
-                                {this._pagination()}
+                                {
+                                    this.props.member.data.length > 0
+                                    ? this._pagination()
+                                    : <Empty />
+                                }
                             </CardBody>
                         </Card>
                     </Col>

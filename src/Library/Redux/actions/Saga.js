@@ -23,6 +23,8 @@ import { o_fetchDistricts } from './_f_FetchDistricts';
 import { o_fetchVillages } from './_f_FetchVillages';
 
 import { o_filterNonMember } from './_f_FilterNonMember';
+import { o_filterMember } from './_f_FilterMember';
+import { o_filterAdministrator } from './_f_FilterAdministrator';
 
 export default function* rootSaga() {
     yield all([
@@ -49,6 +51,9 @@ export default function* rootSaga() {
         o_fetchDistricts(),
         o_fetchVillages(),
 
-        o_filterNonMember()
+        o_filterNonMember(),
+        o_filterMember(),
+        o_filterAdministrator(),
+
     ]);
 };

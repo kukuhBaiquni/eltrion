@@ -53,6 +53,25 @@ export default function administrator(state = initialState, action) {
             success: false, error: false
         });
 
+        case 'FILTER_ADMINISTRATOR_SUCCESS':
+        return Object.assign({}, state, {
+            currentPage: action.data.currentPage,
+            totalPage: action.data.totalPage,
+            data: action.data.data,
+            success: true,
+            error: false
+        });
+
+        case 'FILTER_ADMINISTRATOR_FAILED':
+        return Object.assign({}, state, {
+            success: false, error: true
+        });
+
+        case 'RESET_FILTER_ADMINISTRATOR_STATE':
+        return Object.assign({}, state, {
+            success: false, error: false
+        });
+
         default:
         return state;
     }

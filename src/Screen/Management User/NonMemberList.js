@@ -15,10 +15,11 @@ class MemberList extends Component {
 
         this.state = {
             filterState: [
-                {label: 'Filter by Name', checked: true, key: 'name'},
-                {label: 'Filter by Shop Name', checked: false, key: 'address.nama_toko'},
-                {label: 'Filter by Email', checked: false, key: 'email'}
-            ]
+                {label: 'Filter by Name', checked: true, key: 'name', value: ''},
+                {label: 'Filter by Shop Name', checked: false, key: 'address.nama_toko', value: ''},
+                {label: 'Filter by Email', checked: false, key: 'email', value: ''}
+            ],
+            page: 1
         }
     };
 
@@ -56,10 +57,11 @@ class MemberList extends Component {
         if (this.props.nonMember.totalPage !== null) {
             return(
                 <Pagination
+                    current={this.state.page}
                     showQuickJumper
                     defaultCurrent={1}
-                    defaultPageSize={5}
-                    total={this.props.nonMember.totalPage*5}
+                    defaultPageSize={10}
+                    total={this.props.nonMember.totalPage*10}
                     onChange={(page) => this._onChangePage(page)}
                     />
             )
@@ -68,7 +70,20 @@ class MemberList extends Component {
 
     _onChangePage(page) {
         const token = localStorage.getItem('token');
-        this.props.dispatch(_fetchNonMember({index: page - 1, token}))
+        const condition = this.state.filterState.filter(x => x.checked);
+        if (condition.length > 0 && condition[0].value !== '') {
+            const data = {
+                status: 'Non Member',
+                type: condition[0].key,
+                query: condition[0].value,
+                index: page - 1,
+                token
+            }
+            this.props.dispatch(_filterNonMember(data));
+        }else{
+            this.props.dispatch(_fetchNonMember({index: page - 1, token}));
+        }
+        this.setState({page});
     };
 
     _onChangeSwitch(x, c) {
@@ -87,6 +102,9 @@ class MemberList extends Component {
 
     _onChangeFilterInput(x, c) {
         const token = localStorage.getItem('token');
+        let clone = [...this.state.filterState];
+        clone[c].value = x.target.value;
+        this.setState({filterState: clone});
         if (x.target.value !== '') {
             const data = {
                 status: 'Non Member',
@@ -97,6 +115,7 @@ class MemberList extends Component {
             }
             this.props.dispatch(_filterNonMember(data));
         }else{
+            this.setState({page: 1});
             this.props.dispatch(_fetchNonMember({index: 0, token}));
         }
     };
@@ -123,6 +142,9 @@ class MemberList extends Component {
         if (prevProps.nonMember.success !== this.props.nonMember.success) {
             if (this.props.nonMember.success) {
                 this.props.dispatch(_resetFetchNonMember());
+                if (prevProps.nonMember.totalPage !== this.props.nonMember.totalPage) {
+                    this.setState({page: 1})
+                }
             }
         }
     };
