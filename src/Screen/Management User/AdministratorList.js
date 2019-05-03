@@ -139,10 +139,10 @@ class MemberList extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.nonMember.success !== this.props.administrator.success) {
+        if (prevProps.administrator.success !== this.props.administrator.success) {
             if (this.props.administrator.success) {
                 this.props.dispatch(_resetFetchAdministrator());
-                if (prevProps.nonMember.totalPage !== this.props.administrator.totalPage) {
+                if (prevProps.administrator.totalPage !== this.props.administrator.totalPage) {
                     this.setState({page: 1})
                 }
             }

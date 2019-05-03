@@ -49,6 +49,28 @@ export default {
             }
         ]
     },
+    {
+        name: 'Transaction',
+        icon: 'icon-pie-chart',
+        children: [
+            {
+                name: 'Online Transaction',
+                url: '/online'
+            },
+            {
+                name: 'Offline Transaction',
+                url: '/offline'
+            },
+            {
+                name: 'Self Usage',
+                url: '/sef-usage'
+            },
+            {
+                name: 'Shooping',
+                url: '/shooping'
+            }
+        ]
+    },
     // {
       // title: true,
       // name: 'Theme',

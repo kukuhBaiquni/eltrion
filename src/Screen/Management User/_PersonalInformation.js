@@ -78,7 +78,7 @@ export default class PersonalInformation extends Component {
             <div>
                 <Row className='personal-info-with-space'>
                     <Col>
-                        Email
+                        Email {this.props.data.is_valid ? <Badge color='success'>VERIFIED</Badge> : <Badge color='danger'>NOT VERIFIED</Badge>}
                     </Col>
                 </Row>
                 <Row>
