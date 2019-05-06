@@ -31,6 +31,11 @@ import { o_fetchAllOffline } from './_f_FetchAllTransactionTypeOffline';
 import { o_fetchAllSelfUsage } from './_f_FetchAllTransactionTypeSelfUsage';
 import { o_fetchAllShopping } from './_f_FetchAllTransactionTypeShopping';
 
+import { o_filterTransactionOffline } from './_f_FilterTransactionOffline';
+import { o_filterTransactionOnline } from './_f_FilterTransactionOnline';
+import { o_filterTransactionSelfUsage } from './_f_FilterTransactionSelfUsage';
+import { o_filterTransactionShopping } from './_f_FilterTransactionShopping';
+
 export default function* rootSaga() {
     yield all([
         o_fetchProducts(),
@@ -64,5 +69,10 @@ export default function* rootSaga() {
         o_fetchAllOffline(),
         o_fetchAllSelfUsage(),
         o_fetchAllShopping(),
+
+        o_filterTransactionOffline(),
+        o_filterTransactionOnline(),
+        o_filterTransactionShopping(),
+        o_filterTransactionSelfUsage()
     ]);
 };

@@ -32,6 +32,8 @@ import { _fetchCities, _resetFetchCities, _clearCities } from '../../Library/Red
 import { _fetchDistricts, _resetFetchDistricts, _clearDistricts } from '../../Library/Redux/actions/_f_FetchDistricts';
 import { _fetchVillages, _resetFetchVillages, _clearVillages } from '../../Library/Redux/actions/_f_FetchVillages';
 
+import MemberStock from './MemberStock';
+
 class UserDetails extends Component {
     constructor(props) {
         super(props)
@@ -450,6 +452,7 @@ class UserDetails extends Component {
                         </Row>
                     </TabPane>
                 </Tabs>
+                {this.state.dataSource !== null && <MemberStock data={this.state.dataSource.stock.sort((a, b) => a.id - b.id)} total={this.state.dataSource.stock.length} />}
             </div>
         )
     }

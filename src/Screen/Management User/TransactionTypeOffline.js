@@ -14,11 +14,11 @@ class TypeOffline extends Component {
         this.props.dispatch(_fetchTTOff({
             id, token, page: 0
         }))
-    }
+    };
 
     _indexer(data) {
         this.props.openDrawer(data)
-    }
+    };
 
     _renderData = () => {
         const data = this.props.transaction.offline.data;
@@ -31,7 +31,7 @@ class TypeOffline extends Component {
             totalPrice.push(r)
             data[i].items.map(x => s += ((x.up - x.mp) * x.qty))
             profit.push(s)
-        }
+        };
         return(
             data.map((x, i) =>
                 <tr key={i}>
@@ -50,7 +50,7 @@ class TypeOffline extends Component {
         const token = localStorage.getItem('token');
         const id = this.props.id;
         this.props.dispatch(_fetchTTOff({page: page - 1, token, id}))
-    }
+    };
 
     render() {
         return(

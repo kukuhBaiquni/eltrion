@@ -6,6 +6,7 @@ import moment from 'moment';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import { _fetchAllOnline, _resetFetchAllOnline } from '../../Library/Redux/actions/_f_FetchAllTransactionTypeOnline';
+import { _filterTransactionOnline, _resetFilterTransactionOnline } from '../../Library/Redux/actions/_f_FilterTransactionOnline';
 import { Link } from 'react-router-dom';
 import { currency } from '../../Configuration';
 
@@ -15,7 +16,7 @@ class TransactionOnline extends Component {
 
         this.state = {
             filterState: [
-                {label: 'Filter by TRX', checked: false, key: 'trx', value: ''},
+                {label: 'Filter by TRX', checked: true, key: 'trx', value: ''},
                 {label: 'Filter by User Name', checked: false, key: 'username', value: ''},
                 {label: 'Filter by Status', checked: false, key: 'status', value: ''}
             ],
@@ -71,46 +72,46 @@ class TransactionOnline extends Component {
                 index: page - 1,
                 token
             }
-            // this.props.dispatch(_filterNonMember(data));
+            this.props.dispatch(_filterTransactionOnline(data));
         }else{
             this.props.dispatch(_fetchAllOnline({index: page - 1, token}));
         }
         this.setState({page});
     };
 
-    // _onChangeSwitch(x, c) {
-    //     let clone = [...this.state.filterState];
-    //     for (var i = 0; i < clone.length; i++) {
-    //         if (c !== i) {
-    //             if (x) {
-    //                 clone[i].checked = false;
-    //             }
-    //         }else{
-    //             clone[i].checked = x;
-    //         }
-    //     }
-    //     this.setState({filterState: clone});
-    // };
-    //
-    // _onChangeFilterInput(x, c) {
-    //     const token = localStorage.getItem('token');
-    //     let clone = [...this.state.filterState];
-    //     clone[c].value = x.target.value;
-    //     this.setState({filterState: clone});
-    //     if (x.target.value !== '') {
-    //         const data = {
-    //             status: 'Non Member',
-    //             type: this.state.filterState[c].key,
-    //             query: x.target.value,
-    //             index: 0,
-    //             token
-    //         }
-    //         this.props.dispatch(_filterNonMember(data));
-    //     }else{
-    //         this.setState({page: 1});
-    //         this.props.dispatch(_fetchNonMember({index: 0, token}));
-    //     }
-    // };
+    _onChangeSwitch(x, c) {
+        let clone = [...this.state.filterState];
+        for (var i = 0; i < clone.length; i++) {
+            if (c !== i) {
+                if (x) {
+                    clone[i].checked = false;
+                }
+            }else{
+                clone[i].checked = x;
+            }
+        }
+        this.setState({filterState: clone});
+    };
+
+    _onChangeFilterInput(x, c) {
+        const token = localStorage.getItem('token');
+        let clone = [...this.state.filterState];
+        clone[c].value = x.target.value;
+        this.setState({filterState: clone});
+        if (x.target.value !== '') {
+            const data = {
+                status: 'Non Member',
+                type: this.state.filterState[c].key,
+                query: x.target.value,
+                index: 0,
+                token
+            }
+            this.props.dispatch(_filterTransactionOnline(data));
+        }else{
+            this.setState({page: 1});
+            this.props.dispatch(_fetchAllOnline({index: 0, token}));
+        }
+    };
 
     _renderFilter = () => {
         const data = this.state.filterState;
@@ -118,7 +119,7 @@ class TransactionOnline extends Component {
             data.map((x, i) =>
             <Col xs="3" key={i}>
                 <Label htmlFor="name">{x.label}</Label>{' '}
-                <Switch checked={x.checked} disabled onChange={(r, z) => this._onChangeSwitch(r, i)} size="small" />
+                <Switch checked={x.checked} onChange={(r, z) => this._onChangeSwitch(r, i)} size="small" />
                 <Form.Item
                     hasFeedback
                     validateStatus=""
@@ -133,7 +134,7 @@ class TransactionOnline extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.transaction.online.success !== this.props.transaction.online.success) {
             if (this.props.transaction.online.success) {
-                this.props.dispatch(_resetFetchAllOnline());
+                this.props.dispatch(_resetFilterTransactionOnline());
                 if (prevProps.transaction.online.totalPage !== this.props.transaction.online.totalPage) {
                     this.setState({page: 1})
                 }
