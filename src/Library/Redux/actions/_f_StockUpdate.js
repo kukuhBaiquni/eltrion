@@ -36,7 +36,7 @@ function* k_stockUpdate(form) {
     try{
         var response = yield call(() => {
             return request
-            .post(`${SERVER_URL}admin/stock/update`)
+            .post(`${SERVER_URL}admin/stock/update/admin-web`)
             .set('Authorization', `${form.data.token}`)
             .send({value: form.data.value})
             .send({id: form.data.id})
@@ -45,8 +45,8 @@ function* k_stockUpdate(form) {
                 return res;
             })
         });
-        yield put(_filterTransactionSelfUsage_V(response.body));
+        yield put(_stockUpdate_V(response.body.data));
     }catch (error) {
-        yield put(_filterTransactionSelfUsage_X('Error when loading data!'));
+        yield put(_stockUpdate_X('Error when loading data!'));
     };
 }
