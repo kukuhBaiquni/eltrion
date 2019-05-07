@@ -20,14 +20,6 @@ export default class StockMember extends Component {
         this.setState({dataHandler: clone.slice(0, 10)});
     };
 
-    confirm(e) {
-        console.log(e);
-    }
-
-    cancel(e) {
-        console.log(e);
-    }
-
     _renderData = () => {
         const data = this.state.dataHandler;
         return(
@@ -35,6 +27,7 @@ export default class StockMember extends Component {
                 <tr key={i}>
                     <td>{x.id}</td>
                     <td style={{cursor: 'pointer'}}>{x.productname}</td>
+                    <td>{x.packing === 1 ? '500gr' : '1000gr'}/{x.unit}</td>
                     <td>{x.landingprice === undefined ? '-' : currency(x.enduserprice)}</td>
                     <td>{currency(x.resellerprice)}</td>
                     <td>{currency(x.enduserprice)}</td>
@@ -67,6 +60,7 @@ export default class StockMember extends Component {
                                 <tr>
                                     <th>ID</th>
                                     <th>Product Name</th>
+                                    <th>Packing</th>
                                     <th>Landing Price</th>
                                     <th>Member Price</th>
                                     <th>Non Member Price</th>
