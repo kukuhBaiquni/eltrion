@@ -72,6 +72,25 @@ export default function member(state = initialState, action) {
             success: false, error: false
         });
 
+        case 'STOCK_UPDATE_SUCCESS':
+        let copy = [...state.data];
+        const i = state.data.map(x => x.email).indexOf(action.data.email);
+        copy[i] = action.data;
+        return Object.assign({}, state, {
+            data: copy, success: true, error: false
+        });
+
+        case 'STOCK_UPDATE_FAILED':
+        return Object.assign({}, state, {
+            success: false, error: true
+        });
+
+        case 'RESET_STOCK_UPDATE_STATE':
+        return Object.assign({}, state, {
+            success: false, error: false
+        });
+
+
         default:
         return state;
     }

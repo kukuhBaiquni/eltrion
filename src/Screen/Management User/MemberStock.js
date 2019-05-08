@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import '../Style.scss';
-import { Pagination, Empty, Input } from 'antd';
+import { Pagination, Empty, Input, message } from 'antd';
 import { Badge, Card, CardBody, CardHeader, Col, Table, Button, Row } from 'reactstrap';
 import { currency } from '../../Configuration';
 import 'antd/dist/antd.css';
@@ -44,15 +44,18 @@ class StockMember extends Component {
         clone[i].inputHandler = x.target.value;
     };
 
-    _submitUpdate = (i) => {
+    _submitUpdate(i) {
         const token = localStorage.getItem('token');
         const data = {
             value: this.state.dataHandler[i].inputHandler,
             token,
             id: this.state.dataHandler[i].id,
-            ids: this.state.dataHandler[i]._id
+            email: this.props.owner
         };
         this.props.dispatch(_stockUpdate(data));
+        let clone = [...this.state.dataHandler];
+        clone[i].editMode = false;
+        this.setState({dataHandler: clone})
     };
 
     _renderData = () => {
@@ -88,6 +91,22 @@ class StockMember extends Component {
         const offset = currentPage * limit;
         let clone = [...this.props.data];
         this.setState({dataHandler: clone.slice((page - 1) * limit, (limit * page)) });
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps[this.props.type].success !== this.props[this.props.type].success) {
+            if (this.props.member.success) {
+                message.success('Data Updated')
+                this.setState({dataHandler: this.props[this.props.type].data[this.props.index].stock})
+                this.props.dispatch(_resetStockUpdate())
+            }
+        }
+        if (prevProps[this.props.type].error !== this.props[this.props.type].error) {
+            if (this.props[this.props.type].error) {
+                message.error('Error loading data!')
+                this.props.dispatch(_resetStockUpdate())
+            }
+        }
     };
 
     render() {

@@ -29,7 +29,7 @@ export const _resetStockUpdate = () => {
 };
 
 export function* o_stockUpdate(data) {
-    takeEvery('STOCK_UPDATE', k_stockUpdate);
+    yield takeEvery('STOCK_UPDATE', k_stockUpdate);
 };
 
 function* k_stockUpdate(form) {
@@ -40,7 +40,7 @@ function* k_stockUpdate(form) {
             .set('Authorization', `${form.data.token}`)
             .send({value: form.data.value})
             .send({id: form.data.id})
-            .send({ids: form.data.ids})
+            .send({email: form.data.email})
             .then((res) => {
                 return res;
             })
@@ -49,4 +49,4 @@ function* k_stockUpdate(form) {
     }catch (error) {
         yield put(_stockUpdate_X('Error when loading data!'));
     };
-}
+};

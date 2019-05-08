@@ -36,6 +36,8 @@ import { o_filterTransactionOnline } from './_f_FilterTransactionOnline';
 import { o_filterTransactionSelfUsage } from './_f_FilterTransactionSelfUsage';
 import { o_filterTransactionShopping } from './_f_FilterTransactionShopping';
 
+import { o_stockUpdate } from './_f_StockUpdate';
+
 export default function* rootSaga() {
     yield all([
         o_fetchProducts(),
@@ -73,6 +75,8 @@ export default function* rootSaga() {
         o_filterTransactionOffline(),
         o_filterTransactionOnline(),
         o_filterTransactionShopping(),
-        o_filterTransactionSelfUsage()
+        o_filterTransactionSelfUsage(),
+
+        o_stockUpdate()
     ]);
 };

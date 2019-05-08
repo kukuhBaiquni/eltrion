@@ -106,7 +106,7 @@ class UserDetails extends Component {
     componentDidMount() {
         const target = this.props.match.params.id;
         const type = this.props.match.params.type;
-        message.config({ top: 70, maxCount: 4 })
+        message.config({ top: 70, maxCount: 1 })
         this.setState({
             paramsType: type
         })
@@ -363,6 +363,10 @@ class UserDetails extends Component {
 
     render() {
         const TabPane = Tabs.TabPane;
+        const target = this.props.match.params.id;
+        const type = this.props.match.params.type;
+        const index = this.props[type].data.map(x => x._id).indexOf(target);
+        const dataSource = this.props[type].data[index];
         return(
             <div className="animated fadeIn">
                 <Row>
@@ -452,7 +456,16 @@ class UserDetails extends Component {
                         </Row>
                     </TabPane>
                 </Tabs>
-                {this.state.dataSource !== null && <MemberStock data={this.state.dataSource.stock.sort((a, b) => a.id - b.id)} total={this.state.dataSource.stock.length} />}
+                {
+                    this.state.dataSource !== null &&
+                    <MemberStock
+                        type={type}
+                        index={index}
+                        owner={this.state.dataSource.email}
+                        data={dataSource.stock.sort((a, b) => a.id - b.id)}
+                        total={this.state.dataSource.stock.length}
+                        />
+                }
             </div>
         )
     }
