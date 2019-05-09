@@ -27,62 +27,69 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-  signOut(e) {
-    e.preventDefault()
-    this.props.history.push('/login')
-  }
+    signOut(e) {
+        e.preventDefault()
+        this.props.history.push('/login');
+    }
 
-  render() {
-    return (
-      <div className="app dark-background">
-        <AppHeader fixed>
-          <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
-          </Suspense>
-        </AppHeader>
-        <div className="app-body">
-          <AppSidebar fixed display="lg">
-            <AppSidebarHeader />
-            <AppSidebarForm />
-            <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} />
-            </Suspense>
-            <AppSidebarFooter />
-            <AppSidebarMinimizer />
-          </AppSidebar>
-          <main className="main">
-            <div style={{height: 30}} />
-            <Container fluid>
-              <Suspense fallback={this.loading()}>
-                <Switch>
-                  {routes.map((route, idx) => {
-                    return route.component ? (
-                      <Route
-                        key={idx}
-                        path={route.path}
-                        exact={route.exact}
-                        name={route.name}
-                        render={props => (
-                          <route.component {...props} />
-                        )} />
-                    ) : (null);
-                  })}
-                  <Redirect from="/" to="/dashboard" />
-                </Switch>
-              </Suspense>
-            </Container>
-          </main>
-        </div>
-        {/*<AppFooter>
-          <Suspense fallback={this.loading()}>
-            <DefaultFooter />
-          </Suspense>
-        </AppFooter>*/}
-      </div>
-    );
-  }
+    componentWillMount() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            this.props.history.replace('/login');
+        }
+    }
+
+    render() {
+        return (
+            <div className="app dark-background">
+                <AppHeader fixed>
+                    <Suspense  fallback={this.loading()}>
+                        <DefaultHeader onLogout={e=>this.signOut(e)}/>
+                    </Suspense>
+                </AppHeader>
+                <div className="app-body">
+                    <AppSidebar fixed display="lg">
+                        <AppSidebarHeader />
+                        <AppSidebarForm />
+                        <Suspense>
+                            <AppSidebarNav navConfig={navigation} {...this.props} />
+                        </Suspense>
+                        <AppSidebarFooter />
+                        <AppSidebarMinimizer />
+                    </AppSidebar>
+                    <main className="main">
+                        <div style={{height: 30}} />
+                        <Container fluid>
+                            <Suspense fallback={this.loading()}>
+                                <Switch>
+                                    {routes.map((route, idx) => {
+                                        return route.component ? (
+                                            <Route
+                                                key={idx}
+                                                path={route.path}
+                                                exact={route.exact}
+                                                name={route.name}
+                                                render={props => (
+                                                    <route.component {...props} />
+                                                )} />
+                                            ) : (null);
+                                        })}
+                                    <Redirect from="/" to="/dashboard" />
+                                </Switch>
+                            </Suspense>
+                        </Container>
+                    </main>
+                </div>
+                {/*<AppFooter>
+                <Suspense fallback={this.loading()}>
+                <DefaultFooter />
+                </Suspense>
+                </AppFooter>*/}
+            </div>
+        );
+    }
 }
 
 export default DefaultLayout;
