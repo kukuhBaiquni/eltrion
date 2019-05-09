@@ -46,7 +46,7 @@ class DefaultLayout extends Component {
             <div className="app dark-background">
                 <AppHeader fixed>
                     <Suspense  fallback={this.loading()}>
-                        <DefaultHeader onLogout={e=>this.signOut(e)}/>
+                        <DefaultHeader props={this.props} onLogout={e=>this.signOut(e)}/>
                     </Suspense>
                 </AppHeader>
                 <div className="app-body">
