@@ -84,7 +84,15 @@ export default class TransactionDetailsDrawerOffline extends Component {
                         </Row>
                         <Row>
                             <Col span={6}>
-                                Price
+                                Normal Price
+                            </Col>
+                            <Col span={6}>
+                                {currency(x.up)}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}>
+                                Member Price
                             </Col>
                             <Col span={6}>
                                 {currency(x.mp)}

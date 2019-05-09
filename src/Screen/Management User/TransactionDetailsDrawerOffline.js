@@ -56,14 +56,6 @@ export default class TransactionDetailsDrawerOffline extends Component {
                             {moment(data.date).format('DD MMM YYYY - HH:mm')}
                         </Col>
                     </Row>
-                    <Row>
-                        <Col span={6}>
-                            Total Price
-                        </Col>
-                        <Col span={6}>
-                            {currency(total)}
-                        </Col>
-                    </Row>
                 </Row>
             )
         }
@@ -84,10 +76,18 @@ export default class TransactionDetailsDrawerOffline extends Component {
                         </Row>
                         <Row>
                             <Col span={6}>
-                                Price
+                                Normal Price
                             </Col>
-                            <Col span={6}>
+                            <Col>
                                 {currency(x.up)}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}>
+                                Member Price
+                            </Col>
+                            <Col>
+                                {currency(x.mp)}
                             </Col>
                         </Row>
                         <Row>

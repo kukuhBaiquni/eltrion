@@ -9,6 +9,7 @@ import { _fetchAllOffline, _resetFetchAllOffline } from '../../Library/Redux/act
 import { _filterTransactionOffline, _resetFilterTransactionOffline } from '../../Library/Redux/actions/_f_FilterTransactionOffline';
 import { Link } from 'react-router-dom';
 import { currency } from '../../Configuration';
+import TransactionDetailsDrawerOffline from '../Management User/TransactionDetailsDrawerOffline';
 
 class TransactionOffline extends Component {
     constructor(props) {
@@ -20,7 +21,9 @@ class TransactionOffline extends Component {
                 {label: 'Filter by Member Name', checked: false, key: 'user_name', value: ''},
                 {label: 'Filter by Shop Name', checked: false, key: 'shop_name', value: ''}
             ],
-            page: 1
+            page: 1,
+            visibilityDrawer: false,
+            drawerData: null
         }
     };
 
@@ -29,13 +32,16 @@ class TransactionOffline extends Component {
         this.props.dispatch(_fetchAllOffline({index: 0, token}))
     };
 
+    _openDrawer(data) { this.setState({ visibilityDrawer: true, drawerData: data }) };
+    _closeDrawer = () => { this.setState({ visibilityDrawer: false }) };
+
     _renderData = () => {
         const data = this.props.transaction.offline.data;
         return(
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.offline.currentPage*10))}</td>
-                    <td>{x.trx}</td>
+                    <td style={{cursor: 'pointer'}} onClick={() => this._openDrawer(x)}>{x.trx}</td>
                     <td>{moment(x.date).format('DD MMM YYYY')}</td>
                     <td>{x.user_name}</td>
                     <td>{x.shop_name}</td>
@@ -180,6 +186,11 @@ class TransactionOffline extends Component {
                         </Card>
                     </Col>
                 </Row>
+                <TransactionDetailsDrawerOffline
+                    data={this.state.drawerData}
+                    isVisible={this.state.visibilityDrawer}
+                    closeDrawer={this._closeDrawer}
+                    />
             </div>
         )
     }

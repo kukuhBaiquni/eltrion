@@ -9,6 +9,7 @@ import { _fetchAllOnline, _resetFetchAllOnline } from '../../Library/Redux/actio
 import { _filterTransactionOnline, _resetFilterTransactionOnline } from '../../Library/Redux/actions/_f_FilterTransactionOnline';
 import { Link } from 'react-router-dom';
 import { currency } from '../../Configuration';
+import TransactionDetailsDrawerOnline from '../Management User/TransactionDetailsDrawerOnline';
 
 class TransactionOnline extends Component {
     constructor(props) {
@@ -20,7 +21,9 @@ class TransactionOnline extends Component {
                 {label: 'Filter by User Name', checked: false, key: 'username', value: ''},
                 {label: 'Filter by Status', checked: false, key: 'status', value: ''}
             ],
-            page: 1
+            page: 1,
+            visibilityDrawer: false,
+            drawerData: null
         }
     };
 
@@ -29,13 +32,16 @@ class TransactionOnline extends Component {
         this.props.dispatch(_fetchAllOnline({index: 0, token}))
     };
 
+    _openDrawer(data) { this.setState({ visibilityDrawer: true, drawerData: data }) };
+    _closeDrawer = () => { this.setState({ visibilityDrawer: false }) };
+
     _renderData = () => {
         const data = this.props.transaction.online.data;
         return(
             data.map((x, i) =>
                 <tr key={i}>
                     <td>{((i+1) + (this.props.transaction.online.currentPage*10))}</td>
-                    <td>{x.trx}</td>
+                    <td style={{cursor: 'pointer'}} onClick={() => this._openDrawer(x)}>{x.trx}</td>
                     <td>{moment(x.start_date).format('DD MMM YYYY')}</td>
                     <td>{moment(x.due_date).format('DD MMM YYYY')}</td>
                     <td>{x.username}</td>
@@ -180,6 +186,11 @@ class TransactionOnline extends Component {
                         </Card>
                     </Col>
                 </Row>
+                <TransactionDetailsDrawerOnline
+                    data={this.state.drawerData}
+                    isVisible={this.state.visibilityDrawer}
+                    closeDrawer={this._closeDrawer}
+                    />
             </div>
         )
     }
