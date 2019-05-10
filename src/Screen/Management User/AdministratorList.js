@@ -26,7 +26,7 @@ class MemberList extends Component {
     componentDidMount() {
         const token = localStorage.getItem('token');
         this.props.dispatch(_fetchAdministrator({index: 0, token}))
-    }
+    };
 
     _renderData = () => {
         const data = this.props.administrator.data;

@@ -1,7 +1,9 @@
 let initialState = {
     success: false,
     error: false,
-    token: ''
+    token: '',
+    adminData: null,
+    errorMessage: ''
 };
 
 export default function login(state = initialState, action) {
@@ -11,13 +13,15 @@ export default function login(state = initialState, action) {
         return Object.assign({}, state, {
             success: true,
             error: false,
-            token: action.data
+            token: action.data.token,
+            adminData: action.data.data
         });
 
         case 'LOGIN_FAILED':
         return Object.assign({}, state, {
             success: false,
-            error: true
+            error: true,
+            errorMessage: action.message
         });
 
         case 'RESET_LOGIN_STATE':

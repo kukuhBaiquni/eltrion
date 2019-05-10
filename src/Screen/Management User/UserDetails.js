@@ -289,9 +289,9 @@ class UserDetails extends Component {
                 const target = this.props.match.params.id;
                 if (prevState.dataSource.status !== '') {
                     if (this.state.dataSource.status === 'Member') {
-                        this.props.history.replace(`/user/member/${target}`);
+                        this.props.history.replace(`/member`);
                     }else if (this.state.dataSource.status === 'Non Member') {
-                        this.props.history.replace(`/user/nonMember/${target}`);
+                        this.props.history.replace(`/non-ember`);
                     }else {
                         this.props.history.replace('/administrator')
                     }

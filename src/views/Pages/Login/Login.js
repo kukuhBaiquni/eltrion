@@ -24,10 +24,17 @@ class Login extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.login.success !== this.props.login.success) {
+            console.log('success');
             if (this.props.login.success) {
                 localStorage.setItem('token', this.props.login.token);
                 this.props.dispatch(_resetLogin());
                 this.props.history.replace('/');
+            }
+        }
+        if (prevProps.login.error !== this.props.login.error) {
+            console.log('error');
+            if (this.props.login.error) {
+                this.props.dispatch(_resetLogin());
             }
         }
     };

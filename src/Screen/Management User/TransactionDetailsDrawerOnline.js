@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     Drawer, Divider, Col, Row
 } from 'antd';
-import { Card, CardHeader, CardBody, Badge } from 'reactstrap';
+import { Card, CardHeader, CardBody, Badge, FormGroup, Input, Label, Button } from 'reactstrap';
 import 'antd/dist/antd.css';
 import '../Style.scss';
 import moment from 'moment';
@@ -16,6 +16,12 @@ const pStyle = {
 };
 
 export default class TransactionDetailsDrawerOnline extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            currentTracking: null
+        }
+    };
 
     _baseInformation = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
@@ -133,6 +139,36 @@ export default class TransactionDetailsDrawerOnline extends Component {
         }
     };
 
+    _renderRadioTracking = () => {
+        if (this.props.data !== null && this.props.data !== undefined) {
+            return(
+                <Row >
+                    <Col>
+                        <FormGroup check className="radio">
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 1 ? 'checked' : ''} className="form-check-input" type="radio" id="one" name="radios-category" value="1" />
+                            <Label check className="form-check-label" htmlFor="one">Awaiting Payment</Label>
+                        </FormGroup>
+                        <FormGroup check className="radio">
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 2 ? 'checked' : ''} className="form-check-input" type="radio" id="two" name="radios-category" value="2" />
+                            <Label check className="form-check-label" htmlFor="two">Processing Order</Label>
+                        </FormGroup>
+                        <FormGroup check className="radio">
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 3 ? 'checked' : ''} className="form-check-input" type="radio" id="three" name="radios-category" value="3" />
+                            <Label check className="form-check-label" htmlFor="three">Sending Order</Label>
+                        </FormGroup>
+                        <FormGroup check className="radio">
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 4 ? 'checked' : ''} className="form-check-input" type="radio" id="four" name="radios-category" value="4" />
+                            <Label check className="form-check-label" htmlFor="four">Order Sent</Label>
+                        </FormGroup>
+                    </Col>
+                    <Col style={{marginTop: 15}}>
+                        <Button onClick={() => console.log('xxx')} size="sm" color="success">&nbsp;&nbsp;Update&nbsp;&nbsp;</Button>
+                    </Col>
+                </Row>
+            )
+        }
+    };
+
     render() {
         return (
             <div>
@@ -160,6 +196,14 @@ export default class TransactionDetailsDrawerOnline extends Component {
                         </CardHeader>
                         <CardBody>
                             {this._loopData()}
+                        </CardBody>
+                    </Card>
+                    <Card className="dark-body">
+                        <CardHeader className="dark-header">
+                            <h4 style={{fontSize: 'bold', color: 'white'}}>Update Tracking Status</h4>
+                        </CardHeader>
+                        <CardBody>
+                            {this._renderRadioTracking()}
                         </CardBody>
                     </Card>
                 </Drawer>

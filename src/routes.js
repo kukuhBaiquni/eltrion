@@ -51,10 +51,12 @@ const TransactionOnline = React.lazy(() => import('./Screen/Transaction/Transact
 const TransactionSelfUsage = React.lazy(() => import('./Screen/Transaction/TransactionSelfUsage'));
 const TransactionShopping = React.lazy(() => import('./Screen/Transaction/TransactionShopping'));
 
+const WelcomeScreen = React.lazy(() => import('./Screen'));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'WelcomeScreen', component: WelcomeScreen },
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },

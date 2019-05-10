@@ -16,9 +16,10 @@ const _login_V = (data) => {
     }
 };
 
-const _login_X = () => {
+const _login_X = (message) => {
     return {
-        type: 'LOGIN_FAILED'
+        type: 'LOGIN_FAILED',
+        message
     }
 };
 
@@ -43,8 +44,8 @@ function* k_login(form) {
                 return res;
             })
         });
-        yield put(_login_V(response.body.token));
+        yield put(_login_V(response.body));
     }catch (error) {
-        yield put(_login_X('Error when loading data!'));
+        yield put(_login_X(error.toString()));
     };
 };

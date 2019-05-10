@@ -100,7 +100,7 @@ export default class TransactionDetailsDrawerOffline extends Component {
                         </Row>
                         <Row>
                             <Col span={6}>
-                                Subtotal
+                                Total
                             </Col>
                             <Col span={6}>
                                 {currency(x.up * x.qty)}
