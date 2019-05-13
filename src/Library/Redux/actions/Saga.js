@@ -38,6 +38,7 @@ import { o_filterTransactionShopping } from './_f_FilterTransactionShopping';
 
 import { o_stockUpdate } from './_f_StockUpdate';
 import { o_login } from './_f_Login';
+import { o_changeStatusTracking } from './_f_ChangeStatusTracking';
 
 export default function* rootSaga() {
     yield all([
@@ -80,5 +81,6 @@ export default function* rootSaga() {
 
         o_stockUpdate(),
         o_login(),
+        o_changeStatusTracking(),
     ]);
 };

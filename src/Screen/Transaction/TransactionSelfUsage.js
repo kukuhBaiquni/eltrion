@@ -37,7 +37,6 @@ class TransactionSelfUsage extends Component {
 
     _renderData = () => {
         const data = this.props.transaction.selfUsage.data;
-        console.log(data);
         return(
             data.map((x, i) =>
                 <tr key={i}>

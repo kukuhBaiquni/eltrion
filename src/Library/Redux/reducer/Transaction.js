@@ -85,9 +85,11 @@ export default function transaction(state = initialState, action) {
 
         case 'RESET_FETCH_TRANSACTION_OFFLINE_STATE':
         return Object.assign({}, state, {
-            ...state.offline,
-            success: false,
-            error: false
+            offline: {
+                ...state.offline,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -106,16 +108,20 @@ export default function transaction(state = initialState, action) {
 
         case 'TRANSACTION_SELFUSAGE_FAILED':
         return Object.assign({}, state, {
-            ...state.selfUsage,
-            success: false,
-            error: true
+            selfUsage: {
+                ...state.selfUsage,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FETCH_TRANSACTION_SELFUSAGE_STATE':
         return Object.assign({}, state, {
-            ...state.selfUsage,
-            success: false,
-            error: false
+            selfUsage: {
+                ...state.selfUsage,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -133,16 +139,20 @@ export default function transaction(state = initialState, action) {
 
         case 'TRANSACTION_SHOPPING_FAILED':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: true
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FETCH_TRANSACTION_SHOPPING_STATE':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: false
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -160,16 +170,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FETCH_ALL_ONLINE_FAILED':
         return Object.assign({}, state, {
-            ...state.online,
-            success: false,
-            error: true
+            online: {
+                ...state.online,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FETCH_ALL_ONLINE_STATE':
         return Object.assign({}, state, {
-            ...state.online,
-            success: false,
-            error: false
+            online: {
+                ...state.online,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -187,16 +201,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FETCH_ALL_OFFLINE_FAILED':
         return Object.assign({}, state, {
-            ...state.offline,
-            success: false,
-            error: true
+            offline: {
+                ...state.offline,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FETCH_ALL_OFFLINE_STATE':
         return Object.assign({}, state, {
-            ...state.offline,
-            success: false,
-            error: false
+            offline: {
+                ...state.offline,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -214,9 +232,7 @@ export default function transaction(state = initialState, action) {
 
         case 'FETCH_ALL_SELFUSAGE_FAILED':
         return Object.assign({}, state, {
-            ...state.selfUsage,
-            success: false,
-            error: true
+
         });
 
         case 'RESET_FETCH_ALL_SELFUSAGE_STATE':
@@ -241,16 +257,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FETCH_ALL_SHOPPING_FAILED':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: true
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FETCH_ALL_SHOPPING_STATE':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: false
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -269,16 +289,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FILTER_TRANSACTION_ONLINE_FAILED':
         return Object.assign({}, state, {
-            ...state.online,
-            success: false,
-            error: true
+            online: {
+                ...state.online,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FILTER_TRANSACTION_ONLINE_STATE':
         return Object.assign({}, state, {
-            ...state.online,
-            success: false,
-            error: false
+            online: {
+                ...state.online,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -296,16 +320,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FILTER_TRANSACTION_OFFLINE_FAILED':
         return Object.assign({}, state, {
-            ...state.offline,
-            success: false,
-            error: true
+            offline: {
+                ...state.offline,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FILTER_TRANSACTION_OFFLINE_STATE':
         return Object.assign({}, state, {
-            ...state.offline,
-            success: false,
-            error: false
+            offline: {
+                ...state.offline,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -323,16 +351,20 @@ export default function transaction(state = initialState, action) {
 
         case 'FILTER_TRANSACTION_SELFUSAGE_FAILED':
         return Object.assign({}, state, {
-            ...state.selfUsage,
-            success: false,
-            error: true
+            selfUsage: {
+                ...state.selfUsage,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FILTER_TRANSACTION_SELFUSAGE_STATE':
         return Object.assign({}, state, {
-            ...state.selfUsage,
-            success: false,
-            error: false
+            selfUsage: {
+                ...state.selfUsage,
+                success: false,
+                error: false
+            }
         });
 
         // ====================================================================
@@ -350,16 +382,54 @@ export default function transaction(state = initialState, action) {
 
         case 'FILTER_TRANSACTION_SHOPPING_FAILED':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: true
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: true
+            }
         });
 
         case 'RESET_FILTER_TRANSACTION_SHOPPING_STATE':
         return Object.assign({}, state, {
-            ...state.shopping,
-            success: false,
-            error: false
+            shopping: {
+                ...state.shopping,
+                success: false,
+                error: false
+            }
+        });
+
+        // ====================================================================
+
+        case 'CHANGE_STATUS_TRACKING_SUCCESS':
+        let clone = [...state.online.data];
+        const index = clone.map(x => x.trx).indexOf(action.data.trx);
+        clone[index] = action.data;
+        console.log(index);
+        return Object.assign({}, state, {
+            online: {
+                success: true,
+                error: false,
+                data: clone,
+                ...state.online
+            }
+        });
+
+        case 'CHANGE_STATUS_TRACKING_FAILED':
+        return Object.assign({}, state, {
+            online: {
+                ...state.online,
+                success: false,
+                error: true
+            }
+        });
+
+        case 'RESET_CHANGE_STATUS_TRACKING_STATE':
+        return Object.assign({}, state, {
+            online: {
+                ...state.online,
+                success: false,
+                error: false
+            }
         });
 
         default:

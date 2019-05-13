@@ -10,6 +10,7 @@ import { _filterTransactionOnline, _resetFilterTransactionOnline } from '../../L
 import { Link } from 'react-router-dom';
 import { currency } from '../../Configuration';
 import TransactionDetailsDrawerOnline from '../Management User/TransactionDetailsDrawerOnline';
+import { _changeStatusTracking, _resetChangestatusTracking } from '../../Library/Redux/actions/_f_ChangeStatusTracking';
 
 class TransactionOnline extends Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class TransactionOnline extends Component {
             page: 1,
             visibilityDrawer: false,
             drawerData: null
-        }
+        };
+        this._updateTracking = this._updateTracking.bind(this);
     };
 
     componentDidMount() {
@@ -34,6 +36,15 @@ class TransactionOnline extends Component {
 
     _openDrawer(data) { this.setState({ visibilityDrawer: true, drawerData: data }) };
     _closeDrawer = () => { this.setState({ visibilityDrawer: false }) };
+
+    _updateTracking(stage, trx) {
+        const data = {
+            token: localStorage.getItem('token'),
+            stage,
+            trx
+        }
+        this.props.dispatch(_changeStatusTracking(data));
+    };
 
     _renderData = () => {
         const data = this.props.transaction.online.data;
@@ -188,6 +199,7 @@ class TransactionOnline extends Component {
                 </Row>
                 <TransactionDetailsDrawerOnline
                     data={this.state.drawerData}
+                    updateTracking={this._updateTracking}
                     isVisible={this.state.visibilityDrawer}
                     closeDrawer={this._closeDrawer}
                     />

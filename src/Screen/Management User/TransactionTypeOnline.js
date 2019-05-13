@@ -14,11 +14,11 @@ class TypeOnline extends Component {
         this.props.dispatch(_fetchTTOn({
             id, token, page: 0
         }))
-    }
+    };
 
     _indexer(data) {
         this.props.openDrawer(data)
-    }
+    };
 
     _renderData = () => {
         const data = this.props.transaction.online.data;
@@ -31,7 +31,7 @@ class TypeOnline extends Component {
             totalPrice.push(r)
             data[i].detail_items.map(x => s += ((x.price - x.memberPrice) * x.qty))
             profit.push(s)
-        }
+        };
         return(
             data.map((x, i) =>
                 <tr key={i}>
@@ -91,7 +91,7 @@ class TypeOnline extends Component {
             </Col>
         )
     }
-}
+};
 
 function currency(x) {
     if (x !== undefined)
@@ -99,7 +99,7 @@ function currency(x) {
 };
 
 function mapDispatchToProps(dispatch) {
-    return dispatch
+    return dispatch;
 };
 
 export default connect(

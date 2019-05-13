@@ -33,6 +33,11 @@ import { _fetchDistricts, _resetFetchDistricts, _clearDistricts } from '../../Li
 import { _fetchVillages, _resetFetchVillages, _clearVillages } from '../../Library/Redux/actions/_f_FetchVillages';
 
 import MemberStock from './MemberStock';
+import { _changeStatusTracking, _resetChangestatusTracking } from '../../Library/Redux/actions/_f_ChangeStatusTracking';
+
+    /*
+    *  Drawer for TypeShopping pending
+    */
 
 class UserDetails extends Component {
     constructor(props) {
@@ -84,6 +89,7 @@ class UserDetails extends Component {
         };
         this._onChangeValues = this._onChangeValues.bind(this);
         this._onChangeBirth = this._onChangeBirth.bind(this);
+        this._updateTracking = this._updateTracking.bind(this);
     };
 
     _openDrawerOnline = (data) => { this.setState({ visibilityOnlineDrawer: true, drawerDataOnline: data }) };
@@ -95,6 +101,15 @@ class UserDetails extends Component {
     _closeDrawerOffline = () => { this.setState({visibilityOfflineDrawer: false}) };
     _closeDrawerSelfUsage = () => { this.setState({visibilitySelfUsageDrawer: false}) };
     _closeDrawerShopping = () => { this.setState({visibilityShoppingDrawer: false}) };
+
+    _updateTracking(stage, trx) {
+        const data = {
+            token: localStorage.getItem('token'),
+            stage,
+            trx
+        }
+        this.props.dispatch(_changeStatusTracking(data));
+    };
 
     _onChangeTabs() {
         this.setState({showContent: !this.state.showContent})
@@ -284,6 +299,22 @@ class UserDetails extends Component {
             }
         }
 
+        // On Updating tracking wether success or error.
+        if (prevProps.transaction.online.success !== this.props.transaction.online.success) {
+            if (prevProps.transaction.online.data.length !== 0 && this.props.transaction.online.success) {
+                message.success('Data Updated!', 2.5);
+                this.props.dispatch(_resetChangestatusTracking());
+            }
+        }
+
+        if (prevProps.transaction.online.error !== this.props.transaction.online.error) {
+            if (prevProps.transaction.online.data.length !== 0 && this.props.transaction.online.error) {
+                message.error('Update data failed!', 2.5);
+                this.props.dispatch(_resetChangestatusTracking());
+            }
+        }
+
+        // Navigating to list of user (Non Member, Member, Administrator) when updating status.
         if (prevState.dataSource !== this.state.dataSource) {
             if (prevState.dataSource !== null) {
                 const target = this.props.match.params.id;
@@ -291,7 +322,7 @@ class UserDetails extends Component {
                     if (this.state.dataSource.status === 'Member') {
                         this.props.history.replace(`/member`);
                     }else if (this.state.dataSource.status === 'Non Member') {
-                        this.props.history.replace(`/non-ember`);
+                        this.props.history.replace(`/non-member`);
                     }else {
                         this.props.history.replace('/administrator')
                     }
@@ -432,7 +463,7 @@ class UserDetails extends Component {
                     </Col>
                 </Row>
                 <TransactionDetailsDrawerOffline data={this.state.drawerDataOffline} isVisible={this.state.visibilityOfflineDrawer} closeDrawer={this._closeDrawerOffline} />
-                <TransactionDetailsDrawerOnline data={this.state.drawerDataOnline} isVisible={this.state.visibilityOnlineDrawer} closeDrawer={this._closeDrawerOnline} />
+                <TransactionDetailsDrawerOnline updateTracking={this._updateTracking} data={this.state.drawerDataOnline} isVisible={this.state.visibilityOnlineDrawer} closeDrawer={this._closeDrawerOnline} />
                 <TransactionDetailsDrawerSelfUsage data={this.state.drawerDataSelfUsage} isVisible={this.state.visibilitySelfUsageDrawer} closeDrawer={this._closeDrawerSelfUsage} />
                 <Tabs tabBarStyle={tabBar} defaultActiveKey="1" onChange={(r) => this._onChangeTabs(r)}>
                     <TabPane tab="Online" key="1">

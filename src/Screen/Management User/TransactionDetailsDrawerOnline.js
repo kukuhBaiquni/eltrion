@@ -23,6 +23,13 @@ export default class TransactionDetailsDrawerOnline extends Component {
         }
     };
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.data !== this.props.data) {
+            console.log(this.props.data);
+            this.setState({currentTracking: this.props.data.tracking});
+        }
+    };
+
     _baseInformation = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
             const { data } = this.props;
@@ -139,30 +146,36 @@ export default class TransactionDetailsDrawerOnline extends Component {
         }
     };
 
+    _onClick = () => {
+        const stage = this.state.currentTracking;
+        const trx = this.props.data.trx;
+        this.props.updateTracking(stage, trx);
+    };
+
     _renderRadioTracking = () => {
         if (this.props.data !== null && this.props.data !== undefined) {
             return(
                 <Row >
                     <Col>
                         <FormGroup check className="radio">
-                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 1 ? 'checked' : ''} className="form-check-input" type="radio" id="one" name="radios-category" value="1" />
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.state.currentTracking !== null && this.state.currentTracking === 1 ? 'checked' : ''} className="form-check-input" type="radio" id="one" name="radios-category" value="1" />
                             <Label check className="form-check-label" htmlFor="one">Awaiting Payment</Label>
                         </FormGroup>
                         <FormGroup check className="radio">
-                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 2 ? 'checked' : ''} className="form-check-input" type="radio" id="two" name="radios-category" value="2" />
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.state.currentTracking !== null && this.state.currentTracking === 2 ? 'checked' : ''} className="form-check-input" type="radio" id="two" name="radios-category" value="2" />
                             <Label check className="form-check-label" htmlFor="two">Processing Order</Label>
                         </FormGroup>
                         <FormGroup check className="radio">
-                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 3 ? 'checked' : ''} className="form-check-input" type="radio" id="three" name="radios-category" value="3" />
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.state.currentTracking !== null && this.state.currentTracking === 3 ? 'checked' : ''} className="form-check-input" type="radio" id="three" name="radios-category" value="3" />
                             <Label check className="form-check-label" htmlFor="three">Sending Order</Label>
                         </FormGroup>
                         <FormGroup check className="radio">
-                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.props.data.tracking === 4 ? 'checked' : ''} className="form-check-input" type="radio" id="four" name="radios-category" value="4" />
+                            <Input onChange={(x) => this.setState({currentTracking: Number(x.currentTarget.value)})} checked={this.state.currentTracking !== null && this.state.currentTracking === 4 ? 'checked' : ''} className="form-check-input" type="radio" id="four" name="radios-category" value="4" />
                             <Label check className="form-check-label" htmlFor="four">Order Sent</Label>
                         </FormGroup>
                     </Col>
                     <Col style={{marginTop: 15}}>
-                        <Button onClick={() => console.log('xxx')} size="sm" color="success">&nbsp;&nbsp;Update&nbsp;&nbsp;</Button>
+                        <Button onClick={this._onClick} size="sm" color="success">&nbsp;&nbsp;Update&nbsp;&nbsp;</Button>
                     </Col>
                 </Row>
             )
