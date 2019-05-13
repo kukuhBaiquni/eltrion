@@ -25,7 +25,6 @@ export default class TransactionDetailsDrawerOnline extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.data !== this.props.data) {
-            console.log(this.props.data);
             this.setState({currentTracking: this.props.data.tracking});
         }
     };

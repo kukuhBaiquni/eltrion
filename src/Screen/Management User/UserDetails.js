@@ -315,9 +315,9 @@ class UserDetails extends Component {
         }
 
         // Navigating to list of user (Non Member, Member, Administrator) when updating status.
-        if (prevState.dataSource !== this.state.dataSource) {
-            if (prevState.dataSource !== null) {
-                const target = this.props.match.params.id;
+        if (prevState.dataSource !== null) {
+            const target = this.props.match.params.id;
+            if (prevState.dataSource.status !== this.state.dataSource.status) {
                 if (prevState.dataSource.status !== '') {
                     if (this.state.dataSource.status === 'Member') {
                         this.props.history.replace(`/member`);

@@ -404,7 +404,6 @@ export default function transaction(state = initialState, action) {
         let clone = [...state.online.data];
         const index = clone.map(x => x.trx).indexOf(action.data.trx);
         clone[index] = action.data;
-        console.log(index);
         return Object.assign({}, state, {
             online: {
                 success: true,

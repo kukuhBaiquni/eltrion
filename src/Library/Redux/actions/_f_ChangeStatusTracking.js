@@ -42,8 +42,10 @@ function* k_changeStatusTracking(form) {
                 return res;
             })
         });
+        console.log(response);
         yield put(_changeStatusTracking_V(response.body.data));
     }catch (error) {
+        console.log(error);
         yield put(_changeStatusTracking_X('Error when loading data!'));
     };
 }
