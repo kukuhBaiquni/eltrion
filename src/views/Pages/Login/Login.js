@@ -48,7 +48,7 @@ class Login extends Component {
                             <Card className="p-4 dark-header dark-body">
                                 <CardBody>
                                     <Form>
-                                        <h1>Login</h1>
+                                        <h1 style={{color: 'white'}}>Login</h1>
                                         <p className="text-muted">Sign In to your account</p>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">

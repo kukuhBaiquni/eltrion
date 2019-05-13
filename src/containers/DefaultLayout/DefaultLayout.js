@@ -36,6 +36,49 @@ class DefaultLayout extends Component {
     }
 
     componentWillMount() {
+        const add = {
+            name: 'Notifications',
+            icon: 'fa fa-bell',
+            badge: {
+                variant: 'info',
+                text: '44',
+            },
+            children: [
+                {
+                    name: 'Online Transaction',
+                    url: '/notifications/online',
+                    badge: {
+                        variant: 'success',
+                        text: '12',
+                    },
+                },
+                {
+                    name: 'Offline Transaction',
+                    url: '/notifications/offline',
+                    badge: {
+                        variant: 'warning',
+                        text: '23',
+                    },
+                },
+                {
+                    name: 'Self Usage',
+                    url: '/notifications/self-usage',
+                    badge: {
+                        variant: 'light',
+                        text: '3',
+                    },
+                },
+                {
+                    name: 'Shopping Member',
+                    url: '/notifications/shopping',
+                    badge: {
+                        variant: 'danger',
+                        text: '4',
+                    },
+                }
+            ]
+        };
+        navigation.items.splice(4, 0, add)
         const token = localStorage.getItem('token');
         if (!token) {
             this.props.history.replace('/login');
@@ -91,6 +134,6 @@ class DefaultLayout extends Component {
             </div>
         );
     }
-}
+};
 
 export default DefaultLayout;

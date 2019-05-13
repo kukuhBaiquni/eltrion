@@ -52,6 +52,7 @@ const TransactionSelfUsage = React.lazy(() => import('./Screen/Transaction/Trans
 const TransactionShopping = React.lazy(() => import('./Screen/Transaction/TransactionShopping'));
 
 const WelcomeScreen = React.lazy(() => import('./Screen'));
+const NotificationsOffline = React.lazy(() => import('./Screen/Notifications/NotificationsOffline'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -106,7 +107,8 @@ const routes = [
   { path: '/transaction/list/offline', name: 'Transaction Offline', component: TransactionOffline},
   { path: '/transaction/list/online', name: 'Transaction Online', component: TransactionOnline},
   { path: '/transaction/list/selfUsage', name: 'Self Usage', component: TransactionSelfUsage},
-  { path: '/transaction/list/shopping', name: 'Shopping', component: TransactionShopping}
+  { path: '/transaction/list/shopping', name: 'Shopping', component: TransactionShopping},
+  { path: '/notifications/offline', name: 'Notifications Offline', component: NotificationsOffline}
 ];
 
 export default routes;

@@ -31,7 +31,7 @@ class TransactionOnline extends Component {
 
     componentDidMount() {
         const token = localStorage.getItem('token');
-        this.props.dispatch(_fetchAllOnline({index: 0, token}))
+        this.props.dispatch(_fetchAllOnline({index: 0, token}));
     };
 
     _openDrawer(data) { this.setState({ visibilityDrawer: true, drawerData: data }) };
@@ -42,7 +42,7 @@ class TransactionOnline extends Component {
             token: localStorage.getItem('token'),
             stage,
             trx
-        }
+        };
         this.props.dispatch(_changeStatusTracking(data));
     };
 
@@ -166,7 +166,7 @@ class TransactionOnline extends Component {
                     <Col xs="12" lg="12">
                         <Card className="dark-body">
                             <CardHeader className="dark-header">
-                                <h4 style={{fontSize: 'bold', color: 'white'}}>Offline Transaction</h4>
+                                <h4 style={{fontSize: 'bold', color: 'white'}}>Online Transaction</h4>
                             </CardHeader>
                             <CardBody>
                                 <Row>
