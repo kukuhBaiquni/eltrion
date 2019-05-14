@@ -41,51 +41,35 @@ class DefaultLayout extends Component {
             icon: 'fa fa-bell',
             badge: {
                 variant: 'info',
-                text: '44',
+                text: '26',
             },
             children: [
                 {
-                    name: 'Online Transaction',
-                    url: '/notifications/online',
-                    badge: {
-                        variant: 'success',
-                        text: '12',
-                    },
-                },
-                {
-                    name: 'Offline Transaction',
-                    url: '/notifications/offline',
+                    name: 'Transaction',
+                    url: '/notifications/transaction',
                     badge: {
                         variant: 'warning',
                         text: '23',
                     },
                 },
                 {
-                    name: 'Self Usage',
-                    url: '/notifications/self-usage',
-                    badge: {
-                        variant: 'light',
-                        text: '3',
-                    },
-                },
-                {
-                    name: 'Shopping Member',
-                    url: '/notifications/shopping',
+                    name: 'System',
+                    url: '/notifications/system',
                     badge: {
                         variant: 'danger',
-                        text: '4',
+                        text: '3',
                     },
                 }
             ]
         };
-        navigation.items.splice(4, 0, add)
+        navigation.items.splice(4, 0, add);
         const token = localStorage.getItem('token');
         if (!token) {
             this.props.history.replace('/login');
         }
     }
 
-    render() {
+    render() {        
         return (
             <div className="app dark-background">
                 <AppHeader fixed>

@@ -6,9 +6,10 @@ import administrator from './Administrator'
 import transaction from './Transaction';
 import territorial from './Territorial';
 import login from './Login';
+import notifications from './Notifications';
 
 const rootReducer = combineReducers({
-  products, member, nonMember, administrator, transaction, territorial, login
+  products, member, nonMember, administrator, transaction, territorial, login, notifications
 });
 
 export default rootReducer;
