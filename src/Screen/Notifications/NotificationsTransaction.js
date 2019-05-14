@@ -18,7 +18,22 @@ class NotificationsOffline extends Component {
                                 Saturday, 22 Mar 2019 - 20:11
                             </CardHeader>
                             <CardBody>
-                                Type : <Text type="green">Offline</Text>
+                                <Row>
+                                    <Col sm="1">
+                                        Type
+                                    </Col>
+                                    <Col>
+                                        <p style={{color: 'green'}}>Offline</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="1">
+                                        TRX
+                                    </Col>
+                                    <Col>
+                                        <p> 220419D7TR5V</p>
+                                    </Col>
+                                </Row>
                             </CardBody>
                         </Card>
                     </Col>

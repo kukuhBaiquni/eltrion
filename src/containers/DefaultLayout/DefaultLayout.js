@@ -2,6 +2,9 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import '../../Custom Resources/Dark-Background.css';
+import 'antd/dist/antd.css';
+import { notification } from 'antd';
+import { CONSTANT } from '../../Configuration';
 
 import {
   // AppAside,
@@ -33,7 +36,7 @@ class DefaultLayout extends Component {
         e.preventDefault();
         localStorage.removeItem('token');
         this.props.history.push('/login');
-    }
+    };
 
     componentWillMount() {
         const add = {
@@ -67,9 +70,28 @@ class DefaultLayout extends Component {
         if (!token) {
             this.props.history.replace('/login');
         }
-    }
+    };
 
-    render() {        
+    componentDidMount() {
+        this._openNotification()
+    };
+
+    _openNotification = () => {
+        const args = {
+            message: CONSTANT.incomeOrder.title,
+            description: CONSTANT.incomeOrder.description,
+            duration: 0,
+            style: {
+                top: 50,
+                backgroundColor: '#e2e2ff',
+                borderColor: '#23282c'
+            },
+            onClick: () => notification.info(args)
+        };
+        notification.info(args);
+    };
+
+    render() {
         return (
             <div className="app dark-background">
                 <AppHeader fixed>

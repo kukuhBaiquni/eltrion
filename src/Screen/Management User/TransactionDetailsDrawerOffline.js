@@ -56,6 +56,14 @@ export default class TransactionDetailsDrawerOffline extends Component {
                             {moment(data.date).format('DD MMM YYYY - HH:mm')}
                         </Col>
                     </Row>
+                    <Row>
+                        <Col span={6}>
+                            Total Price
+                        </Col>
+                        <Col span={6}>
+                            {currency(total)}
+                        </Col>
+                    </Row>
                 </Row>
             )
         }
@@ -137,7 +145,7 @@ export default class TransactionDetailsDrawerOffline extends Component {
                         <CardHeader className="dark-header">
                             <h4 style={{fontSize: 'bold', color: 'white'}}>Detail Items</h4>
                         </CardHeader>
-                        <CardBody>
+                        <CardBody className="overflow-card">
                             {this._loopData()}
                         </CardBody>
                     </Card>

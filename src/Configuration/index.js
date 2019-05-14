@@ -100,3 +100,10 @@ export const CAPITALIZE = (x) => {
     }
     return result.join(' ')
 };
+
+export const CONSTANT = {
+    incomeOrder: {
+        title: 'Order Received!',
+        description: 'Click here for more information and processing!'
+    }
+};
