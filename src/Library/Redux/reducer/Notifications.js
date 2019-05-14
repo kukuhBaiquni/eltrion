@@ -4,7 +4,7 @@ let initialState = {
     data: []
 };
 
-export default notifications(state = initialState, action) {
+export default function notifications(state = initialState, action) {
     switch (action.type) {
 
         case 'FETCH_NOTIFICATIONS_SUCCESS':
