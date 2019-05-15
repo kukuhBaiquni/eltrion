@@ -19,7 +19,7 @@ class NotificationsOffline extends Component {
                             </CardHeader>
                             <CardBody>
                                 <Row>
-                                    <Col sm="1">
+                                    <Col sm="2">
                                         Type
                                     </Col>
                                     <Col>
@@ -27,11 +27,27 @@ class NotificationsOffline extends Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col sm="1">
+                                    <Col sm="2">
                                         TRX
                                     </Col>
                                     <Col>
                                         <p> 220419D7TR5V</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="2">
+                                        User Name
+                                    </Col>
+                                    <Col>
+                                        <p> Galat Dewa</p>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="2">
+                                        Status
+                                    </Col>
+                                    <Col>
+                                        <p style={{color: 'green'}}>Success</p>
                                     </Col>
                                 </Row>
                             </CardBody>

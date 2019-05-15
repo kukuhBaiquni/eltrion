@@ -33,6 +33,7 @@ export function* o_filterTransactionSelfUsage(data) {
 };
 
 function* k_filterTransactionSelfUsage(form) {
+    console.log(form.data);
     try{
         var response = yield call(() => {
             return request
@@ -42,6 +43,7 @@ function* k_filterTransactionSelfUsage(form) {
                 return res;
             })
         });
+        console.log(response.body);
         yield put(_filterTransactionSelfUsage_V(response.body));
     }catch (error) {
         yield put(_filterTransactionSelfUsage_X('Error when loading data!'));
