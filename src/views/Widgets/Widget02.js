@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardBody, CardFooter } from 'reactstrap';
 import classNames from 'classnames';
 import { mapToCssModules } from 'reactstrap/lib/utils';
+import '../../Screen/Style.scss';
 
 const propTypes = {
   header: PropTypes.string,
@@ -58,11 +59,11 @@ class Widget02 extends Component {
     };
 
     return (
-      <Card>
+      <Card className='dark-body'>
         <CardBody className={card.classes} {...attributes}>
           {blockIcon(card.icon)}
           <div className={lead.classes}>{header}</div>
-          <div className="text-muted text-uppercase font-weight-bold font-xs">{mainText}</div>
+          <div className="text-uppercase font-weight-bold font-xs">{mainText}</div>
         </CardBody>
         {cardFooter()}
       </Card>
