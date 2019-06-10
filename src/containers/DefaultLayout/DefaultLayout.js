@@ -72,9 +72,13 @@ class DefaultLayout extends Component {
         }
     };
 
-    componentDidMount() {
-        this._openNotification()
+    componentWillUnmouont() {
+        navigation.splice(4, 1);
     };
+
+    // componentDidMount() {
+    //     this._openNotification()
+    // };
 
     _openNotification = () => {
         const args = {

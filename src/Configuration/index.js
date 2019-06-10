@@ -1,6 +1,7 @@
 export const SERVER_URL = 'http://halalbeef.co.id/';
 // export const SERVER_URL = 'http://192.168.0.102/';
 // export const SERVER_URL = 'http://192.168.43.24/';
+// export const SERVER_URL = 'http://halalbeef.co.id:1728/api/v1/';
 
 export const currency = (x) => {
     if (x !== undefined)

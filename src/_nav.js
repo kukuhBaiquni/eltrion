@@ -71,6 +71,11 @@ export default {
                 }
             ]
         },
+        {
+            name: 'Report',
+            icon:  'fa fa-area-chart',
+            url: '/report'
+        },
         // {
         // title: true,
         // name: 'Theme',
