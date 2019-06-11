@@ -5,7 +5,7 @@ import Widget02 from '../../views/Widgets/Widget02';
 import { DatePicker, Select } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
-import { Line } from 'react-chartjs-2';
+import { Line, Pie, Bar } from 'react-chartjs-2';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
 class Report extends Component {
@@ -63,12 +63,60 @@ class Report extends Component {
         )
     };
 
+    _pieData = () => {
+        const pie = {
+            labels: [
+                'Daging Sapi',
+                'Daging Ayam',
+                'Daging Ikan',
+                'Olahan dan Lainnya'
+            ],
+            datasets: [
+                {
+                    data: [300, 50, 100, 124],
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#66FF70'
+                    ],
+                    hoverBackgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#66FF70'
+                    ],
+                }
+            ],
+        };
+        return pie;
+    };
+
+    _barData1 = () => {
+        const bar = {
+            labels: ['Beef', 'Chicken', 'Fish', 'Other'],
+            datasets: [
+                {
+                    label: 'My Second dataset',
+                    backgroundColor: 'cyan',
+                    borderColor: 'cyan',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'cyan',
+                    hoverBorderColor: 'cyan',
+                    data: [44, 23, 95, 45],
+                },
+            ],
+        };
+        return bar;
+    };
+
     render() {
         const Option = Select.Option;
         const { RangePicker } = DatePicker;
 
         const line = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [...Array(12).keys()].map(v => v.toString()),
             datasets: [
                 {
                     label: 'My First dataset',
@@ -213,16 +261,67 @@ class Report extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className='dark-body'>
+                <Card style={{backgroundColor: '#bcbcbc'}}>
                     <CardHeader className='dark-header'>
                         Chart Information
                     </CardHeader>
                     <CardBody>
                         <Row>
-                            <Col xs="12" sm="12" lg="4">
+                            <Col xs="12" sm="12" lg="12">
                                 <div style={{height: 300}}>
                                     <Line data={line} options={options} />
                                 </div>
+                            </Col>
+                        </Row>
+                    </CardBody>
+                </Card>
+
+                <Row>
+                    <Col xs="12" sm="12" lg="6">
+                        <Card style={{backgroundColor: '#bcbcbc'}}>
+                            <CardHeader className='dark-header'>
+                                Category Information
+                            </CardHeader>
+                            <CardBody>
+                                Sales by Category
+                                <Pie data={this._pieData()} />
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col xs="12" sm="12" lg="6">
+                        <Card style={{backgroundColor: '#bcbcbc'}}>
+                            <CardHeader className='dark-header'>
+                                Category Information
+                            </CardHeader>
+                            <CardBody>
+                                Sales by Category
+                                <Pie data={this._pieData()} />
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+
+                <Card style={{backgroundColor: '#bcbcbc'}}>
+                    <CardHeader className='dark-header'>
+                        Top Items By Category
+                    </CardHeader>
+                    <CardBody>
+                        <Row>
+                            <Col xs="12" sm="12" lg="3">
+                                Beef Sales
+                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                            </Col>
+                            <Col xs="12" sm="12" lg="3">
+                                Chicken Sales
+                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                            </Col>
+                            <Col xs="12" sm="12" lg="3">
+                                Fish Sales
+                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                            </Col>
+                            <Col xs="12" sm="12" lg="3">
+                                Other Sales
+                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
                             </Col>
                         </Row>
                     </CardBody>

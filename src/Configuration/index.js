@@ -108,3 +108,22 @@ export const CONSTANT = {
         description: 'Click here for more information and processing!'
     }
 };
+
+export const COLORS = {
+    primary: '#20a8d8',
+    secondary: '#c8ced3',
+    warning: '#ffc107',
+    info: '#63c2de',
+    success: '#4dbd74',
+    danger: '#f86c6b',
+
+    cBeef: '#ff6384',
+    cChicken: '#36a2eb',
+    cFish: '#ffce56',
+    cOther: '#66f70',
+
+    cardHeaderBackground: '#343b41',
+    cardBodyBackground: '#3a4149',
+    border: '#23282c',
+    semiLight: '#bcbcbc',
+};
