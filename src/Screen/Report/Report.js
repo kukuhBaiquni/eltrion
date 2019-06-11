@@ -13,16 +13,25 @@ class Report extends Component {
         super(props)
 
         this.state = {
-            pickedDate: Date.now(),
             selectedFilter: 0,
+            pickedDate: Date.now(),
 
-            below: Date.now(),
-            above: Date.now()
+            dateBetween: [Date.now(), Date.now()]
         }
     };
 
     _disabledDate = (current) => {
         return current > moment().endOf('day');
+    };
+
+    _onChangeDate = (date, dateString) => {
+        this.setState({pickedDate: date._d.getTime()})
+    };
+
+    _onChangeRange = (date, dateString) => {
+        let clone = [];
+        date.map(x => clone.push(x._d.getTime()));
+        this.setState({dateBetween: clone})
     };
 
     _renderDatePicker = () => {
@@ -32,7 +41,8 @@ class Report extends Component {
                     disabledDate={this._disabledDate}
                     format="DD MMM YYYY"
                     style={{marginBottom: 20}}
-                    onChange={ (date, dateString) => console.log(date) }
+                    onChange={this._onChangeDate}
+                    value={moment(this.state.pickedDate)}
                     />
             </Col>
         )
@@ -46,6 +56,8 @@ class Report extends Component {
                     disabledDate={this._disabledDate}
                     style={{marginBottom: 20}}
                     format="DD MMM YYYY"
+                    onChange={this._onChangeRange}
+                    value={[moment(this.state.dateBetween[0]), moment(this.state.dateBetween[1])]}
                     />
             </Col>
         )
