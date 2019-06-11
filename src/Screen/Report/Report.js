@@ -7,6 +7,7 @@ import 'antd/dist/antd.css';
 import moment from 'moment';
 import { Line, Pie, Bar } from 'react-chartjs-2';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { COLORS } from '../../Configuration';
 
 class Report extends Component {
     constructor(props) {
@@ -75,16 +76,16 @@ class Report extends Component {
                 {
                     data: [300, 50, 100, 124],
                     backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#66FF70'
+                        COLORS.cBeef,
+                        COLORS.cChicken,
+                        COLORS.cFish,
+                        COLORS.cOther
                     ],
                     hoverBackgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#66FF70'
+                        COLORS.cBeef,
+                        COLORS.cChicken,
+                        COLORS.cFish,
+                        COLORS.cOther
                     ],
                 }
             ],
@@ -261,7 +262,7 @@ class Report extends Component {
                     </CardBody>
                 </Card>
 
-                <Card style={{backgroundColor: '#bcbcbc'}}>
+                <Card style={{backgroundColor: COLORS.semiLight}}>
                     <CardHeader className='dark-header'>
                         Chart Information
                     </CardHeader>
@@ -278,7 +279,7 @@ class Report extends Component {
 
                 <Row>
                     <Col xs="12" sm="12" lg="6">
-                        <Card style={{backgroundColor: '#bcbcbc'}}>
+                        <Card style={{backgroundColor: COLORS.semiLight}}>
                             <CardHeader className='dark-header'>
                                 Category Information
                             </CardHeader>
@@ -289,7 +290,7 @@ class Report extends Component {
                         </Card>
                     </Col>
                     <Col xs="12" sm="12" lg="6">
-                        <Card style={{backgroundColor: '#bcbcbc'}}>
+                        <Card style={{backgroundColor: COLORS.semiLight}}>
                             <CardHeader className='dark-header'>
                                 Category Information
                             </CardHeader>
@@ -301,7 +302,7 @@ class Report extends Component {
                     </Col>
                 </Row>
 
-                <Card style={{backgroundColor: '#bcbcbc'}}>
+                <Card style={{backgroundColor: COLORS.semiLight}}>
                     <CardHeader className='dark-header'>
                         Top Items By Category
                     </CardHeader>

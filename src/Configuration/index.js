@@ -120,7 +120,7 @@ export const COLORS = {
     cBeef: '#ff6384',
     cChicken: '#36a2eb',
     cFish: '#ffce56',
-    cOther: '#66f70',
+    cOther: '#66ff70',
 
     cardHeaderBackground: '#343b41',
     cardBodyBackground: '#3a4149',
