@@ -65,6 +65,10 @@ class Report extends Component {
     };
 
     _pieData = () => {
+        const basic = [300, 50, 100, 124];
+        const total = basic.reduce((a, b) => a += b);
+        let result = [];
+        basic.forEach(x => result.push((Math.round((x/total) * 100) / 100) + '%'))
         const pie = {
             labels: [
                 'Daging Sapi',
@@ -93,17 +97,18 @@ class Report extends Component {
         return pie;
     };
 
-    _barData1 = () => {
+    _barData1 = (x) => {
+        const coloring = [COLORS.cBeef, COLORS.cChicken, COLORS.cFish, COLORS.cOther];
         const bar = {
             labels: ['Beef', 'Chicken', 'Fish', 'Other'],
             datasets: [
                 {
                     label: 'My Second dataset',
-                    backgroundColor: 'cyan',
-                    borderColor: 'cyan',
+                    backgroundColor: coloring[x],
+                    borderColor: coloring[x],
                     borderWidth: 1,
-                    hoverBackgroundColor: 'cyan',
-                    hoverBorderColor: 'cyan',
+                    hoverBackgroundColor: coloring[x],
+                    hoverBorderColor: coloring[x],
                     data: [44, 23, 95, 45],
                 },
             ],
@@ -172,6 +177,27 @@ class Report extends Component {
                 custom: CustomTooltips
             },
             maintainAspectRatio: false
+        };
+
+        const percentageTooltips = {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        //get the concerned dataset
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        //calculate the total of this data set
+                        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                            return previousValue + currentValue;
+                        });
+                        //get the current items value
+                        var currentValue = dataset.data[tooltipItem.index];
+                        //calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
+                        var percentage = Math.floor(((currentValue/total) * 100)+0.5);
+
+                        return ' ' + data.labels[tooltipItem.index] + ' ' + percentage + "%";
+                    }
+                }
+            }
         };
 
         return(
@@ -285,7 +311,7 @@ class Report extends Component {
                             </CardHeader>
                             <CardBody>
                                 Sales by Category
-                                <Pie data={this._pieData()} />
+                                <Pie data={this._pieData()} options={percentageTooltips} />
                             </CardBody>
                         </Card>
                     </Col>
@@ -296,7 +322,7 @@ class Report extends Component {
                             </CardHeader>
                             <CardBody>
                                 Sales by Category
-                                <Pie data={this._pieData()} />
+                                <Pie data={this._pieData()} options={percentageTooltips} />
                             </CardBody>
                         </Card>
                     </Col>
@@ -309,20 +335,20 @@ class Report extends Component {
                     <CardBody>
                         <Row>
                             <Col xs="12" sm="12" lg="3">
-                                Beef Sales
-                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                                <h6 style={{marginBottom: 20}}>Beef Sales</h6>
+                                <Bar data={this._barData1(0)} options={{legend: {display: false}}} />
                             </Col>
                             <Col xs="12" sm="12" lg="3">
-                                Chicken Sales
-                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                                <h6 style={{marginBottom: 20}}>Chicken Sales</h6>
+                                <Bar data={this._barData1(1)} options={{legend: {display: false}}} />
                             </Col>
                             <Col xs="12" sm="12" lg="3">
-                                Fish Sales
-                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                                <h6 style={{marginBottom: 20}}>Fish Sales</h6>
+                                <Bar data={this._barData1(2)} options={{legend: {display: false}}} />
                             </Col>
                             <Col xs="12" sm="12" lg="3">
-                                Other Sales
-                                <Bar data={this._barData1()} options={{legend: {display: false}}} />
+                                <h6 style={{marginBottom: 20}}>Other Sales</h6>
+                                <Bar data={this._barData1(3)} options={{legend: {display: false}}} />
                             </Col>
                         </Row>
                     </CardBody>
