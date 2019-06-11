@@ -26,7 +26,7 @@ class Report extends Component {
     };
 
     _onChangeDate = (date, dateString) => {
-        this.setState({pickedDate: date._d.getTime()})
+        this.setState({pickedDate: date._d.getTime()});
     };
 
     _onChangeRange = (date, dateString) => {
@@ -195,7 +195,6 @@ class Report extends Component {
                         var percentage = Math.floor(((currentValue/total) * 100)+0.5);
 
                         return ` ${data.labels[tooltipItem.index]} ${data.datasets[0].data[tooltipItem.index]} (${percentage}%)`
-                        return ' ' + data.labels[tooltipItem.index] + ' ' + percentage + "%";
                     }
                 }
             }

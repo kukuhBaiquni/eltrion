@@ -4,7 +4,7 @@ import { Container } from 'reactstrap';
 import '../../Custom Resources/Dark-Background.css';
 import 'antd/dist/antd.css';
 import { notification } from 'antd';
-import { CONSTANT } from '../../Configuration';
+import { CONSTANT, COLORS } from '../../Configuration';
 
 import {
   // AppAside,
@@ -23,6 +23,7 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 import '../../Custom Resources/Dark-Theme.css';
+import { RotateSpinner } from 'react-spinners-kit';
 
 // const DefaultAside = React.lazy(() => import('./DefaultAside'));
 // const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -30,7 +31,7 @@ const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
 
-    loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    loading = () => <RotateSpinner loading={true} color={COLORS.primary} />
 
     signOut(e) {
         e.preventDefault();

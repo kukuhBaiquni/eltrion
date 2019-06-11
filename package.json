@@ -37,12 +37,14 @@
     "react-redux": "^6.0.1",
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
+    "react-spinners-kit": "^1.9.0",
     "react-test-renderer": "^16.8.4",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
     "simple-line-icons": "^2.4.1",
     "socket.io-client": "^2.2.0",
+    "styled-components": "^4.3.1",
     "superagent": "^4.1.0"
   },
   "devDependencies": {
