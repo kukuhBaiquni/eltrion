@@ -1,9 +1,15 @@
 let initialState = {
     success: false,
     error: false,
-    token: '',
+    token: {
+        access: '',
+        refresh: '',
+        validUntil: '',
+        _id: ''
+    },
     adminData: null,
-    errorMessage: ''
+    errorMessage: '',
+    isAdmin: false
 };
 
 export default function login(state = initialState, action) {
@@ -13,8 +19,13 @@ export default function login(state = initialState, action) {
         return Object.assign({}, state, {
             success: true,
             error: false,
-            token: action.data.token,
-            adminData: action.data.data
+            token: {
+                ...state.token,
+                access: action.data.token,
+                refresh: action.data.refreshToken,
+                validUntil: new Date(action.data.validUntil).getTime(),
+                _id: action.data.userId
+            }
         });
 
         case 'LOGIN_FAILED':
@@ -28,6 +39,46 @@ export default function login(state = initialState, action) {
         return Object.assign({}, state, {
             success: false,
             error: false
+        });
+
+        case 'NON_ADMIN_DETECTED':
+        return Object.assign({}, state, {
+            success: false,
+            error: true,
+            errorMessage: action.message,
+            adminData: null,
+            token: {
+                ...state.token,
+                access: '',
+                refresh: '',
+                validUntil: '',
+                _id: ''
+            }
+        });
+
+        case 'LOGOUT':
+        return Object.assign({}, state, {
+            success: false,
+            error: false,
+            token: {
+                ...state.token,
+                access: '',
+                refresh: '',
+                validUntil: '',
+                _id: ''
+            },
+            adminData: null,
+            errorMessage: ''
+        });
+
+        case 'ADMIN_CHECK_SUCCESS':
+        return Object.assign({}, state, {
+            isAdmin: true
+        });
+
+        case 'ADMIN_CHECK_FAILED':
+        return Object.assign({}, state, {
+            isAdmin: false
         });
 
         default:

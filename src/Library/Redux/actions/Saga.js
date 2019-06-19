@@ -40,6 +40,9 @@ import { o_stockUpdate } from './_f_StockUpdate';
 import { o_login } from './_f_Login';
 import { o_changeStatusTracking } from './_f_ChangeStatusTracking';
 
+import { o_adminCheck } from './_f_AdminCheck';
+import { o_adminData } from './_f_AdminData';
+
 export default function* rootSaga() {
     yield all([
         o_fetchProducts(),
@@ -82,5 +85,8 @@ export default function* rootSaga() {
         o_stockUpdate(),
         o_login(),
         o_changeStatusTracking(),
+
+        o_adminCheck(),
+        o_adminData()
     ]);
 };

@@ -4,6 +4,7 @@ import '../../../Screen/Style.scss';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import { _login, _resetLogin } from '../../../Library/Redux/actions/_f_Login';
 import { connect } from 'react-redux';
+import { _adminData } from '../../../Library/Redux/actions/_f_AdminData';
 
 class Login extends Component {
     constructor(props) {
@@ -23,18 +24,27 @@ class Login extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.login.success !== this.props.login.success) {
-            console.log('success');
-            if (this.props.login.success) {
-                localStorage.setItem('token', this.props.login.token);
-                this.props.dispatch(_resetLogin());
-                this.props.history.replace('/');
+        const { login, dispatch, adminData } = this.props;
+        if (prevProps.login.success !== login.success) {
+            if (login.success) {
+                localStorage.setItem('access_token', login.token.access);
+                localStorage.setItem('refresh_token', login.token.refresh);
+                localStorage.setItem('valid_until', login.token.validUntil);
+                localStorage.setItem('_id', login.token._id);
+                if (login.token.access !== '' && login.token._id !== '') {
+                    dispatch(_adminData({_id: login.token._id, accessToken: login.token.access}));
+                }
+                dispatch(_resetLogin());
             }
         }
         if (prevProps.login.error !== this.props.login.error) {
-            console.log('error');
             if (this.props.login.error) {
                 this.props.dispatch(_resetLogin());
+            }
+        }
+        if (prevProps.login.adminData !== login.adminData) {
+            if (login.adminData !== null) {
+                this.props.history.replace('/');
             }
         }
     };
@@ -49,6 +59,7 @@ class Login extends Component {
                                 <CardBody>
                                     <Form>
                                         <h1 style={{color: 'white'}}>Login</h1>
+                                        <p style={{color: 'red'}}>{this.props.login.errorMessage}</p>
                                         <p className="text-muted">Sign In to your account</p>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">

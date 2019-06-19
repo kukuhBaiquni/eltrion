@@ -37,14 +37,15 @@ function* k_login(form) {
     try{
         var response = yield call(() => {
             return request
-            .post(`${SERVER_URL}admin/mobile/login`)
+            .post(`${SERVER_URL}login`)
             .send({email: form.data.email})
             .send({password: form.data.password})
+            .set('Content-Type', 'application/json')
             .then((res) => {
                 return res;
             })
         });
-        yield put(_login_V(response.body));
+        yield put(_login_V(response.body.data));
     }catch (error) {
         yield put(_login_X(error.toString()));
     };
